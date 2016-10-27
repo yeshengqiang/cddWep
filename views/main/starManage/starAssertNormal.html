@@ -1,0 +1,74 @@
+<!--
+	作者：maxu
+ 	时间：2016-08-09
+ 	描述  星级评定标准页面
+ -->
+
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>星级管理</li>
+        <li>{{title}}</li>
+    </ol>
+    <div class="container-fluid">
+        <div class="row bgWhite" ng-class="{'mb14':($index+1) < score.length}" ng-repeat="item in score" ng-show="item.type!=null">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="row">
+                            <div class="col-md-12" style="margin:0 5px 15px 0;font-size: 20px">
+                                {{item.type | typeFormat}}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input ng-readonly="{{services}}" type="text" class="inpBg text-center" ng-model="item.weight">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-4" style="border-left:dashed 1px grey ">
+                                <div class="row" style="margin:0 5px 15px 0;font-size: 15px">
+                                    {{item.type | typeFormat}}
+                                </div>
+                                <div class="row" style="margin:0 5px 10px 0">
+                                    <input type="text" class="inpBg" ng-readonly="{{services}}" ng-model="item.firstmin"><span class="inpSpan">至</span><input type="text" ng-readonly="{{services}}" ng-model="item.firstmax" class="inpBg">
+                                </div>
+                                <div class="row" style="margin:0 5px 10px 0">
+                                    <input type="text" class="inpBg" ng-readonly="{{services}}" ng-model="item.secondmin"><span class="inpSpan">至</span><input type="text" ng-readonly="{{services}}" ng-model="item.secondmax" class="inpBg">
+                                </div>
+                                <div class="row" style="margin:0 5px 10px 0">
+                                    <input type="text" class="inpBg" ng-readonly="{{services}}" ng-model="item.thirdmin"><span class="inpSpan">至</span><input type="text" ng-readonly="{{services}}" ng-model="item.thirdmax" class="inpBg">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="row" style="margin:0 5px 15px 0;font-size: 15px">
+                                    得分
+                                </div>
+                                <div class="row" style="margin:0 5px 10px 0">
+                                    <input type="text" class="inpBg" ng-readonly="{{services}}" ng-model="item.firstscore" />
+                                </div>
+                                <div class="row" style="margin:0 5px 10px 0">
+                                    <input type="text" class="inpBg" ng-readonly="{{services}}" ng-model="item.secondscore" />
+                                </div>
+                                <div class="row" style="margin:0 5px 10px 0">
+                                    <input type="text" class="inpBg" ng-readonly="{{services}}" ng-model="item.thirdscore" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row bgWhite" ng-show="score.length==0">
+            暂无数据!
+        </div>
+        <div ng-if="backstage" class="row bgWhite mt14">
+            <div class="col-xs-12 text-right">
+                <button type="button" ng-click="sub()" class="btn btn-primary mr10">确定</button>
+                <button type="button" class="btn btn-default">取消</button>
+            </div>
+        </div>
+    </div>
+</div>

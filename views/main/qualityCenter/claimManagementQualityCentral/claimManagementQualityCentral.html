@@ -1,0 +1,94 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：早安1919
+-->
+<div style="padding:16px 14px;">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>品质中心</li>
+        <li>早安1919</li>
+    </ol>
+    <form class="clearfix searchContent">
+        <div class="col-xs-11">
+            <div class="col-xs-3 form-group">
+                <label>日期</label>
+                <input class="form-control" ng-model="searchData.date" type="text"
+                       date-pick="searchData" placeholder="请选择日期"/>
+            </div>
+
+            <div class="col-xs-3 form-group">
+                <label>&nbsp;</label>
+                <div>
+                    <button type="button" class="btn btn-primary" ng-click="claim._load()">搜索</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <div class="container-fluid bgWhite" ng-init="autoHeight(45)">
+        <button type="button" class="btn btn-primary" ng-click="newClaim()">新增</button>
+        <button type="button" class="btn btn-primary" ng-click="downloadFile()">导出</button>
+        <table class="table text-center">
+            <tr>
+                <th>序号</th>
+                <th>上传时间</th>
+                <th>操作</th>
+            </tr>
+            <tr ng-repeat="item in claim.object.rows">
+                <td>{{$index+1}}</td>
+                <td>{{item.scdate}}</td>
+                <td><a href="javascript:void(0)" class="btn btn-sm btn-primary" ng-click="down(item)">下载</a></td>
+            </tr>
+            <tr ng-show="claim.page.totalResult==0">
+                <td colspan="14">
+                    暂无数据!
+                </td>
+            </tr>
+
+        </table>
+        <div ng-show="claim.page.totalResult!=0" class="padding text-center">
+            <div class="bill_paging">
+                <ul class="pagination">
+                    <li ng-class="{true:'disabled'}[claim.page.currentPage==1]">
+                        <a href="javascript:void(0)" ng-click="claim.go(1)">首页</a>
+                    </li>
+                    <li ng-class="{true:'disabled'}[claim.page.currentPage==1]">
+                        <a href="javascript:void(0)" ng-show="claim.hasPrevious()"
+                           ng-click="claim.previous()">上一页</a>
+                    </li>
+                    <li ng-class="{true:'active'}[claim.page.currentPage==i]" ng-repeat="i in claim.pages">
+                        <a href="javascript:void(0)" ng-click="claim.go(i)">{{i}}</a>
+                    </li>
+                    <li ng-class="{true:'disabled'}[claim.page.currentPage==claim.page.totalPage]">
+                        <a href="javascript:void(0)" ng-show="claim.hasNext()" ng-click="claim.next()">下一页</a>
+                    </li>
+                    <li ng-class="{true:'disabled'}[claim.page.currentPage==claim.page.totalPage]">
+                        <a href="javascript:void(0)" ng-click="claim.go(claim.page.totalPage)">尾页</a>
+                    </li>
+                </ul>
+                <span>共{{claim.page.totalResult}}条</span>
+            </div>
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="claimNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">新建1919</h5>
+            </div>
+            <div class="modal-body">
+                <div id="upload">
+                    <div id="zyUpload"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="addOrChange()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>

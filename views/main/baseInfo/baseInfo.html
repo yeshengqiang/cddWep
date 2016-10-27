@@ -1,0 +1,438 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：基础信息
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{title}}</li>
+    </ol>
+    <div class="container-fluid bgWhite form-horizontal">
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist" id="tabList">
+            <li role="presentation" class="active"><a href="#company" aria-controls="company" role="tab" data-toggle="tab">公司信息</a></li>
+            <li role="presentation" ng-if="services"><a href="#project" aria-controls="project" role="tab" data-toggle="tab" >服务项目</a></li>
+            <li role="presentation" ng-if="demand"><a href="#demand" aria-controls="demand" role="tab" data-toggle="tab">仓配需求</a></li>
+        </ul>
+        <div class="row tab-content">
+            <div role="tabpanel" class="tab-pane active" id="company">
+                <div class="form-group">
+                    <div class="col-xs-2 text-right ">
+                        <label class="control-label">公司名称：</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <input class="form-control" type="text" placeholder="请输入公司名称" ng-model="bases.name"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2 text-right ">
+                        <label class="control-label">公司简介：</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <textarea class="form-control" type="text" ng-model="bases.intro" placeholder="请输入公司简介"></textarea>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2 text-right ">
+                        <label class="control-label">联系方式：</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <input class="form-control" type="text" placeholder="请输入联系方式" ng-model="bases.phone"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2 text-right ">
+                        <label class="control-label">公司邮箱：</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <input class="form-control" type="text" placeholder="请输入公司邮箱" ng-model="bases.email"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2 text-right ">
+                        <label class="control-label">公司地址：</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <input class="form-control" type="text" placeholder="请输入公司地址" ng-model="bases.address"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2 text-right ">
+                        <label class="control-label">公司法人：</label>
+                    </div>
+                    <div class="col-xs-4">
+                        <input class="form-control" type="text" placeholder="请输入公司法人名称" ng-model="bases.corporation"/>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2 text-right ">
+                        <label class="control-label">法人身份证：</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <!--<input class="form-control" type="text" placeholder="请上传公司法人照片" ng-model="bases.corporation"/>-->
+                        <div class="row">
+                            <div class="col-xs-3 uploadImgBack">
+                                <div id="head1" ng-click="uploadPhoto('head1')" class="uploadImg layer-photos-demo">
+                                    上传法人身份证正面
+                                </div>
+                                <div class="zoomIn">
+                                    <div>
+                                        <span class="glyphicon glyphicon-edit" ng-click="uploadPhoto('head1')"></span>
+                                        <span class="glyphicon glyphicon-zoom-in" ng-click="zoomIn()"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 uploadImgBack">
+                                <div id="head2" ng-click="uploadPhoto('head2')" class="uploadImg layer-photos-demo">
+                                    上传法人身份证反面
+                                </div>
+                                <div class="zoomIn">
+                                    <div>
+                                        <span class="glyphicon glyphicon-edit" ng-click="uploadPhoto('head2')"></span>
+                                        <span class="glyphicon glyphicon-zoom-in" ng-click="zoomIn()"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-2 text-right ">
+                        <label class="control-label">公司资质：</label>
+                    </div>
+                    <div class="col-xs-8">
+                        <div class="row">
+                            <div class="col-xs-3 uploadImgBack">
+                                <div id="img1" ng-click="uploadPhoto('img1')" class="uploadImg layer-photos-demo">
+                                    上传资质文件
+                                </div>
+                                <div class="zoomIn">
+                                    <div>
+                                        <span class="glyphicon glyphicon-edit" ng-click="uploadPhoto('img1')"></span>
+                                        <span class="glyphicon glyphicon-zoom-in" ng-click="zoomInp()"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 uploadImgBack">
+                                <div id="img2" ng-click="uploadPhoto('img2')" class="uploadImg">
+                                    上传资质文件
+                                </div>
+                                <div class="zoomIn">
+                                    <div>
+                                        <span class="glyphicon glyphicon-edit" ng-click="uploadPhoto('img2')"></span>
+                                        <span class="glyphicon glyphicon-zoom-in" ng-click="zoomInp()"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 uploadImgBack">
+                                <div id="img3" ng-click="uploadPhoto('img3')" class="uploadImg">
+                                    上传资质文件
+                                </div>
+                                <div class="zoomIn">
+                                    <div>
+                                        <span class="glyphicon glyphicon-edit" ng-click="uploadPhoto('img3')"></span>
+                                        <span class="glyphicon glyphicon-zoom-in" ng-click="zoomInp()"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-3 uploadImgBack">
+                                <div id="img4" ng-click="uploadPhoto('img4')" class="uploadImg">
+                                    上传资质文件
+                                </div>
+                                <div class="zoomIn">
+                                    <div>
+                                        <span class="glyphicon glyphicon-edit" ng-click="uploadPhoto('img4')"></span>
+                                        <span class="glyphicon glyphicon-zoom-in" ng-click="zoomInp()"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<button class="btn btn-primary" ng-click="uploadPhoto()">上传资质文件</button>-->
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6 text-right">
+                        <button class="btn btn-primary" ng-click="save()">保存</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 服务项目 -->
+            <div ng-if="services" role="tabpanel" class="tab-pane" id="project">
+                <div class="row mgb15">
+                    <!--<menu-btn ></menu-btn>-->
+                    <div class="col-md-6">
+                        <button ng-class="{true:'btn-primary'}[show1]" class="btn btn-default" ng-click="storage($event)">仓储服务</button>
+                        <button ng-class="{true:'btn-primary'}[show2]" class="btn btn-default" ng-click="city($event)">城配服务</button>
+                        <button ng-class="{true:'btn-primary'}[show3]" class="btn btn-default" ng-click="trunk($event)">干线服务</button>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <button class="btn btn-primary" ng-click="serviceExport(serviceType)">导出</button>
+                        <button class="btn btn-primary" ng-click="serviceAdd(addType)">新增</button>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <!--仓储服务-->
+                    <table ng-show="show1" class="table table-striped no-margin text-center">
+                        <tr>
+                            <th>城市</th>
+                            <th>地址</th>
+                            <!--<th>仓库类型</th>-->
+                            <th>服务面积（㎡）</th>
+                            <th>仓储管理费(元/㎡)</th>
+                            <th>操作费（元/ 吨）</th>
+                            <th>装卸费（元/ 吨）</th>
+                            <th>退货费（元/ ㎡）</th>
+                            <th>联系方式</th>
+                            <th>仓库考察表</th>
+                            <th>仓库图片</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr ng-repeat="item in storageData.object.rows">
+                            <td>{{item.cityname}}</td>
+                            <td>{{item.location}}</td>
+                            <!--<td>{{item.}}</td>-->
+                            <td>{{item.area}}</td>
+                            <td>{{item.storagecost}}</td>
+                            <td>{{item.operatecost}}</td>
+                            <td>{{item.stevedore}}</td>
+                            <td>{{item.returncost}}</td>
+                            <td>{{item.phone}}</td>
+                            <td><a href="javascript:void(0)" ng-click="download(item.storageform)">下载</a></td>
+                            <td><a href="javascript:void(0)" ng-click="loadImg(item.id)">查看</a></td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" ng-click="change(item,0)">修改</a>
+                                <a class="btn btn-sm btn-danger" ng-click="deleteItem(item,0)">删除</a>
+                            </td>
+                        </tr>
+
+                        <tr ng-show="storageData.page.totalResult==0">
+                            <td colspan="11">暂无数据!</td>
+                        </tr>
+                    </table>
+                    <!--城配服务-->
+                    <table ng-show="show2" class="table table-striped no-margin text-center">
+                        <tr>
+                            <th>城市</th>
+                            <th>自有车辆</th>
+                            <th>日配送（吨）</th>
+                            <th>起送量（吨）</th>
+                            <th>单价(元/吨)</th>
+                            <th>多点费</th>
+                            <th>车辆信息图</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr ng-repeat="item in cityDelivery.object.rows">
+                            <td>{{item.cityname}}</td>
+                            <td>{{item.truckno}}</td>
+                            <td>{{item.delivery}}</td>
+                            <td>{{item.minniment}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.extracost}}</td>
+                            <td><a href="javascript:void(0)" ng-click="loadImg(item.id)">查看</a></td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" ng-click="change(item,1)">修改</a>
+                                <a class="btn btn-sm btn-danger" ng-click="deleteItem(item,1,1)">删除</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <!--干线服务-->
+                    <table ng-show="show3" class="table table-striped no-margin text-center" ng-init="changeView()">
+                        <tr>
+                            <th>城市</th>
+                            <th>自有车辆</th>
+                            <th>日配送（吨）</th>
+                            <th>起送量（吨）</th>
+                            <th>单价(元/吨)</th>
+                            <th>多点费</th>
+                            <th>车辆信息图</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr ng-repeat="item in trunkLine.object.rows">
+                            <td>{{item.cityname}}</td>
+                            <td>{{item.truckno}}</td>
+                            <td>{{item.delivery}}</td>
+                            <td>{{item.minniment}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.extracost}}</td>
+                            <td><a href="javascript:void(0)" ng-click="loadImg(item.id)">查看</a></td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" ng-click="change(item,2)">修改</a>
+                                <a class="btn btn-sm btn-danger" ng-click="deleteItem(item,2,0)">删除</a>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="col-xs-12 text-center">
+                        <div class="padding" ng-show="searchPaginator.page.totalResult!=0">
+                            <div class="bill_paging">
+                                <ul class="pagination">
+                                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-click="searchPaginator.go(1)">首页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-show="searchPaginator.hasPrevious()" ng-click="searchPaginator.previous()">上一页</a>
+                                    </li>
+                                    <li ng-class="{true:'active'}[searchPaginator.page.currentPage==i]" ng-repeat="i in searchPaginator.pages">
+                                        <a href="javascript:void(0)"  ng-click="searchPaginator.go(i)">{{i}}</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)" ng-show="searchPaginator.hasNext()" ng-click="searchPaginator.next()">下一页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)" ng-click="searchPaginator.go(searchPaginator.page.totalPage)">尾页</a>
+                                    </li>
+                                </ul>
+                                <span>共{{searchPaginator.page.totalResult}}条</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 仓配需求 -->
+            <div ng-if="demand" role="tabpanel" class="tab-pane" id="demand">
+                <div class="row">
+                    <div class="col-md-12 text-right">
+                    <button class="btn btn-primary" ng-click="downloadFile()">导出</button>
+                    <button class="btn btn-primary" ng-click="addKHRequest()">新增</button>
+                    </div>
+                </div>
+                <table class="table text-center">
+                    <tr>
+                        <th>城市</th>
+                        <th>仓储需求面积</th>
+                        <th>日配送单量</th>
+                        <th>干线月单量</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr ng-repeat="item in khrData.object.rows">
+                        <td>{{item.cityname}}</td>
+                        <td>{{item.storage}}</td>
+                        <td>{{item.citydelivery}}</td>
+                        <td>{{item.artery}}</td>
+                        <td>
+                            <a class="btn btn-sm btn-primary" ng-click="khrequestChange(item)">修改</a>
+                            <a class="btn btn-sm btn-danger" ng-click="khrequestDelete(item)">删除</a>
+                        </td>
+                    </tr>
+                    <tr ng-show="khrData.page.totalResult==0">
+                        <td colspan="5">暂无数据!</td>
+                    </tr>
+                </table>
+                <div ng-show="khrData.page.totalResult!=0">
+                    <nav style="text-align: center;">
+                        <div class="padding">
+                            <div class="bill_paging">
+                                <ul class="pagination">
+                                    <li ng-class="{true:'disabled'}[khrData.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-click="khrData.go(1)">首页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[khrData.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-show="khrData.hasPrevious()"
+                                           ng-click="khrData.previous()">上一页</a>
+                                    </li>
+                                    <li ng-class="{true:'active'}[khrData.page.currentPage==i]"
+                                        ng-repeat="i in khrData.pages">
+                                        <a href="javascript:void(0)" ng-click="khrData.go(i)">{{i}}</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[khrData.page.currentPage==khrData.page.totalPage]">
+                                        <a href="javascript:void(0)" ng-show="khrData.hasNext()"
+                                           ng-click="khrData.next()">下一页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[khrData.page.currentPage==khrData.page.totalPage]">
+                                        <a href="javascript:void(0)"
+                                           ng-click="khrData.go(khrData.page.totalPage)">尾页</a>
+                                    </li>
+                                </ul>
+                                <span>共{{khrData.page.totalResult}}条</span>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="uploadPhoto" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">上传照片</h5>
+            </div>
+            <div class="modal-body">
+                <div id="upload">
+                    <div id="zyUpload"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="demandNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">{{modalTitle}}</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-md-6">
+                        <div class="tab-input">
+                            <select name="province" class="form-control" ng-model="khrequest.province" ng-change="getCity(khrequest.province)" ng-options="item.id as item.name for item in provinces">
+                                <option value="">--请选择--</option>
+                                <!--<option value="{{item.id}}" ng-repeat="item in provinces">{{item.name}}</option>-->
+                            </select>
+                            <span>省：</span>
+                        </div>
+                        <div class="tab-input">
+                            <select class="form-control" ng-model="khrequest.storage">
+                                <option value="">--请选择--</option>
+                                <option value="100-500" selected>100-500</option>
+                                <option value="500-1000">500-1000</option>
+                                <option value="1000-1500">1000-1500</option>
+                            </select>
+                            <span>仓储需求面积：</span>
+                        </div>
+                        <div class="tab-input">
+                            <select class="form-control" ng-model="khrequest.citydelivery">
+                                <option value="">--请选择--</option>
+                                <option value="100-500" selected>100-500</option>
+                                <option value="500-1000">500-1000</option>
+                                <option value="1000-1500">1000-1500</option>
+                            </select>
+                            <span>日配送单量：</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="tab-input">
+                            <select name="city" class="form-control" ng-model="khrequest.city" ng-options="item.id as item.name for item in cities">
+                                <option value="">--请选择--</option>
+                                <!--<option value="{{item.id}}" ng-repeat="item in cities">{{item.name}}</option>-->
+                            </select>
+                            <span>市：</span>
+                        </div>
+                        <div class="tab-input">
+                            <select class="form-control" ng-model="khrequest.artery">
+                                <option value="">--请选择--</option>
+                                <option value="100-500" selected>100-500</option>
+                                <option value="500-1000">500-1000</option>
+                                <option value="1000-1500">1000-1500</option>
+                            </select>
+                            <span>干线月单量：</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close()">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="addOrChange()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>

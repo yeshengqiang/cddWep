@@ -1,0 +1,97 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：客户需求
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>客户需求</li>
+    </ol>
+    <div class="searchContent clearfix">
+        <!--<div class="col-xs-11 clearfix">-->
+        <div class="col-xs-11">
+            <div class="col-xs-3 form-group">
+                <label>省份</label>
+                <select name="province" class="form-control" ng-options="item.id as item.name for item in provinces"
+                        ng-model="searchData.province" ng-change="getCity(searchData.province)">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label>城市</label>
+                <select name="city" class="form-control" ng-model="searchData.city"
+                        ng-options="item.id as item.name for item in cities" ng-change="getEnterprise(searchData.city)">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label>公司名称</label>
+                <input type="text" class="form-control" placeholder="请输入公司名称" ng-model="searchData.brandedname"/>
+            </div>
+            <!--</div>-->
+            <div class="col-xs-3">
+                <label class="control-label">&nbsp;</label>
+                <div>
+                    <button class="btn btn-primary" type="button" ng-click="projectItem._load()">搜索</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bgWhite">
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table text-center">
+                    <tr>
+                        <th class="text-center">公司名称</th>
+                        <th class="text-center">城市</th>
+                        <th class="text-center">联系方式</th>
+                        <th class="text-center">仓储需求(㎡)</th>
+                        <th class="text-center">城配需求（单/日）</th>
+                        <th class="text-center">干线需求（吨/日）</th>
+                    </tr>
+                    <tr ng-repeat="item in projectItem.object.rows">
+                        <td>{{item.brandedname}}</td>
+                        <td>{{item.city}}</td>
+                        <td>{{item.phone}}</td>
+                        <td>{{item.storage}}</td>
+                        <td>{{item.citydelivery}}</td>
+                        <td>{{item.artery}}</td>
+                    </tr>
+                    <tr ng-show="projectItem.page.totalResult==0">
+                        <td colspan="7">
+                            暂无数据!
+                        </td>
+                    </tr>
+                </table>
+                <div ng-show="projectItem.page.totalResult!=0" class="col-xs-12 text-center">
+                    <div class="padding">
+                        <div class="bill_paging">
+                            <ul class="pagination">
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(1)">首页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-show="projectItem.hasPrevious()"
+                                       ng-click="projectItem.previous()">上一页</a>
+                                </li>
+                                <li ng-class="{true:'active'}[projectItem.page.currentPage==i]"
+                                    ng-repeat="i in projectItem.pages">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(i)">{{i}}</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-show="projectItem.hasNext()"
+                                       ng-click="projectItem.next()">下一页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(projectItem.page.totalPage)">尾页</a>
+                                </li>
+                            </ul>
+                            <span>共{{projectItem.page.totalResult}}条</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,95 @@
+<!--
+	作者：makaiqin
+ 	时间：2016-08-10
+ 	描述：问题反馈
+-->
+<style>
+    th {
+        text-align: center;
+    }
+</style>
+<div class="pageContent">
+
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>问题反馈</li>
+    </ol>
+    <form class="clearfix searchContent">
+        <div class="col-xs-11">
+            <div class="col-xs-3 form-group">
+                <label class="control-label">日期</label>
+                <input class="form-control" ng-model="searchData.date" type="text" date-pick="searchData" placeholder="请选择日期"/>
+            </div>
+            <div class="col-xs-3 ">
+                <label class="control-label">&nbsp;</label>
+                <div>
+                    <button type="button" class="btn btn-primary" ng-click="searchPaginator._load()">搜索</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--功能操作END-->
+
+    <!--条件查询表单-->
+    <div class="container-fluid bgWhite">
+        <!--反馈按钮-->
+        <button type="button" class="btn btn-primary" ng-click="feedback()">反馈</button>
+        <!--反馈按钮end-->
+        <div class="col-xs-12">
+        <table class="table text-center">
+            <tr>
+                <th>编号</th>
+                <th>问题类型</th>
+                <th>反馈内容</th>
+                <th>反馈日期</th>
+                <th>回复人</th>
+                <th>回复内容</th>
+            </tr>
+            <tr ng-repeat="item in searchPaginator.object.rows">
+                <td>{{$index+1}}</td>
+                <td>{{item.type | typeFormat}}</td>
+                <td>{{item.detail}}</td>
+                <td>{{item.fkdate | date:'yyyy-MM-dd'}}</td>
+                <td>{{item.wlname}}</td>   <!--实体缺字段-->
+                <td>{{item.reply}}</td>
+            </tr>
+            <tr ng-show="searchPaginator.page.totalResult==0">
+                <td colspan="7">
+                    暂无数据!
+                </td>
+            </tr>
+        </table>
+    <!--表格END-->
+
+        <!--分页-->
+        <div ng-show="searchPaginator.page.totalResult!=0" class="padding text-center">
+            <div class="bill_paging">
+                <ul class="pagination">
+                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                        <a href="javascript:void(0)" ng-click="searchPaginator.go(1)">首页</a>
+                    </li>
+                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                        <a href="javascript:void(0)" ng-show="searchPaginator.hasPrevious()"
+                           ng-click="searchPaginator.previous()">上一页</a>
+                    </li>
+                    <li ng-class="{true:'active'}[searchPaginator.page.currentPage==i]"
+                        ng-repeat="i in searchPaginator.pages">
+                        <a href="javascript:void(0)" ng-click="searchPaginator.go(i)">{{i}}</a>
+                    </li>
+                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                        <a href="javascript:void(0)" ng-show="searchPaginator.hasNext()"
+                           ng-click="searchPaginator.next()">下一页</a>
+                    </li>
+                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                        <a href="javascript:void(0)"
+                           ng-click="searchPaginator.go(searchPaginator.page.totalPage)">尾页</a>
+                    </li>
+                </ul>
+                <span>共{{searchPaginator.page.totalResult}}条</span>
+            </div>
+        </div>
+        <!--分页END-->
+    </div>
+
+</div>
+
+

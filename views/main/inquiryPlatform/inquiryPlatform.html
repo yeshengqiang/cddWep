@@ -1,0 +1,117 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：询价平台
+-->
+
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>询价平台</li>
+    </ol>
+    <form class="clearfix searchContent ng-pristine ng-valid">
+        <div class="col-xs-11">
+            <div class="col-md-3 form-group">
+                <label class="control-label">省份</label>
+                <select name="province" class="form-control" ng-model="searchData.province" ng-change="getCity(searchData.province)"
+                        ng-options="key.id as key.name for key in provinces">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label class="control-label">城市</label>
+                <select name="city" class="form-control" ng-model="searchData.city"
+                        ng-options="key.id as key.name for key in cities" ng-change="getEnterprise(searchData.city)">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label class="control-label" ng-model="searchData.wlname">第三方名称</label>
+                <input class="form-control" placeholder="请输入物流公司" ng-model="searchData.wlname"/>
+                <!--<select class="form-control" ng-model="searchData.wlname">-->
+                    <!--<option value="">&#45;&#45;请选择&#45;&#45;</option>-->
+                <!--</select>-->
+                <span></span>
+            </div>
+            <div class="col-md-3 form-group">
+                <label class="control-label">&nbsp;</label>
+                <div>
+                    <button class="btn btn-primary" type="button" ng-click="searchPaginator._load()">搜索</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="container-fluid bgWhite">
+        <div class="table-responsive">
+            <table class="table no-margin text-center">
+                <tr>
+                    <th>三方名称</th>
+                    <th>企业星级</th>
+                    <th>城市</th>
+                    <th>仓库类型</th>
+                    <th>仓库管理费（元/平）</th>
+                    <th>装卸费（元/吨）</th>
+                    <th>操作费（元/吨）</th>
+                    <th>退货操作费（元/平）</th>
+                    <th>地址</th>
+                    <th>联系方式</th>
+                    <th>注册资金（万）</th>
+                    <th>企业资质</th>
+                    <th>仓库图片</th>
+                    <th>仓库考察表</th>
+                </tr>
+                <tr ng-repeat="item in searchPaginator.object.rows">
+                    <td>{{item.wlname}}</td>
+                    <!--//企业星级未给定数据-->
+                    <td>{{item.starlevel}}</td>
+                    <td>{{item.cityname}}</td>
+                    <!--//仓库类型未给定数据-->
+                    <td>{{item.type }}</td>
+                    <td>{{item.storagecost}}</td>
+                    <td>{{item.stevedore}}</td>
+                    <td>{{item.operatecost}}</td>
+                    <td>{{item.returncost}}</td>
+                    <td>{{item.location}}</td>
+                    <td>{{item.phone}}</td>
+                    <!--//未给定数据-->
+                    <td>注册资金</td>
+                    <td><a class="btn btn-sm btn-info" ng-click="companyImgCheck(item)">查看</a></td>
+                    <td><a class="btn btn-sm btn-info" ng-click="storageImgCheck(item)">查看</a></td>
+                    <td><a class="btn btn-sm btn-primary" ng-click="download(item.storageform)">下载</a></td>
+                </tr>
+                <tr ng-show="searchPaginator.page.totalResult==0">
+                    <td colspan="14">
+                        暂无数据!
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div ng-show="searchPaginator.page.totalResult!=0" class="col-xs-12 text-center">
+            <div class="padding">
+                <div class="bill_paging">
+                    <ul class="pagination">
+                        <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="searchPaginator.go(1)">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-show="searchPaginator.hasPrevious()"
+                               ng-click="searchPaginator.previous()">上一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[searchPaginator.page.currentPage==i]"
+                            ng-repeat="i in searchPaginator.pages">
+                            <a href="javascript:void(0)" ng-click="searchPaginator.go(i)">{{i}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                            <a href="javascript:void(0)" ng-show="searchPaginator.hasNext()"
+                               ng-click="searchPaginator.next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                            <a href="javascript:void(0)" ng-click="searchPaginator.go(searchPaginator.page.totalPage)">尾页</a>
+                        </li>
+                    </ul>
+                    <span>共{{searchPaginator.page.totalResult}}条</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

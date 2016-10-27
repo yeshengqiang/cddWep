@@ -1,0 +1,58 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：仓到店条款
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>运营报表</li>
+        <li>日出入库报表明细</li>
+    </ol>
+
+    <div class="container-fluid bgWhite">
+        <button type="button" class="btn btn-primary" go-back>后退</button>
+        <!--物流-->
+
+        <div class="col-xs-12">
+            <div >
+
+                <div role="tabpanel" class="tab-pane active" id="stockDailySettlement">
+                    <table class="table text-center">
+                        <tr>
+                            <th>仓库编码</th>
+                            <th>仓库名称</th>
+                            <th>商品编号</th>
+                            <th>商品名称</th>
+                            <th>类型</th>
+                            <th>数量</th>
+                            <th>重量</th>
+                            <th>体积</th>
+                            <th>收货完成时间</th>
+                            <th>出库发运时间</th>
+                        </tr>
+                        <tr ng-repeat="item in searchData.data">
+                            <td>{{item.storagecode}}</td>
+                            <td>{{item.storagename}}</td>
+                            <td>{{item.goodscode}}</td>
+                            <td>{{item.goodsname}}</td>
+                            <td>{{item.types | typeFormat}}</td>
+                            <td>{{item.amount}}</td>
+                            <td>{{item.weight }}</td>
+                            <td>{{item.volum}}</td>
+                            <td>{{item.shdate | date:'yyyy-MM-dd'}}</td>
+                            <td>{{item.fydate | date:'yyyy-MM-dd'}}</td>
+
+                        </tr>
+                        <tr ng-show="searchData.data==0">
+                            <td colspan="10" style="text-align: center">
+                                暂无数据!
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

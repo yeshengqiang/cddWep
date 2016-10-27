@@ -1,0 +1,293 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：仓到店条款
+-->
+<style>.form-control[readonly]{background-color: transparent}</style>
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>运营报表</li>
+        <li>出入库报表</li>
+    </ol>
+
+    <div class="clearfix searchContent">
+        <div class="col-xs-11">
+            <div class="col-xs-3 form-group">
+                <label class="control-label">收货完成时间</label>
+                <input type="text" class="form-control" ng-model="searchData.date" date-pick="searchData" placeholder="请选择日期"/>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label class="control-label">仓库名称</label>
+                <input type="text" class="form-control" ng-model="searchData.storagename"  placeholder="请输入仓库名称"/>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label class="control-label">类型</label>
+                <select name="chargeType" id="chargeType" class="form-control" ng-model="searchData.types" ng-options="a.value as a.name for a in division">
+                    <option value="">-- 请选择 --</option>
+                </select>
+            </div>
+            <label class="control-label">&nbsp;</label>
+            <div >
+                <button class="btn btn-primary" type="button" ng-click="search()">搜索</button>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="container-fluid bgWhite" ng-init="autoHeight(148)">
+        <button type="button" class="btn btn-primary mgb15" ng-click="downloadFile()">导出</button>
+        <!--物流-->
+        <div ng-if="transport">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#stockDailySettlement" aria-controls="stockDailySettlement" role="tab" data-toggle="tab" ng-click="changeState1()">日统计</a>
+                </li>
+                <li role="presentation">
+                    <a href="#MonthlySettlement" aria-controls="MonthlySettlement" ng-click="changeState2()" role="tab" data-toggle="tab">月统计</a>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="stockDailySettlement">
+                    <table class="table text-center">
+                        <tr>
+                            <th>类型</th>
+                            <th>数量</th>
+                            <th>重量</th>
+                            <th>体积</th>
+                            <th>总单量</th>
+                            <th>收货完成时间</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr ng-repeat="item in searchDadilyPaginator.object.rows">
+                            <td>{{item.types | typeFormat}}</td>
+                            <td>{{item.amountsum}}</td>
+                            <td>{{item.weightsum }}</td>
+                            <td>{{item.volumsum}}</td>
+                            <td>{{item.total}}</td>
+                            <td>{{item.shdate }}</td>
+                            <td><a class="btn btn-sm btn-info" ng-click="dailyCheck(item.shdate)">查看明细</a></td>
+                        </tr>
+                        <tr ng-show="searchDadilyPaginator.page.totalResult==0">
+                            <td colspan="7" style="text-align: center">
+                                暂无数据!
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="col-xs-12 text-center" ng-show="searchDadilyPaginator.page.totalResult!=0">
+                        <div class="padding">
+                            <div class="bill_paging">
+                                <ul class="pagination">
+                                    <li ng-class="{true:'disabled'}[searchDadilyPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-click="searchDadilyPaginator.go(1)">首页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchDadilyPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-show="searchDadilyPaginator.hasPrevious()"
+                                           ng-click="searchDadilyPaginator.previous()">上一页</a>
+                                    </li>
+                                    <li ng-class="{true:'active'}[searchDadilyPaginator.page.currentPage==i]"
+                                        ng-repeat="i in searchDadilyPaginator.pages">
+                                        <a href="javascript:void(0)" ng-click="searchDadilyPaginator.go(i)">{{i}}</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchDadilyPaginator.page.currentPage==searchDadilyPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)" ng-show="searchDadilyPaginator.hasNext()"
+                                           ng-click="searchDadilyPaginator.next()">下一页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchDadilyPaginator.page.currentPage==searchDadilyPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)"
+                                           ng-click="searchDadilyPaginator.go(searchDadilyPaginator.page.totalPage)">尾页</a>
+                                    </li>
+                                </ul>
+                                <span>共{{searchDadilyPaginator.page.totalResult}}条</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="MonthlySettlement">
+                    <table class="table text-center">
+                        <tr>
+                            <th>类型</th>
+                            <th>数量</th>
+                            <th>重量</th>
+                            <th>体积</th>
+                            <th>总单量</th>
+                            <th>收货完成时间</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr ng-repeat="item in searchMonthlyPaginator.object.rows">
+                            <td>{{item.types | typeFormat}}</td>
+                            <td>{{item.amountsum}}</td>
+                            <td>{{item.weightsum }}</td>
+                            <td>{{item.volumsum}}</td>
+                            <td>{{item.total}}</td>
+                            <td>{{item.m }}</td>
+                            <td><a class="btn btn-sm btn-info" ng-click="monthlyCheck(item.m)">查看明细</a></td>
+                        </tr>
+                        <tr ng-show="searchMonthlyPaginator.page.totalResult==0">
+                            <td colspan="7" style="text-align: center">
+                                暂无数据!
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="col-xs-12 text-center" ng-show="searchMonthlyPaginator.page.totalResult!=0">
+                        <div class="padding">
+                            <div class="bill_paging">
+                                <ul class="pagination">
+                                    <li ng-class="{true:'disabled'}[searchMonthlyPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-click="searchPaginator.go(1)">首页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchMonthlyPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-show="searchMonthlyPaginator.hasPrevious()"
+                                           ng-click="searchMonthlyPaginator.previous()">上一页</a>
+                                    </li>
+                                    <li ng-class="{true:'active'}[searchMonthlyPaginator.page.currentPage==i]"
+                                        ng-repeat="i in searchMonthlyPaginator.pages">
+                                        <a href="javascript:void(0)" ng-click="searchMonthlyPaginator.go(i)">{{i}}</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchMonthlyPaginator.page.currentPage==searchMonthlyPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)" ng-show="searchMonthlyPaginator.hasNext()"
+                                           ng-click="searchMonthlyPaginator.next()">下一页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchMonthlyPaginator.page.currentPage==searchMonthlyPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)"
+                                           ng-click="searchMonthlyPaginator.go(searchMonthlyPaginator.page.totalPage)">尾页</a>
+                                    </li>
+                                </ul>
+                                <span>共{{searchMonthlyPaginator.page.totalResult}}条</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--品牌-->
+        <div ng-if="brand">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#instockDailySettlement" aria-controls="instockDailySettlement" role="tab" data-toggle="tab" ng-click="changeState1()">日统计</a>
+                </li>
+                <li role="presentation">
+                    <a href="#outstockMonthlySettlement" aria-controls="outstockMonthlySettlement" role="tab" data-toggle="tab" ng-click="changeState2()">月统计</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="instockDailySettlement">
+                    <table class="table text-center">
+                        <tr>
+                            <th>类型</th>
+                            <th>数量</th>
+                            <th>重量</th>
+                            <th>体积</th>
+                            <th>总单量</th>
+                            <th>收货完成时间</th>
+                            <th>操作</th>
+
+                        </tr>
+                        <tr ng-repeat="item in searchDadilyPaginator.object.rows">
+                            <td>{{item.types | typeFormat}}</td>
+                            <td>{{item.amountsum}}</td>
+                            <td>{{item.weightsum }}</td>
+                            <td>{{item.volumsum}}</td>
+                            <td>{{item.total}}</td>
+                            <td>{{item.shdate }}</td>
+                            <td><a class="btn btn-sm btn-info" ng-click="dailyCheck(item.shdate)">查看明细</a></td>
+
+                        </tr>
+                        <tr ng-show="searchDadilyPaginator.page.totalResult==0">
+                            <td colspan="7" style="text-align: center">
+                                暂无数据!
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="col-xs-12 text-center" ng-show="searchDadilyPaginator.page.totalResult!=0">
+                        <div class="padding">
+                            <div class="bill_paging">
+                                <ul class="pagination">
+                                    <li ng-class="{true:'disabled'}[searchDadilyPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-click="searchDadilyPaginator.go(1)">首页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchDadilyPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-show="searchDadilyPaginator.hasPrevious()"
+                                           ng-click="searchDadilyPaginator.previous()">上一页</a>
+                                    </li>
+                                    <li ng-class="{true:'active'}[searchDadilyPaginator.page.currentPage==i]"
+                                        ng-repeat="i in searchDadilyPaginator.pages">
+                                        <a href="javascript:void(0)" ng-click="searchDadilyPaginator.go(i)">{{i}}</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchDadilyPaginator.page.currentPage==searchDadilyPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)" ng-show="searchDadilyPaginator.hasNext()"
+                                           ng-click="searchDadilyPaginator.next()">下一页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchDadilyPaginator.page.currentPage==searchDadilyPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)"
+                                           ng-click="searchDadilyPaginator.go(searchDadilyPaginator.page.totalPage)">尾页</a>
+                                    </li>
+                                </ul>
+                                <span>共{{searchDadilyPaginator.page.totalResult}}条</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="outstockMonthlySettlement">
+                    <table class="table text-center">
+                        <tr>
+                            <th>类型</th>
+                            <th>数量</th>
+                            <th>重量</th>
+                            <th>体积</th>
+                            <th>总单量</th>
+                            <th>收货完成时间</th>
+                            <th>操作</th>
+                        </tr>
+                        <tr ng-repeat="item in searchMonthlyPaginator.object.rows">
+                            <td>{{item.types | typeFormat}}</td>
+                            <td>{{item.amountsum}}</td>
+                            <td>{{item.weightsum }}</td>
+                            <td>{{item.volumsum}}</td>
+                            <td>{{item.total}}</td>
+                            <td>{{item.m}}</td>
+                            <td><a class="btn btn-sm btn-info" ng-click="monthlyCheck(item.m)">查看明细</a></td>
+                        </tr>
+                        <tr ng-show="searchMonthlyPaginator.page.totalResult==0">
+                            <td colspan="7" style="text-align: center">
+                                暂无数据!
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="col-xs-12 text-center" ng-show="searchMonthlyPaginator.page.totalResult!=0">
+                        <div class="padding">
+                            <div class="bill_paging">
+                                <ul class="pagination">
+                                    <li ng-class="{true:'disabled'}[searchMonthlyPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-click="searchMonthlyPaginator.go(1)">首页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchMonthlyPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-show="searchMonthlyPaginator.hasPrevious()"
+                                           ng-click="searchMonthlyPaginator.previous()">上一页</a>
+                                    </li>
+                                    <li ng-class="{true:'active'}[searchMonthlyPaginator.page.currentPage==i]"
+                                        ng-repeat="i in searchMonthlyPaginator.pages">
+                                        <a href="javascript:void(0)" ng-click="searchMonthlyPaginator.go(i)">{{i}}</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchMonthlyPaginator.page.currentPage==searchMonthlyPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)" ng-show="searchMonthlyPaginator.hasNext()"
+                                           ng-click="searchMonthlyPaginator.next()">下一页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchMonthlyPaginator.page.currentPage==searchMonthlyPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)"
+                                           ng-click="searchMonthlyPaginator.go(searchMonthlyPaginator.page.totalPage)">尾页</a>
+                                    </li>
+                                </ul>
+                                <span>共{{searchMonthlyPaginator.page.totalResult}}条</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

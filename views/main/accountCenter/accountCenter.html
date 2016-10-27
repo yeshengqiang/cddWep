@@ -1,0 +1,121 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：账户中心
+-->
+<style>
+    .form-control[readonly]{background-color: #fff}
+</style>
+<div class="pageContent" style="position:relative;top:0;bottom:0;right:0;bottom:0;width:100%;height:100%;">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+    </ol>
+    <form class="clearfix searchContent">
+        <div class="col-xs-11">
+            <div class="col-xs-3 form-group">
+                <label class="control-label">日期</label>
+                <input class="form-control" ng-model="searchData.date" type="text" date-pick="searchData" placeholder="请选择日期"/>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label>省份</label>
+                <select name="province" class="form-control" ng-options="item.id as item.name for item in provinces" ng-model="searchData.province" ng-change="getCity(searchData.province)">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label>城市</label>
+                <select name="city" class="form-control" ng-model="searchData.city" ng-options="item.id as item.name for item in cities"  ng-change="getEnterprise(searchData.city)">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label class="control-label">收费类型</label>
+                <select name="chargeType" id="chargeType" class="form-control" ng-model="searchData.type" ng-options="a.value as a.name for a in division">
+                    <option value="">-- 请选择 --</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-xs-1 text-right">
+            <label class="control-label">&nbsp;</label>
+            <div class="text-left">
+                <button class="btn btn-primary" type="button" ng-click="searchPaginator._load()">搜索</button>
+            </div>
+        </div>
+    </form>
+    <div class="bgWhite">
+        <div class="container-fluid">
+            <div class="row mg15-0">
+                <div class="col-xs-3 pr0">
+                    <button type="button" class="btn btn-primary"  ng-click="downloadFile()">导出</button>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row form-control" ng-if="brand">
+                        <p class="col-xs-6 ">本月应付款：<span style="color: red" >{{currenttotalsum}}</span>元</p>
+                        <p class="col-xs-6 ">累计应付款：<span style="color: red">{{totalsum}}</span> 元
+                        </p>
+                    </div>
+                    <div class="row form-control" ng-if="transport">
+                        <p class="col-xs-6 ">本月应收款：<span style="color: red" >{{currenttotalsum}}</span>元</p>
+                        <p class="col-xs-6 ">累计应收款：<span style="color: red">{{totalsum}}</span> 元
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-xs-12">
+
+                    <table class="table text-center">
+                        <tr>
+                            <th class="text-center">序号</th>
+                            <th class="text-center">收费类型</th>
+                            <th class="text-center">费用合计</th>
+                            <th class="text-center">单价</th>
+                            <th class="text-center">数量</th>
+                            <th class="text-center">操作</th>
+                        </tr>
+                        <tr ng-repeat="item in searchPaginator.object.rows">
+                            <td>{{$index+1}}</td>
+                            <td>{{item.type | typeFormat}}</td>
+                            <td>{{item.groupSum}}</td>
+                            <td>{{item.price}}</td>
+                            <td>{{item.groupnumber}}</td>
+                            <td><a href="#" class="btn btn-sm btn-info" ng-click="billCheck(item.type)" >查看明细</a></td>
+                        </tr>
+                        <tr ng-show="searchPaginator.page.totalResult==0">
+                            <td colspan="9" class="text-center">
+                                暂无数据!
+                            </td>
+                        </tr>
+
+                    </table>
+
+                    <div ng-show="searchPaginator.page.totalResult!=0" class="padding text-center">
+                        <div class="bill_paging">
+                            <ul class="pagination">
+                                <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-click="searchPaginator.go(1)">首页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-show="searchPaginator.hasPrevious()" ng-click="searchPaginator.previous()">上一页</a>
+                                </li>
+                                <li ng-class="{true:'active'}[searchPaginator.page.currentPage==i]" ng-repeat="i in searchPaginator.pages">
+                                    <a href="javascript:void(0)"  ng-click="searchPaginator.go(i)">{{i}}</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-show="searchPaginator.hasNext()" ng-click="searchPaginator.next()">下一页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-click="searchPaginator.go(searchPaginator.page.totalPage)">尾页</a>
+                                </li>
+                            </ul>
+                            <span>共{{searchPaginator.page.totalResult}}条</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

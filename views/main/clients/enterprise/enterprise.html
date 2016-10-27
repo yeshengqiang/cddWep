@@ -1,0 +1,51 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：企业资质
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>企业资质</li>
+    </ol>
+    <form class="clearfix searchContent ng-pristine ng-valid">
+        <div class="col-xs-11">
+            <div class="col-md-3 form-group">
+                <label class="control-label">省份</label>
+                <select name="province" class="form-control" ng-model="province" ng-change="getCity()" ng-options="key.id as key.name for key in provinces">
+                </select>
+            </div>
+            <div class="col-md-3 form-group">
+                <label class="control-label">城市</label>
+                <select name="city" class="form-control" ng-model="city" ng-change="getEnterprise()" ng-options="key.id as key.name for key in cities">
+
+                </select>
+
+            </div>
+            <div class="col-md-3 form-group">
+                <label class="control-label">第三方名称</label>
+                <select class="form-control" ng-model="enterprise" ng-options="key.id as key.name for key in enterprises">
+
+                </select>
+                <span></span>
+            </div>
+
+            <div class="col-xs-3 form-group">
+                <label class="control-label">&nbsp;</label>
+                <div class="">
+                    <button class="btn btn-primary" type="button" ng-click="loadEnterprise();">搜索</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="container-fluid bgWhite">
+        <h3 style="padding: 0 0 15px 0" name-format></h3>
+        <div class="row">
+            <div ng-repeat="item in arr" class="col-xs-3" ng-click="changePhoto()">
+                <div id="img{{$index+1}}" class="uploadImg" style="height: 200px">
+                    <img src="{{url}}/{{item}}" alt="" width="100%" height="100%" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

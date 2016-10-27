@@ -1,0 +1,42 @@
+<!--
+	作者：cl
+ 	时间：2016-08-28
+ 	描述：配送数据明细
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>运营报表</li>
+        <li>配送数据明细</li>
+    </ol>
+    <div class="container-fluid bgWhite">
+        <button type="button" class="btn btn-primary" go-back>后退</button>
+        <table class="table text-center">
+            <tr>
+                <th>配载单号</th>
+                <th>始发仓</th>
+                <th>目的门店</th>
+                <th>发运时间</th>
+                <th>发运数量</th>
+                <th>到货时间</th>
+                <!--<th>承运商</th>-->
+                <th>超时天数</th>
+                <th>到货状态</th>
+            </tr>
+            <tr ng-repeat="item in reportsDetail.data">
+                <td>{{item.orderno}}</td>
+                <td>{{item.fromplace}}</td>
+                <td>{{item.destination}}</td>
+                <td>{{item.fydate}}</td>
+                <td>{{item.fyamount}}</td>
+                <td>{{item.dddate}}</td>
+                <!--<td>{{item.brandedname}}</td>-->
+                <td>{{item.latedays}}</td>
+                <td>{{item.status}}</td>
+            </tr>
+            <tr ng-show="reportsDetail.data.length==0">
+                <td colspan="9">暂无数据!</td>
+            </tr>
+        </table>
+    </div>
+</div>

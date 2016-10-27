@@ -1,0 +1,239 @@
+@charset "UTF-8";
+/**
+ * 
+ * @authors Ye
+ * @email   www.673089899@qq.com
+ * @date    2015-07-24 23:55:30
+ * @version $Id$
+ */
+ 
+/*清零*/
+html{font-size:625%;width:100%;}
+body,ul,ol,li,p,h1,h2,h3,h4,h5,h6,form,fieldset,figure,table,td,img,div,dl,dt,dd,input{margin:0;padding:0;border:0;-webkit-text-size-adjust:none;}
+body{font-size: 0.14rem;font-family: Microsoft YaHei,Arial, "Helvetica Neue", Helvetica, sans-serif;line-height:1.5;box-sizing: border-box;background:#f5f5f5;-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;color:#222;}
+img,iframe{border:none;vertical-align:top;}
+ul,ol{list-style:outside none none;}
+input,select,textarea{outline:none;}
+textarea{resize:none;}
+a:focus{outline:none;-moz-outline:none;}
+/*清浮动*/
+.clearfix:after{content:"";display:block;clear:both;}
+.clearfix{zoom:1;}
+
+/*浮动*/
+.fl{float:left;}
+.fr{float:right;}
+
+/*盒子模型*/
+.cp{padding:0;}
+.mr10{margin-right:10px;}
+.mr15{margin-right:15px;}
+.mb14{margin-bottom:14px;}
+/*.mg15-0{margin: 15px 0;}*/
+.mt14{margin-top:14px;}
+.mgb15{margin-bottom: 15px;}
+.pr0{padding-right: 0;}
+.p12-0{padding: 12px 0;}
+/*top*/
+.topBox{background:#1d313c; color:#FFF;}
+.top{line-height:50px; height:50px;}
+h3{line-height:inherit;}
+a.exit:link,a.exit:visited,a.exit:active{color:#FFF;text-decoration: none;}
+a.exit:hover{text-decoration: underline;}
+/*left*/
+.leftBox{width:220px;background:#FFF;overflow-y: auto}
+/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+.scrollbar::-webkit-scrollbar{width: 0;height: 2px;background-color: #f5f5f5;}
+.scrollbar:hover::-webkit-scrollbar{width: 2px;height: 2px;background-color: #f5f5f5;}
+/*定义滚动条的轨道，内阴影及圆角*/
+.scrollbar::-webkit-scrollbar-track{background-color: #f5f5f5;}
+/*定义滑块，内阴影及圆角*/
+.scrollbar::-webkit-scrollbar-thumb{height: 20px;border-radius: 10px;background-color: #555;}
+/*定义滚动条宽高及背景，宽高分别对应横竖滚动条的尺寸*/
+.bgWhite::-webkit-scrollbar{width: 0;height: 2px;background-color: #f5f5f5;}
+.bgWhite:hover::-webkit-scrollbar{width: 2px;height: 2px;background-color: #f5f5f5;}
+/*定义滚动条的轨道，内阴影及圆角*/
+.bgWhite::-webkit-scrollbar-track{background-color: #f5f5f5;}
+/*定义滑块，内阴影及圆角*/
+.bgWhite::-webkit-scrollbar-thumb{height: 20px;border-radius: 10px;background-color: #555;}
+/* .navBox{background:#FFF;overflow: hidden;} */
+
+/*.navBox .glyphicon{margin-right:10px;}
+.navBox.active{background:rgb(240, 240, 240);}
+.navBox dt,.navBox dd{line-height:48px;height:48px;padding:0px 15px;border-bottom:1px solid #e5e5e5;color:#5d5d5d;cursor: pointer;}
+.navBox dd{padding-left:39px;display:none;border:none;line-height:30px;height:30px;-webkit-backface-visibility:hidden; -moz-backface-visibility:hidden; -o-backface-visibility:hidden;  -ms-visibility-visibility:hidden; backface-visibility:hidden;}
+.navBox dd:hover,.navBox dd.active{background:#dddddd;}
+.navBox:first-child dd{display:block;}
+.navBox .pull-right{line-height:48px;-webkit-transition: all 0.3s linear;-moz-transition: all 0.3s linear;-o-transition: all 0.3s linear;transition: all 0.3s linear;}
+.navBox.active .pull-right{-webkit-transform: rotate(90deg);-moz-transform: rotate(90deg);-o-transform: rotate(90deg);transform: rotate(90deg);}*/
+/*main*/
+.mainBox{width:-webkit-calc(100% - 220px); width:calc(100% - 220px);}
+
+/*右边公共部分*/
+.panel-default{border:none;}
+.breadcrumb{background:#FFF;margin-bottom:14px;}
+.bgWhite{background:#FFF;border-radius:4px;-webkit-border-radius:4px;padding-top:14px;padding-bottom:14px;overflow: auto;}
+/*表格*/
+.table>tbody>tr>th,.table>tfoot>tr>th,.table>thead>tr>th{border-top:none;text-align:center;padding:10px 8px;}
+/*分页部分*/
+.bill_paging .pagination{ margin: 0;  }
+.bill_paging>span{padding: 3px 15px;line-height: 27px;display: inline-block;vertical-align: top;}
+/*主内容容器*/
+.pageContent{padding: 16px 14px;height: 100%; overflow: auto;}
+/*搜索容器*/
+.searchContent{margin-bottom:14px;background: #fff;border-radius: 4px;padding-top: 12px;}
+
+/*tab容器*/
+.tab-content{
+    padding: 15px;
+}
+/*1440表格横向滚动*/
+@media screen and (max-width: 1440px) {
+    .table-responsive {
+        width: 100%;
+        margin-bottom: 15px;
+        overflow-y: hidden;
+        -ms-overflow-style: -ms-autohiding-scrollbar;
+        border: none
+    }
+
+    .table-responsive>.table>thead>tr>th,.table-responsive>.table>thead>tr>td,.table-responsive>.table>tbody>tr>th,.table-responsive>.table>tbody>tr>td,.table-responsive>.table>tfoot>tr>th,.table-responsive>.table>tfoot>tr>td {
+        white-space: nowrap
+    }
+}
+/*表格内的按钮*/
+table .btn-sm{
+    padding: 0 5px;
+    margin-right: 10px;
+}
+/*分页间隔*/
+.pagination{
+    margin: 0;
+}
+/*上传图片*/
+.uploadImgBack{
+    position: relative;
+}
+.uploadImg{
+    width: 100%;
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    background: #eeeeee;
+    border: 1px dashed #999;
+    color: #555;
+    cursor: pointer;
+}
+.uploadImgBack:hover .zoomIn>div{
+    height: 24px;
+    transition: all .5s;
+}
+.uploadImgBack .zoomIn{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding: 0 15px;
+    opacity: 0.6;
+    color: #fff;
+    font-size: 16px;
+    text-align: right;
+}
+.zoomIn>div{
+    background: #000;
+    padding: 0 5px;
+    text-align: center;
+    height: 0;
+    transition: all .5s;
+    overflow: hidden;
+}
+.zoomIn>div>span{
+    /*display: inline-block;*/
+    /*width: 30%;*/
+    cursor: pointer;
+}
+.zoomInImgBack{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.6;
+    z-index: 1;
+}
+.zoomInImg{
+    position: absolute;
+    margin: auto;
+    top: 15%;
+    /*bottom: 0;*/
+    left: 0;
+    right: 0;
+    z-index: 2;
+}
+.uploadImgClose{
+    position: absolute;
+    z-index: 3;
+    right: 20%;
+    top: 15%;
+    width: 30px;
+    height: 30px;
+    opacity: 0.4;
+    background: #000;
+    color: #fff;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    margin: 5px;
+    cursor: pointer;
+}
+.uploadImgClose:hover{
+    position: absolute;
+    z-index: 3;
+    right: 20%;
+    top: 15%;
+    width: 30px;
+    height: 30px;
+    opacity: 0.9;
+    background: #000;
+    line-height: 30px;
+    text-align: center;
+    border-radius: 50%;
+    margin: 5px;
+    cursor: pointer;
+    color: #fff;
+}
+/*列表*/
+.tab-input{
+    padding: 5px 0 5px 150px;
+    position: relative;
+}
+.up-btn{
+    padding: 5px 80px 5px 150px;
+}
+.tab-input button{
+    position: absolute;
+    top: 7px;
+    right: 0;
+}
+.tab-input>span{
+    position: absolute;
+    left: 0;
+    top: 0;
+    line-height: 48px;
+    padding-right: 15px;
+    width: 150px;
+    text-align: right;
+}
+.modal .tab-input{
+    padding: 5px 0 5px 100px;
+}
+.modal .tab-input span{
+    width: 100px;
+    padding-right: 0;
+}
+
+
+table a{
+    cursor: pointer;
+}

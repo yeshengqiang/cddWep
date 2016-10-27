@@ -1,0 +1,328 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：基础信息
+-->
+
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{title}}</li>
+    </ol>
+    <div class="container-fluid bgWhite form-horizontal">
+        <ul class="nav nav-tabs" role="tablist" id="tabList">
+            <li role="presentation" class="active"><a href="#storage" aria-controls="storage" role="tab"
+                                                      data-toggle="tab">仓储服务</a></li>
+            <li role="presentation"><a href="#city" aria-controls="city" role="tab" data-toggle="tab">城配服务</a></li>
+            <li role="presentation"><a href="#trunk" aria-controls="trunk" role="tab" data-toggle="tab">干线服务</a></li>
+        </ul>
+        <div class="row tab-content" ng-init="tabChange()">
+            <div role="tabpanel" class="tab-pane active" id="storage">
+                <div class="row clearfix">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-9">
+                        <div class="row clearfix">
+                            <div class="col-md-6">
+                                <div class="tab-input">
+                                    <select name="storage.province" class="form-control" ng-model="storage.province"
+                                            ng-change="getCity(storage.province)"
+                                            ng-options="item.id as item.name for item in provinces">
+                                        <option value="">--请选择--</option>
+                                        <!--<option value="{{item.id}}" ng-repeat="item in provinces">{{item.name}}</option>-->
+                                    </select>
+                                    <span>省：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <select class="form-control">
+                                        <option>立体仓</option>
+                                        <option>平面仓</option>
+                                    </select>
+                                    <span>仓库类型：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="storage.storagecost" placeholder="请输入仓储管理费"/>
+                                    <span>仓储管理费(元/㎡)：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="storage.stevedore" placeholder="请输入装卸费"/>
+                                    <span>装卸费（元/ 吨）：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="storage.phone" placeholder="请输入联系方式"/>
+                                    <span>联系方式：</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="tab-input">
+                                    <select name="city" class="form-control" ng-model="storage.city"
+                                            ng-options="item.id as item.name for item in cities">
+                                        <option value="">--请选择--</option>
+                                        <!--<option value="{{item.id}}" ng-repeat="item in cities">{{item.name}}</option>-->
+                                    </select>
+                                    <span>市：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="storage.location" placeholder="请输入地址"/>
+                                    <span>地址：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="storage.area" placeholder="请输入服务面积"/>
+                                    <span>服务面积：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="storage.operatecost" placeholder="请输入操作费"/>
+                                    <span>操作费（元/ 吨）：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="storage.returncost" placeholder="请输入退运费"/>
+                                    <span>退货费（元/ ㎡）：</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-input">
+                            <div>
+                                <!--<button style="position:static;display: inline" class="btn btn-primary" ng-click="uploadPhoto('storage')">-->
+                                <!--上传仓库考察表-->
+                                <!--</button>-->
+                                <div id="file1" ng-click="uploadFile('storage')"
+                                     style="width: 80px;height:80px;cursor: pointer;">
+                                    <img src="bower_components/zyupload/lib/images/upload.png" alt="" width="100%"
+                                         height="100%">
+                                </div>
+                                <input type="text" ng-model="fileTitle1" style="width: 100%">
+                            </div>
+                            <span>仓库考察表：</span>
+                        </div>
+                        <div class="tab-input">
+                            <div class="row">
+                                <div class="col-xs-3 uploadImgBack">
+                                    <div id="img1" ng-click="uploadPhoto('img1')" class="uploadImg layer-photos-demo">
+                                        上传仓库图片
+                                    </div>
+                                    <div class="zoomIn">
+                                        <div>
+                                            <span class="glyphicon glyphicon-edit"
+                                                  ng-click="uploadPhoto('img1')"></span>
+                                            <span class="glyphicon glyphicon-zoom-in" ng-click="zoomInp()"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 uploadImgBack">
+                                    <div id="img2" ng-click="uploadPhoto('img2')" class="uploadImg">
+                                        上传仓库图片
+                                    </div>
+                                    <div class="zoomIn">
+                                        <div>
+                                            <span class="glyphicon glyphicon-edit"
+                                                  ng-click="uploadPhoto('img2')"></span>
+                                            <span class="glyphicon glyphicon-zoom-in" ng-click="zoomInp()"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 uploadImgBack">
+                                    <div id="img3" ng-click="uploadPhoto('img3')" class="uploadImg">
+                                        上传仓库图片
+                                    </div>
+                                    <div class="zoomIn">
+                                        <div>
+                                            <span class="glyphicon glyphicon-edit"
+                                                  ng-click="uploadPhoto('img3')"></span>
+                                            <span class="glyphicon glyphicon-zoom-in" ng-click="zoomInp()"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-3 uploadImgBack">
+                                    <div id="img4" ng-click="uploadPhoto('img4')" class="uploadImg">
+                                        上传仓库图片
+                                    </div>
+                                    <div class="zoomIn">
+                                        <div>
+                                            <span class="glyphicon glyphicon-edit"
+                                                  ng-click="uploadPhoto('img4')"></span>
+                                            <span class="glyphicon glyphicon-zoom-in" ng-click="zoomInp()"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <span>仓库图片:</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center" style="padding: 10px;">
+                    <button class="btn btn-primary" ng-click="addStorage()">确定</button>
+                    <button class="btn btn-default" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="city">
+                <div class="row clearfix">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-9">
+                        <div class="row clearfix">
+                            <div class="col-md-6">
+                                <div class="tab-input">
+                                    <select name="province" class="form-control" ng-model="cityDelivery.province"
+                                            ng-change="getCity(cityDelivery.province)"
+                                            ng-options="item.id as item.name for item in provinces">
+                                        <option value="">--请选择--</option>
+                                        <!--<option value="{{item.id}}" ng-repeat="item in provinces">{{item.name}}</option>-->
+                                    </select>
+                                    <span>省：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="cityDelivery.deliveryStart"
+                                           placeholder="请输入日配送开始值"/>
+                                    <span>日配送（吨）：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="cityDelivery.minniment" placeholder="请输入起送量"/>
+                                    <span>起送量（吨）：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="cityDelivery.price" placeholder="请输入单价"/>
+                                    <span>单价(元/吨)：</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="tab-input">
+                                    <select name="city" class="form-control" ng-model="cityDelivery.city"
+                                            ng-options="item.id as item.name for item in cities">
+                                        <option value="">--请选择--</option>
+                                        <!--<option value="{{item.id}}" ng-repeat="item in cities">{{item.name}}</option>-->
+                                    </select>
+                                    <span>市：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="cityDelivery.deliveryEnd"
+                                           placeholder="请输入日配送结束值"/>
+                                    <span class="text-center">至&nbsp;&nbsp;&nbsp;</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="cityDelivery.truckno" placeholder="请输入自有车辆"/>
+                                    <span>自有车辆：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="cityDelivery.extracost" placeholder="请输入多点费"/>
+                                    <span>多点费：</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-input up-btn">
+                            <div>
+                                <!--<button style="position:static;" class="btn btn-primary" ng-click="uploadPhoto('city')">-->
+                                <!--上传车辆信息表-->
+                                <!--</button>-->
+                                <input type="text" ng-model="cityDelivery.fileName" hidden>
+                                <div id="file2" ng-click="uploadFile('city')"
+                                     style="width: 80px;height:80px;cursor: pointer;">
+                                    <img src="bower_components/zyupload/lib/images/upload.png" alt="" width="100%"
+                                         height="100%">
+                                </div>
+                                <input type="text" ng-model="fileTitle2" style="width: 100%">
+                            </div>
+                            <span>车辆信息图：</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center" style="padding: 10px;">
+                    <button class="btn btn-primary" ng-click="addCityDelivery()">确定</button>
+                    <button class="btn btn-default" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="trunk">
+                <div class="row clearfix">
+                    <div class="col-md-1"></div>
+                    <div class="col-md-9">
+                        <div class="row clearfix">
+                            <div class="col-md-6">
+                                <div class="tab-input">
+                                    <select name="province" class="form-control" ng-model="trunkLine.province"
+                                            ng-change="getCity(trunkLine.province)"
+                                            ng-options="item.id as item.name for item in provinces">
+                                        <option value="">--请选择--</option>
+                                        <!--<option value="{{item.id}}" ng-repeat="item in provinces">{{item.name}}</option>-->
+                                    </select>
+                                    <span>省：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="trunkLine.deliveryStart"
+                                           placeholder="请输入日配送开始值"/>
+                                    <span>日配送（吨）：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="trunkLine.minniment" placeholder="请输入起送量"/>
+                                    <span>起送量（吨）：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="trunkLine.price" placeholder="请输入单价"/>
+                                    <span>单价(元/吨)：</span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="tab-input">
+                                    <select name="city" class="form-control" ng-model="trunkLine.city"
+                                            ng-options="item.id as item.name for item in cities">
+                                        <option value="">--请选择--</option>
+                                        <!--<option value="{{item.id}}" ng-repeat="item in cities">{{item.name}}</option>-->
+                                    </select>
+                                    <span>市：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="trunkLine.deliveryEnd"
+                                           placeholder="请输入日配送结束值"/>
+                                    <span class="text-center">至&nbsp;&nbsp;&nbsp;</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="trunkLine.truckno" placeholder="请输入自有车辆"/>
+                                    <span>自有车辆：</span>
+                                </div>
+                                <div class="tab-input">
+                                    <input class="form-control" ng-model="trunkLine.extracost" placeholder="请输入多点费"/>
+                                    <span>多点费：</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-input up-btn">
+                            <div>
+                                <!--<button style="position:static;" class="btn btn-primary" ng-click="uploadPhoto('trunkLine')">-->
+                                <!--上传车辆信息表-->
+                                <!--</button>-->
+                                <input type="text" ng-model="trunkLine.fileName" hidden>
+                                <div id="file3" ng-click="uploadFile('trunkLine')"
+                                     style="width: 80px;height:80px;cursor: pointer;">
+                                    <img src="bower_components/zyupload/lib/images/upload.png" alt="" width="100%"
+                                         height="100%">
+                                </div>
+                                <input type="text" ng-model="fileTitle3" style="width: 100%">
+                            </div>
+                            <span>车辆信息图：</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="text-center" style="padding: 10px;">
+                    <button class="btn btn-primary" ng-click="addTrunkLine()">确定</button>
+                    <button class="btn btn-default" ng-click="cancel()">取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="uploadFile" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">上传照片</h5>
+            </div>
+            <div class="modal-body">
+                <div id="upload">
+                    <div id="zyUpload"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>

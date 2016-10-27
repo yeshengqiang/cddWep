@@ -1,0 +1,91 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：会员管理
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>客户财务</li>
+        <li>平台收入账单</li>
+    </ol>
+    <div class="clearfix searchContent">
+        <div class="col-xs-11">
+            <div class="col-xs-3 form-group">
+                <label class="control-label">日期</label>
+                <input class="form-control" ng-model="searchData.date" type="text" date-pick="searchData" placeholder="请选择日期"/>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label class="control-label">打款方</label>
+                <input class="form-control" ng-model="searchData.payer" placeholder="请输入打款方"/>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label class="control-label">收款方</label>
+                <input class="form-control" ng-model="searchData.receiver" placeholder="请输入收款方"/>
+            </div>
+            <div class="col-xs-1">
+                <label class="control-label">&nbsp;</label>
+                <div class="">
+                    <button class="btn btn-primary" type="button" ng-click="revenueBills._load()">搜索</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bgWhite">
+        <button class="btn btn-primary" ng-click="export()">导出</button>
+        <table class="table text-center">
+            <tr>
+                <th>流水账号</th>
+                <th>打款方</th>
+                <th>收款方</th>
+                <th>交易时间</th>
+                <th>交易金额</th>
+                <th>打款方提成比率</th>
+                <th>收款方提成比率</th>
+                <th>平台收入</th>
+            </tr>
+            <tr ng-repeat="item in revenueBills.object.rows">
+                <td>{{item.sdnumber}}</td>
+                <td>{{item.payer}}</td>
+                <td>{{item.receiver}}</td>
+                <td>{{item.time | date:'yyyy-MM-dd'}}</td>
+                <td>{{item.amounts}}</td>
+                <td>{{item.brandedrate}}</td>
+                <td>{{item.wlrate}}</td>
+                <td>{{item.income | incFormat:3}}</td>
+            </tr>
+            <tr ng-show="revenueBills.page.totalResult==0">
+                <td colspan="8" class="text-center">
+                    暂无数据!
+                </td>
+            </tr>
+        </table>
+        <div ng-show="revenueBills.page.totalResult!=0"  class="col-xs-12 text-center">
+            <div class="padding">
+                <div class="bill_paging">
+                    <ul class="pagination">
+                        <li ng-class="{true:'disabled'}[revenueBills.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="revenueBills.go(1)">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[revenueBills.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-show="revenueBills.hasPrevious()"
+                               ng-click="revenueBills.previous()">上一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[revenueBills.page.currentPage==i]"
+                            ng-repeat="i in revenueBills.pages">
+                            <a href="javascript:void(0)" ng-click="revenueBills.go(i)">{{i}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[revenueBills.page.currentPage==revenueBills.page.totalPage]">
+                            <a href="javascript:void(0)" ng-show="revenueBills.hasNext()"
+                               ng-click="revenueBills.next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[revenueBills.page.currentPage==revenueBills.page.totalPage]">
+                            <a href="javascript:void(0)"
+                               ng-click="revenueBills.go(revenueBills.page.totalPage)">尾页</a>
+                        </li>
+                    </ul>
+                    <span>共{{revenueBills.page.totalResult}}条</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：调拨报表明细
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>调拨报表</li>
+        <li>调拨报表明细</li>
+    </ol>
+
+    <div class="container-fluid bgWhite">
+        <button type="button" class="btn btn-primary" go-back>后退</button>
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table text-center">
+                    <tr>
+                        <th>品牌公司</th>
+                        <th>订单号</th>
+                        <th>始发仓</th>
+                        <th>目的仓</th>
+                        <th>数量</th>
+                        <th>超时天数</th>
+                        <th>到货时间</th>
+                    </tr>
+                    <tr ng-repeat="item in searchPaginator.data">
+                        <td>{{item.brandedname}}</td>
+                        <td>{{item.orderno}}</td>
+                        <td>{{item.fromplace}}</td>
+                        <td>{{item.destination}}</td>
+                        <td>{{item.fyamount}}</td>
+                        <td>{{item.latedays}}</td>
+                        <td>{{item.dddate}}</td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

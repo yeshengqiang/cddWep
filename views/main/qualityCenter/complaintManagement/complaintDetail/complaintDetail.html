@@ -1,0 +1,96 @@
+<!--
+	作者：chenlang
+ 	时间：2016-08-08
+ 	描述：投诉 明细
+-->
+<style>
+    th {
+        text-align: center;
+    }
+</style>
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>品质中心</li>
+        <li>投诉管理</li>
+        <li>投诉明细</li>
+    </ol>
+    <form class="clearfix searchContent">
+        <div class="col-xs-11">
+            <div class="col-xs-3 form-group">
+                <label class="control-label">日期</label>
+                <input class="form-control" ng-model="searchData.date" type="text" date-pick="searchData" placeholder="请选择日期"/>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label class="control-label">投诉企业</label>
+                <input class="form-control" type="text" ng-model="searchData.brandedname" placeholder="请输入投诉企业"/>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label class="control-label">被投诉企业</label>
+                <input class="form-control" type="text" ng-model="searchData.wlname" placeholder="请输入被投诉企业"/>
+            </div>
+            <div class="col-xs-1 form-group ">
+                <label class="control-label">&nbsp;</label>
+                <div>
+                    <button class="btn btn-primary" type="button" ng-click="complaintDetail._load()">搜索</button>
+                </div>
+            </div>
+        </div>
+
+    </form>
+    <div class="container-fluid bgWhite">
+        <button type="button" class="btn btn-primary" ng-click="downloadFile()">导出</button>
+        <table class="table text-center">
+            <tr>
+                <th>投诉企业</th>
+                <th>被投诉企业</th>
+                <th>投诉类型</th>
+                <th>投诉时间</th>
+                <th>首次回复时间</th>
+                <th>二次回复时间</th>
+                <th>投诉评价</th>
+            </tr>
+            <tr ng-repeat="item in complaintDetail.object.rows">
+                <td>{{item.brandedname}}</td>
+                <td>{{item.wlname}}</td>
+                <td>{{item.type}}</td>
+                <td>{{item.sbdate}}</td>
+                <td>{{item.time1}}</td>
+                <td>{{item.time2}}</td>
+                <td>{{item.score}}</td>
+            </tr>
+            <tr ng-show="complaintDetail.page.totalResult==0">
+                <td colspan="7" class="text-center">
+                    暂无数据!
+                </td>
+            </tr>
+        </table>
+        <div ng-show="complaintDetail.page.totalResult!=0" class="col-xs-12 text-right">
+            <div class="padding text-center">
+                <div class="bill_paging">
+                    <ul class="pagination">
+                        <li ng-class="{true:'disabled'}[complaintDetail.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="complaintDetail.go(1)">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[complaintDetail.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-show="complaintDetail.hasPrevious()"
+                               ng-click="complaintDetail.previous()">上一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[complaintDetail.page.currentPage==i]"
+                            ng-repeat="i in complaintDetail.pages">
+                            <a href="javascript:void(0)" ng-click="complaintDetail.go(i)">{{i}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[complaintDetail.page.currentPage==complaintDetail.page.totalPage]">
+                            <a href="javascript:void(0)" ng-show="complaintDetail.hasNext()"
+                               ng-click="complaintDetail.next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[complaintDetail.page.currentPage==complaintDetail.page.totalPage]">
+                            <a href="javascript:void(0)"
+                               ng-click="complaintDetail.go(complaintDetail.page.totalPage)">尾页</a>
+                        </li>
+                    </ul>
+                    <span>共{{complaintDetail.page.totalResult}}条</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

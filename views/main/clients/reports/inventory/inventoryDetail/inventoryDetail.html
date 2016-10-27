@@ -1,0 +1,34 @@
+<!--
+	作者：cl
+ 	时间：2016-08-28
+ 	描述：退货数据明细
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>运营报表</li>
+        <li>盘点差异明细</li>
+    </ol>
+    <div class="container-fluid bgWhite">
+        <button type="button" class="btn btn-primary" go-back>后退</button>
+        <table class="table text-center">
+            <tr>
+                <th>商品编码</th>
+                <th>盘盈数量</th>
+                <th>盘亏数量</th>
+                <th>理论库存</th>
+                <th>盘点差异率</th>
+            </tr>
+            <tr ng-repeat="item in inventoryDataDetail.data">
+                <td>{{item.goodscode}}</td>
+                <td>{{item.addcounts}}</td>
+                <td>{{item.losecounts}}</td>
+                <td>{{item.inventory}}</td>
+                <td>{{item.description}}</td>
+            </tr>
+            <tr ng-show="deliveries.data.length==0">
+                <td colspan="11">暂无数据!</td>
+            </tr>
+        </table>
+    </div>
+</div>

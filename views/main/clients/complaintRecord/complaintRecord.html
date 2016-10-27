@@ -1,0 +1,284 @@
+<!--
+	作者：chenlang
+ 	时间：2016-08-08
+ 	描述：投诉管理
+-->
+<style>
+    th {
+        text-align: center;
+    }
+
+    p {
+        padding: 10px 0;
+    }
+</style>
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>{{title}}</li>
+    </ol>
+    <form class="clearfix searchContent">
+        <div class="col-xs-11">
+            <div class="col-xs-3 form-group">
+                <label class="control-label">日期</label>
+                <input class="form-control" ng-model="searchData.date" type="text" placeholder="请选择日期"/>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label class="control-label">投诉类型</label>
+                <select name="chargeType" id="chargeType1" class="form-control" ng-model="searchData.type"
+                        ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in division">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label class="control-label">&nbsp;</label>
+                <div>
+                    <button class="btn btn-primary" type="button" ng-click="searchPaginator._load()">搜索</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!-- 服务团队(物流) -->
+    <div ng-if="services" class="container-fluid bgWhite" ng-init="autoHeight(45)">
+    <button type="button" class="btn btn-primary" ng-click="expo()">导出</button>
+
+    <table class="table text-center">
+        <tbody>
+        <tr>
+            <th>投诉人</th>
+            <th>投诉类型</th>
+            <th>投诉内容</th>
+            <th>投诉时间</th>
+            <th>首次回复时间</th>
+            <th>二次回复时间</th>
+            <th>投诉人评价</th>
+            <th>操作</th>
+        </tr>
+        <tr ng-repeat="item in searchPaginator.object.rows">
+            <td>{{item.brandedname}}</td>
+            <td>{{item.type|typeFormat}}</td>
+            <td>
+                <span ng-if="item.description.length<30">{{item.description}}</span>
+                <span ng-if="item.description.length>=30" title="{{item.description}}">{{item.description |limitTo:30}}...</span>
+            </td>
+            <td>{{item.sbdate}}</td>
+            <td>{{item.time1|date:'yyyy-MM-dd'}}</td>
+            <td>{{item.time2|date:'yyyy-MM-dd'}}</td>
+            <td>{{item.score|statusFormat}}</td>
+            <td><a href="" data-toggle="modal" data-target="#reply" ng--click="reply(item)">回复</a></td>
+        </tr>
+        <tr ng-show="searchPaginator.page.totalResult==0">
+            <td colspan="8">
+                暂无数据!
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div ng-show="searchPaginator.page.totalResult!=0" class="col-xs-12 text-center">
+        <div class="padding">
+            <div class="bill_paging">
+                <ul class="pagination">
+                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                        <a href="javascript:void(0)" ng-click="searchPaginator.go(1)">首页</a>
+                    </li>
+                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                        <a href="javascript:void(0)" ng-show="searchPaginator.hasPrevious()"
+                           ng-click="searchPaginator.previous()">上一页</a>
+                    </li>
+                    <li ng-class="{true:'active'}[searchPaginator.page.currentPage==i]"
+                        ng-repeat="i in searchPaginator.pages">
+                        <a href="javascript:void(0)" ng-click="searchPaginator.go(i)">{{i}}</a>
+                    </li>
+                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                        <a href="javascript:void(0)" ng-show="searchPaginator.hasNext()"
+                           ng-click="searchPaginator.next()">下一页</a>
+                    </li>
+                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                        <a href="javascript:void(0)"
+                           ng-click="teams.go(searchPaginator.page.totalPage)">尾页</a>
+                    </li>
+                </ul>
+                <span>共{{searchPaginator.page.totalResult}}条</span>
+            </div>
+        </div>
+    </div>
+
+    </div>
+    <!-- 服务团队(品牌) -->
+    <div ng-if="demand" class="container-fluid bgWhite" ng-init="autoHeight(45)">
+        <!--<div class="col-xs-12 mg15-0 pr0">-->
+            <!--<div class="col-xs-6">-->
+                <!--<h4>投诉记录</h4>-->
+            <!--</div>-->
+        <!--</div>-->
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#complaint">投诉</button>
+            <button type="button" class="btn btn-primary" ng-click="exp()">导出</button>
+
+            <table class="table text-center">
+                <tbody>
+                <tr>
+                    <th>序号</th>
+                    <th>承运商</th>
+                    <th>投诉类型</th>
+                    <th>投诉内容</th>
+                    <th>投诉时间</th>
+                    <th>首次回复时间</th>
+                    <th>二次回复时间</th>
+                    <!--<th>投诉人评价</th>-->
+                    <th>操作</th>
+                </tr>
+                <tr ng-repeat="item in searchPaginator.object.rows">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.wlname}}</td>
+                    <td>{{item.type|typeFormat}}</td>
+                    <td>
+                        <span ng-if="item.description.length<30">{{item.description}}</span>
+                        <span ng-if="item.description.length>=30" title="{{item.description}}">{{item.description |limitTo:30}}...</span>
+                    </td>
+                    <td>{{item.sbdate}}</td>
+                    <td>{{item.time1|date:'yyyy-MM-dd'}}</td>
+                    <td>{{item.time2|date:'yyyy-MM-dd'}}</td>
+                    <!--<td>{{item.score}}</td>-->
+                    <td><a href="" data-toggle="modal" class="btn btn-sm btn-info"data-target="#reply2" ng-click="lookSome(item)">查看明细</a></td>
+                </tr>
+                <tr ng-show="searchPaginator.page.totalResult==0">
+                    <td colspan="7">
+                        暂无数据!
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div ng-show="searchPaginator.page.totalResult!=0" class="col-xs-12 text-center">
+                <div class="padding">
+                    <div class="bill_paging">
+                        <ul class="pagination">
+                            <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                                <a href="javascript:void(0)" ng-click="searchPaginator.go(1)">首页</a>
+                            </li>
+                            <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                                <a href="javascript:void(0)" ng-show="searchPaginator.hasPrevious()"
+                                   ng-click="searchPaginator.previous()">上一页</a>
+                            </li>
+                            <li ng-class="{true:'active'}[searchPaginator.page.currentPage==i]"
+                                ng-repeat="i in searchPaginator.pages">
+                                <a href="javascript:void(0)" ng-click="searchPaginator.go(i)">{{i}}</a>
+                            </li>
+                            <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                                <a href="javascript:void(0)" ng-show="searchPaginator.hasNext()"
+                                   ng-click="searchPaginator.next()">下一页</a>
+                            </li>
+                            <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                                <a href="javascript:void(0)"
+                                   ng-click="searchPaginator.go(searchPaginator.page.totalPage)">尾页</a>
+                            </li>
+                        </ul>
+                        <span>共{{searchPaginator.page.totalResult}}条</span>
+                    </div>
+                </div>
+            </div>
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="reply" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">投诉内容</h4>
+            </div>
+            <div class="modal-body">
+                <p style="margin-top: -10px">投诉内容：</p>
+                <textarea class="form-control" ng-model="replyInfo.description" disabled></textarea>
+                <p>首次回复：</p>
+                <textarea id="a" class="form-control" ng-model="replyInfo.reply" placeholder="请输入首次回复内容"></textarea>
+                <p>二次回复：</p>
+                <textarea id="b" class="form-control" ng-model="replyInfo.replyagain" placeholder="请输入二次回复内容"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancle()">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="replySave()">发送</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="complaint" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">上报投诉</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-md-6">
+                        <div class="tab-input">
+                            <!--<input class="form-control" ng-model="complaintInfo.wlcompanyid"  placeholder="请输入投诉承运商"/>-->
+                            <select class="form-control" ng-model="complaintInfo.wlcompanyid"
+                                    ng-options="dropdownStyle.id as dropdownStyle.name for dropdownStyle in wlname">
+                                <option value="">--请选择--</option>
+                            </select>
+                            <span>投诉承运商：</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="tab-input">
+                            <select class="form-control" ng-model="complaintInfo.type"
+                                    ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in division">
+                                <option value="">--请选择--</option>
+                            </select>
+                            <span>投诉类型：</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="tab-input">
+                            <textarea class="form-control" ng-model="complaintInfo.description"  placeholder="请输入投诉内容"></textarea>
+                            <span>详细描述：</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancle()">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="complainUpIt()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="reply2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">投诉内容</h4>
+            </div>
+            <div class="modal-body">
+                <p style="margin-top: -10px">投诉内容：</p>
+                <textarea class="form-control" ng-model="khrequest.a" disabled></textarea>
+                <p>首次回复：</p>
+                <textarea class="form-control" ng-model="khrequest.b" disabled></textarea>
+                <p>二次回复：</p>
+                <textarea class="form-control" ng-model="khrequest.c" disabled></textarea>
+                <div>
+                    <div style="border-bottom: 1px #222 dashed;padding-top: 20px"></div>
+                    <p style="font-size: 16px">评价承运商回复</p>
+                </div>
+                <div style="padding-left: 20%;font-size: 14px">
+                    <input type="radio" id="check1" name="radioBtn" value="2" ng-model="answerIt.a">&nbsp;满意&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="radio" id="check2" name="radioBtn" value="1" ng-model="answerIt.a">&nbsp;不满意
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancle()">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="complainUp()">发送</button>
+            </div>
+        </div>
+    </div>
+</div>

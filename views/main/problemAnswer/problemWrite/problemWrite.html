@@ -1,0 +1,40 @@
+<!--
+	作者：makaiqin
+ 	时间：2016-08-10
+ 	描述：问题填写
+-->
+
+
+<div style="background-color:#f1f2f6;padding:16px 14px;">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>问题反馈</li>
+        <li>问题填写</li>
+    </ol>
+    <!--功能操作END-->
+    <div class="panel-body breadcrumb" style="background: #fff">
+        <h4>问题填写</h4>
+        <div style="border-bottom: #ebebe4 dashed 2px;width: 25%;padding-top: 1%"></div>
+        <div class="row" style="padding-left: 8.5%;padding-top: 20px">
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <label for="selectOne">反馈类型：</label>
+                    <select class="form-control" ng-model="parm.type" ng-options="a.value as a.name for a in selects" id="selectOne">
+                        <option value="">-- 请选择 --</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+        <!--输入详细内容开始-->
+        <div id="writeProblem" class="breadcrumb" style="padding-left: 8.5%">
+            <label for="textWrite" style="vertical-align:top">详细描述：</label>
+            <textarea id="textWrite" ng-model="parm.detail" rows="7" cols="60" placeholder="请输入描述" style=" text-indent: 0.8em"></textarea>
+        </div>
+        <div style="border-bottom: #ebebe4 dashed 2px;padding-top: 1%"></div>
+        <!--输入详细内容结束-->
+        <div class="breadcrumb" style="float: right;padding-right: 15%">
+            <button type="submit" class="btn btn-primary" ng-click="sub()" >确定</button>
+            <button type="submit" class="btn btn-default" ng-click="cancle()">取消</button>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,77 @@
+[
+  {
+    "label": "会员管理","icon":"glyphicon-file","link":"main.vipManagement","bgcolor":"bg-danger",
+    "children": []
+  },
+  {
+    "label": "合同管理","icon":"glyphicon-list-alt","link":"main.clauseManagement","bgcolor":"bg-orange",
+    "children": []
+  },
+  {
+    "label": "客户财务","icon":"glyphicon-user","bgcolor":"bg-warning",
+    "children": [
+      {
+        "label": "客户账户查询","icon":"","link":"main.accountQuery",
+        "children": []
+      },
+      {
+        "label": "平台收入账单","icon":"","link":"main.accountQuery.revenueBills",
+        "children": []
+      }
+    ]
+  },
+  {
+    "label": "品质中心","icon":"glyphicon-credit-card","link":"main.accountCenter","bgcolor":"bg-success",
+    "children": [
+      {
+        "label": "差错管理","icon":"glyphicon-chevron-down","link":"main.qualityCenter.errorManagement",
+        "children": [
+          {"label": "差错明细","link":"main.clients.errorManagement","icon":""},
+          {"label": "差错数据分析","link":"main.clients.errorManagement.errorAnalyze","icon":""}
+        ]
+      },
+      {
+        "label": "投诉管理","icon":"glyphicon-chevron-down","link":"main.clients.clause",
+        "children": [
+          {"label": "投诉明细","link":"main.qualityCenter.complaintManagement.complaintDetail","icon":""},
+          {"label": "投诉数据分析","link":"main.qualityCenter.complaintManagement.complaintAnalyze","icon":""}
+        ]
+      },
+      {
+        "label": "理赔管理","icon":"","link":"main.clients.claimManagement",
+        "children": []
+      },
+      {
+        "label": "时效管理","icon":"","link":"main.clients.reports.agingData",
+        "children": []
+      },
+      {
+        "label": "通报发布","icon":"","link":"main.navBar",
+        "children": []
+      },
+      {
+        "label": "早安1919","icon":"","link":"main.qualityCenter.claimManagementQualityCentral",
+        "children": []
+      }
+    ]
+  },
+  {
+    "label": "星级管理","icon":"glyphicon-star","bgcolor":"bg-violet",
+    "children": [
+      {"label": "评比规则","link":"main.starManage","icon":"","children": []},
+      {"label": "会员星级查询 ","link":"main.starManage.myStar","icon":"","children": []}
+    ]
+  },
+  {
+    "label": "仓到店条款","icon":"glyphicon-usd","link":"main.clause","bgcolor":"bg-cyan",
+    "children": []
+  },
+  {
+    "label": "SOP","icon":"glyphicon-dashboard","link":"main.sopClause","bgcolor":"bg-info",
+    "children": []
+  },
+  {
+    "label": "意见反馈","icon":"glyphicon-apple","link":"main.viewAnswer","bgcolor":"bg-violet2",
+    "children": []
+  }
+]

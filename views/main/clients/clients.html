@@ -1,0 +1,192 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：服务团队
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>服务团队</li>
+    </ol>
+
+    <div class="clearfix searchContent">
+        <div class="col-xs-11">
+            <div class="col-xs-3 form-group">
+                <label>省份</label>
+                <select name="province" class="form-control" ng-options="item.id as item.name for item in provinces"
+                        ng-model="searchData.province" ng-change="getCity(searchData.province)">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label>城市</label>
+                <select name="city" class="form-control" ng-model="searchData.city"
+                        ng-options="item.id as item.name for item in cities" ng-change="getEnterprise(searchData.city)">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div ng-if="services" class="col-xs-3 form-group">
+                <label>品牌商</label>
+                <select class="form-control" ng-model="searchData.brandedcompanyid"
+                        ng-options="item.id as item.name for item in enterprises" id="brandedcompanyid">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+            <div ng-if="demand" class="col-xs-3 form-group">
+                <label>三方物流</label>
+                <!--<input type="text" ng-model="searchData.wlname" class="form-control" placeholder="请输入公司名称"/>-->
+                <select class="form-control" ng-model="searchData.wlcompanyid"
+                        ng-options="item.id as item.name for item in enterprises">
+                    <option value="">--请选择--</option>
+                </select>
+            </div>
+
+            <div class="col-xs-3">
+                <label class="control-label">&nbsp;</label>
+                <div>
+                    <button class="btn btn-primary" type="button" ng-click="teams._load()">搜索</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 服务团队(物流) -->
+    <div ng-if="services" class="container-fluid bgWhite" ng-init="autoHeight(45)">
+
+        <button type="button" class="btn btn-primary"  ng-click="downloadFile()">
+            导出
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="downloadModel()">
+            导入模板下载
+        </button>
+        <button type="button" class="btn btn-primary" ng-click="exportFile()">导入</button>
+        <table class="table text-center">
+            <tr>
+                <th class="text-center">序号</th>
+                <th class="text-center">姓名</th>
+                <th class="text-center">联系方式</th>
+                <th class="text-center">职务</th>
+                <th class="text-center">岗位职责</th>
+                <th class="text-center">备注</th>
+            </tr>
+            <tr ng-repeat="item in teams.object.rows">
+                <td>{{$index+1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.phone}}</td>
+                <td>{{item.job}}</td>
+                <td>{{item.duty}}</td>
+                <td>{{item.remark}}</td>
+            </tr>
+            <tr ng-show="teams.page.totalResult==0">
+                <td colspan="6">
+                    暂无数据!
+                </td>
+            </tr>
+        </table>
+        <div ng-show="teams.page.totalResult!=0" class="col-xs-12 text-center">
+            <div class="padding">
+                <div class="bill_paging">
+                    <ul class="pagination">
+                        <li ng-class="{true:'disabled'}[teams.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="teams.go(1)">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[teams.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-show="teams.hasPrevious()"
+                               ng-click="teams.previous()">上一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[teams.page.currentPage==i]"
+                            ng-repeat="i in teams.pages">
+                            <a href="javascript:void(0)" ng-click="teams.go(i)">{{i}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[teams.page.currentPage==teams.page.totalPage]">
+                            <a href="javascript:void(0)" ng-show="teams.hasNext()"
+                               ng-click="teams.next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[teams.page.currentPage==teams.page.totalPage]">
+                            <a href="javascript:void(0)"
+                               ng-click="teams.go(teams.page.totalPage)">尾页</a>
+                        </li>
+                    </ul>
+                    <span>共{{teams.page.totalResult}}条</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- 服务团队(品牌) -->
+    <div ng-if="demand" class="container-fluid bgWhite" ng-init="autoHeight(45)">
+        <div class="col-xs-12 mg15-0 pr0">
+            <button class="btn btn-primary" ng-click="downloadFile()">导出</button>
+        </div>
+        <table class="table text-center">
+            <tr>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>联系方式</th>
+                <th>职务</th>
+                <th>岗位职责</th>
+                <th>备注</th>
+            </tr>
+            <tr ng-repeat="item in teams.object.rows">
+                <td>{{index+1}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.phone}}</td>
+                <td>{{item.job}}</td>
+                <td>{{item.duty}}</td>
+                <td>{{item.remark}}</td>
+            </tr>
+            <tr ng-show="teams.page.totalResult==0">
+                <td colspan="6">
+                    暂无数据!
+                </td>
+            </tr>
+        </table>
+        <div class="col-xs-12 text-center" ng-show="teams.page.totalResult!=0">
+            <div class="padding">
+                <div class="bill_paging">
+                    <ul class="pagination">
+                        <li ng-class="{true:'disabled'}[teams.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="teams.go(1)">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[teams.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-show="teams.hasPrevious()"
+                               ng-click="teams.previous()">上一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[teams.page.currentPage==i]"
+                            ng-repeat="i in teams.pages">
+                            <a href="javascript:void(0)" ng-click="teams.go(i)">{{i}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[teams.page.currentPage==teams.page.totalPage]">
+                            <a href="javascript:void(0)" ng-show="teams.hasNext()"
+                               ng-click="teams.next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[teams.page.currentPage==teams.page.totalPage]">
+                            <a href="javascript:void(0)"
+                               ng-click="teams.go(teams.page.totalPage)">尾页</a>
+                        </li>
+                    </ul>
+                    <span>共{{teams.page.totalResult}}条</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="export" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">上传</h5>
+            </div>
+            <div class="modal-body">
+                <div id="upload">
+                    <div id="zyUpload"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>

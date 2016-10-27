@@ -1,0 +1,308 @@
+<!--
+	作者：chenlang
+ 	时间：2016-08-08
+ 	描述：公函管理
+-->
+<style>
+    .contact-list{
+        padding: 10px;
+    }
+    .contact-list li:hover{
+        background: #337ab7;
+        cursor: pointer;
+        color: #fff;
+    }
+</style>
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>公函管理</li>
+    </ol>
+    <div class="container-fluid bgWhite">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" ng-click="render(1)" class="active"><a href="#inBox" aria-controls="company" role="tab" data-toggle="tab">收件箱</a></li>
+            <li role="presentation" ng-click="render(2)" ><a href="#outBox" aria-controls="project" role="tab" data-toggle="tab">发件箱</a></li>
+            <li role="presentation" ng-click="render(3)" ><a href="#dustbin" aria-controls="demand" role="tab" data-toggle="tab">垃圾箱</a></li>
+            <li role="presentation" ng-click="render(4)" ><a href="#sendMail" aria-controls="demand" role="tab" data-toggle="tab">发邮件</a></li>
+        </ul>
+        <div class="row tab-content">
+            <!--收件箱-->
+            <div role="tabpanel" class="tab-pane active" id="inBox">
+                <div class="row clearfix">
+                    <div class="col-md-6">
+                      <button class="btn btn-danger" ng-click="delOrread(1)" >删除</button>
+                      <button class="btn btn-primary" ng-click="delOrread(2)">标记为已读</button>
+                    </div>
+                    <div class="col-md-6 clearfix">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-6">
+                            <input class="form-control" ng-model="searchTitle1" type="text" placeholder="请输入邮件标题"/>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary" ng-click="inbox._load()">搜索</button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <table class="table text-center">
+                        <thead>
+                        <tr>
+                            <th><input type="checkbox" id="checkAll" ng-click="selectAll('#inBoxTable',$event)"/></th>
+                            <th>发件人</th>
+                            <th>标题</th>
+                            <th>时间</th>
+                            <th>状态</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="inBoxTable">
+                            <tr ng-repeat="item in inbox.object.rows">
+                                <td><input name="inbox" type="checkbox" value="{{item.id}}"/></td>
+                                <td>{{item.sendname}}</td>
+                                <td>{{item.title}}</td>
+                                <td>{{item.fsdate | date:'yyyy-MM-dd'}}</td>
+                                <td>{{item.recestate | sendState}}</td>
+                                <td><a class="btn btn-sm btn-info"  ng-click="lookSome(item.id)">查看明细</a>
+                                </td>
+                            </tr>
+                            <tr ng-show="inbox.page.totalResult==0">
+                                <td colspan="5" class="text-center">
+                                    暂无数据!
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="inbox.page.totalResult!=0" class="col-xs-12 text-center">
+                    <div class="padding">
+                        <div class="bill_paging">
+                            <ul class="pagination">
+                                <li ng-class="{true:'disabled'}[inbox.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-click="inbox.go(1)">首页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[inbox.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-show="inbox.hasPrevious()"
+                                       ng-click="inbox.previous()">上一页</a>
+                                </li>
+                                <li ng-class="{true:'active'}[inbox.page.currentPage==i]"
+                                    ng-repeat="i in inbox.pages">
+                                    <a href="javascript:void(0)" ng-click="inbox.go(i)">{{i}}</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[inbox.page.currentPage==inbox.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-show="inbox.hasNext()"
+                                       ng-click="inbox.next()">下一页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[inbox.page.currentPage==inbox.page.totalPage]">
+                                    <a href="javascript:void(0)"
+                                       ng-click="inbox.go(inbox.page.totalPage)">尾页</a>
+                                </li>
+                            </ul>
+                            <span>共{{inbox.page.totalResult}}条</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--发件箱-->
+            <div role="tabpanel" class="tab-pane " id="outBox">
+                <div class="clearfix">
+                    <div class="col-md-6">
+                        <button class="btn btn-danger" ng-click="del()">删除</button>
+                    </div>
+                    <div class="col-md-6 clearfix">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-6">
+                            <input class="form-control" ng-model="searchTitle2" type="text" placeholder="请输入邮件标题"/>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary" ng-click="outbox._load()">搜索</button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <table class="table text-center">
+                        <thead>
+
+                        <tr>
+                            <th><input type="checkbox" id="checkAll1" ng-click="selectAll('#inBoxTable1',$event)"/></th>
+                            <th>收件人</th>
+                            <th>标题</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="inBoxTable1">
+                            <tr ng-repeat="item in outbox.object.rows">
+                                <td><input type="checkbox" name="outbox" value="{{item.id}}"/></td>
+                                <td>{{item.receivename|sendEmailFormat}}</td>
+                                <td>{{item.title}}</td>
+                                <td>{{item.fsdate | date:'yyyy-MM-dd'}}</td>
+                                <td><a class="btn btn-sm btn-info" ng-click="lookSome(item.id)">查看明细</a>
+                            </tr>
+                            <tr ng-show="outbox.page.totalResult==0">
+                                <td colspan="5" class="text-center">
+                                    暂无数据!
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="outbox.page.totalResult!=0" class="col-xs-12 text-center">
+                    <div class="padding">
+                        <div class="bill_paging">
+                            <ul class="pagination">
+                                <li ng-class="{true:'disabled'}[outbox.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-click="outbox.go(1)">首页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[outbox.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-show="outbox.hasPrevious()"
+                                       ng-click="outbox.previous()">上一页</a>
+                                </li>
+                                <li ng-class="{true:'active'}[outbox.page.currentPage==i]"
+                                    ng-repeat="i in outbox.pages">
+                                    <a href="javascript:void(0)" ng-click="outbox.go(i)">{{i}}</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[outbox.page.currentPage==outbox.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-show="outbox.hasNext()"
+                                       ng-click="outbox.next()">下一页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[outbox.page.currentPage==outbox.page.totalPage]">
+                                    <a href="javascript:void(0)"
+                                       ng-click="outbox.go(outbox.page.totalPage)">尾页</a>
+                                </li>
+                            </ul>
+                            <span>共{{outbox.page.totalResult}}条</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--垃圾箱-->
+            <div role="tabpanel" class="tab-pane " id="dustbin">
+                <div class="clearfix">
+                    <div class="col-md-6">
+                        <button class="btn btn-danger" ng-click="dustbins(1)">删除</button>
+                        <button class="btn btn-primary" ng-click="dustbins(2)">还原</button>
+                        <button class="btn btn-primary" ng-click="dustbins(3)">清空垃圾箱</button>
+                    </div>
+                    <div class="col-md-6 clearfix">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-6">
+                            <input class="form-control" ng-model="searchTitle3" type="text" placeholder="请输入邮件标题"/>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary" ng-click="dustbin._load()">搜索</button>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <table class="table text-center">
+                        <thead>
+                        <tr>
+                            <th><input id="checkAll2" type="checkbox" ng-click="selectAll('#inBoxTable2',$event)"/></th>
+                            <th>收件人</th>
+                            <th>标题</th>
+                            <th>时间</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody id="inBoxTable2">
+                        <tr ng-repeat="item in dustbin.object.rows">
+                            <td><input type="checkbox" name="dustbin" value="{{item.id}}"/></td>
+                            <td>{{item.receivename}}</td>
+                            <td>{{item.title}}</td>
+                            <td>{{item.fsdate | date:'yyyy-MM-dd'}}</td>
+                            <td><a class="btn btn-sm btn-info" ng-click="lookSome(item.id)">查看明细</a>
+                        </tr>
+                        <tr ng-show="dustbin.page.totalResult==0">
+                            <td class="text-center" colspan="4">
+                                暂无数据!
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-show="dustbin.page.totalResult!=0" class="col-xs-12 text-center">
+                    <div class="padding">
+                        <div class="bill_paging">
+                            <ul class="pagination">
+                                <li ng-class="{true:'disabled'}[dustbin.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-click="dustbin.go(1)">首页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[dustbin.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-show="dustbin.hasPrevious()"
+                                       ng-click="dustbin.previous()">上一页</a>
+                                </li>
+                                <li ng-class="{true:'active'}[dustbin.page.currentPage==i]"
+                                    ng-repeat="i in dustbin.pages">
+                                    <a href="javascript:void(0)" ng-click="dustbin.go(i)">{{i}}</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[dustbin.page.currentPage==dustbin.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-show="dustbin.hasNext()"
+                                       ng-click="dustbin.next()">下一页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[dustbin.page.currentPage==dustbin.page.totalPage]">
+                                    <a href="javascript:void(0)"
+                                       ng-click="dustbin.go(dustbin.page.totalPage)">尾页</a>
+                                </li>
+                            </ul>
+                            <span>共{{dustbin.page.totalResult}}条</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--发邮件-->
+            <div role="tabpanel" class="tab-pane " id="sendMail">
+                <div class="clearfix mgb15">
+                    <div class="col-md-6">
+                        <button class="btn btn-primary"  ng-click="sendEmail()">发送</button>
+                    </div>
+                </div>
+                <div class="col-md-8 clearfix form-horizontal">
+                    <div class="row form-group">
+                        <div class="col-md-2 text-right">
+                            <label class="control-label">收件人：</label>
+                        </div>
+                        <div class="col-md-10">
+                            <input class="form-control" ng-change="selectContact(email,false)" type="text" placeholder="请填写正确的收件人" ng-model="email.address"/>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-2 text-right">
+                            <label class="control-label">主题：</label>
+                        </div>
+                        <div class="col-md-10">
+                            <input class="form-control" placeholder="请输入主题" type="text" ng-model="email.title"/>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-md-2 text-right">
+                            <label class="control-label">正文：</label>
+                        </div>
+                        <div class="col-md-10">
+                            <textarea placeholder="请输入邮件类容" cols="30" rows="10"  class="form-control" ng-model="email.content"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" style="border: 1px solid #f5f5f5;padding-bottom: 15px;">
+                    <div class="text-center" style="padding: 10px;margin: 0 -15px;background: #f5f5f5;">
+                        最近联系人
+                    </div>
+                    <div class="row" style="margin: 10px -5px;">
+                        <div class="col-md-9" style="padding: 0;">
+                            <input class="form-control" ng-model="par.name" type="text" placeholder="请输入公司名称"/>
+                        </div>
+                        <div class="col-md-3 text-right" style="padding: 0;">
+                            <button class="btn btn-primary" ng-click="book._load()">搜索</button>
+                        </div>
+                    </div>
+                    <div class="row text-center" style="height: 204px;overflow-y: auto;">
+                        <ul class="contact-list">
+                            <li ng-show="item.email!=null" ng-repeat="item in book.object.rows | filter:par" ng-click="selectContact(item)">{{item.name}}
+                                <span>{{item.email | emailFormat}}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

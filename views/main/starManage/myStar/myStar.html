@@ -1,0 +1,137 @@
+<!--
+	作者：maxu
+ 	时间：2016-08-09
+ 	描述  我的星级
+ -->
+
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>星级管理</li>
+        <li>{{title}}</li>
+    </ol>
+    <!--物流-->
+    <div ng-if="services" class="container-fluid bgWhite" ng-init="autoHeight(45)">
+        <!--<div class="title" style="font-size: 23px;margin-bottom: 15px">我的星级</div>-->
+        <div class="row">
+            <div class="col-xs-12 mg15-0">
+                <div class="col-xs-6">
+                    <h4>我的星级</h4>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <table class="table text-center">
+                    <tr>
+                        <th>差错率</th>
+                        <th>投诉率</th>
+                        <th>盘点差异率</th>
+                        <th>配送超时率</th>
+                        <th>总积分</th>
+                        <th>星级</th>
+                        <th>排名</th>
+                    </tr>
+                    <tr ng-show="starts.id!=null">
+                        <td>{{starts.mistakerate}}</td>
+                        <td>{{starts.complaintrate}}</td>
+                        <td>{{starts.differencerate}}</td>
+                        <td>{{starts.latetimesrate}}</td>
+                        <td>{{starts.score}}</td>
+                        <td>{{starts.level}}</td>
+                        <td>{{starts.ranking}}</td>
+                    </tr>
+                    <tr ng-show="starts.id==null">
+                        <td colspan="7" class="text-center">
+                            暂无数据!
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!--后台-->
+    <div ng-if="backstage">
+        <form class="clearfix searchContent">
+            <div class="col-xs-11">
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">日期</label>
+                    <input class="form-control" ng-model="searchData.date" type="text"
+                           date-pick="searchData" placeholder="请选择日期"/>
+                </div>
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">注册账号</label>
+                    <input class="form-control" type="text" placeholder="请输入注册账号" ng-model="searchData.loginname"/>
+                </div>
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">企业名称</label>
+                    <input class="form-control" type="text" placeholder="请输入企业名称" ng-model="searchData.wlname"/>
+                </div>
+                <div class="col-xs-1">
+                    <label class="control-label">&nbsp;</label>
+                    <div>
+                        <button class="btn btn-primary" type="button" ng-click="searchPaginator._load()">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="container-fluid bgWhite" ng-init="autoHeight(45)">
+            <div class="row">
+                <div class="col-xs-12">
+                    <table class="table text-center">
+                        <tr>
+                            <th>注册账号</th>
+                            <th>投诉率</th>
+                            <th>注册时间</th>
+                            <th>配送超时率</th>
+                            <th>盘点差异率</th>
+                            <th>星级</th>
+                            <th>排名</th>
+                        </tr>
+                        <tr ng-repeat="item in searchPaginator.object.rows">
+                            <td>{{item.loginname}}</td>
+                            <td>{{item.complaintrate}}</td>
+                            <td>{{item.createtime | date:'yyyy-MM-dd'}}</td>
+                            <td>{{item.latetimesrate}}</td>
+                            <td>{{item.differencerate}}</td>
+                            <td>{{item.level}}</td>
+                            <td>{{item.ranking}}</td>
+                        </tr>
+                        <tr ng-show="searchPaginator.page.totalResult==0">
+                            <td colspan="7">
+                                暂无数据!
+                            </td>
+                        </tr>
+
+                    </table>
+                    <div ng-show="searchPaginator.page.totalResult!=0" class="col-xs-12 text-center">
+                        <div class="padding">
+                            <div class="bill_paging">
+                                <ul class="pagination">
+                                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-click="searchPaginator.go(1)">首页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                                        <a href="javascript:void(0)" ng-show="searchPaginator.hasPrevious()"
+                                           ng-click="searchPaginator.previous()">上一页</a>
+                                    </li>
+                                    <li ng-class="{true:'active'}[searchPaginator.page.currentPage==i]"
+                                        ng-repeat="i in searchPaginator.pages">
+                                        <a href="javascript:void(0)" ng-click="searchPaginator.go(i)">{{i}}</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)" ng-show="searchPaginator.hasNext()"
+                                           ng-click="searchPaginator.next()">下一页</a>
+                                    </li>
+                                    <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                                        <a href="javascript:void(0)"
+                                           ng-click="searchPaginator.go(searchPaginator.page.totalPage)">尾页</a>
+                                    </li>
+                                </ul>
+                                <span>共{{searchPaginator.page.totalResult}}条</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

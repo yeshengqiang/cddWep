@@ -1,0 +1,381 @@
+<!--
+	作者：chenlang
+ 	时间：2016-08-08
+ 	描述：差错管理
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>差错管理</li>
+        <li ng-if="backstage">差错明细</li>
+    </ol>
+    <div class="clearfix searchContent">
+        <div class="col-xs-11">
+            <div ng-if="services" class="col-xs-3 form-group">
+                <label class="control-label">日期</label>
+                <input class="form-control" ng-model="searchData.date" type="text" date-pick="searchData" placeholder="请选择日期"/>
+            </div>
+            <div ng-if="services" class="col-xs-3 form-group">
+                <label class="control-label">一级分类</label>
+                <select name="" class="form-control" ng-model="searchData.type1"
+                        ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in dropdownItems">
+                    <option value="">所有类型</option>
+                </select>
+            </div>
+            <div ng-if="services" class="col-xs-3 form-group">
+                <label class="control-label">二级分类</label>
+                <select name="" class="form-control" ng-model="searchData.type2"
+                        ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in dropdownItems">
+                    <option value="">所有类型</option>
+                </select>
+            </div>
+            <div ng-if="services" class="col-xs-3 form-group">
+                <label class="control-label">三级分类</label>
+                <select name="" class="form-control" ng-model="searchData.type3"
+                        ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in dropdownItems">
+                    <option value="">所有类型</option>
+                </select>
+            </div>
+        </div>
+        <div ng-if="services" class="col-xs-1 form-group">
+            <label class="control-label">&nbsp;</label>
+            <div>
+                <button class="btn btn-primary" type="button" ng-click="serData._load()">搜索</button>
+            </div>
+        </div>
+        <div ng-if="demand">
+            <div class="col-xs-11">
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">日期</label>
+                    <input class="form-control" ng-model="searchData.date" type="text" date-pick="searchData" placeholder="请选择日期"/>
+                </div>
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">&nbsp;</label>
+                    <div>
+                        <button class="btn btn-primary" type="button" ng-click="demData._load()">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="backstage">
+            <div class="col-xs-11">
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">日期</label>
+                    <input class="form-control" ng-model="searchData.date" type="text" date-pick="searchData" placeholder="请选择日期"/>
+                </div>
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">&nbsp;</label>
+                    <div>
+                        <button class="btn btn-primary" type="button" ng-click="bacData._load()">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--物流-->
+    <div ng-if="services" class="container-fluid bgWhite" ng-init="autoHeight(45)">
+        <button type="button" class="btn btn-primary" ng-click="serExport()">导出</button>
+                <table class="table text-center">
+                    <tr>
+                        <th>上报人</th>
+                        <th>一级分类</th>
+                        <th>二级分类</th>
+                        <th>三级分类</th>
+                        <th>赔偿金额（元）</th>
+                        <th>差错描述</th>
+                        <th>上报时间</th>
+                        <th>平台判定</th>
+                        <th>操作</th>
+                    </tr>
+                    <tr ng-repeat="item in serData.object.rows">
+                        <td>{{item.brandedname}}</td>
+                        <td>{{item.type1}}</td>
+                        <td>{{item.type2}}</td>
+                        <td>{{item.type3}}</td>
+                        <td>{{item.money}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.sbdate}}</td>
+                        <td>{{item.appeal | statusFormat}}</td>
+                        <td><a href="javascript:void(0);" ng-click="appeal(item)" data-toggle="modal"
+                               data-target="#appeal">申诉</a></td>
+                    </tr>
+                    <tr ng-show="serData.page.totalResult==0">
+                        <td colspan="9" class="text-center">
+                            暂无数据!
+                        </td>
+                    </tr>
+                </table>
+                <div ng-show="serData.page.totalResult!=0" class="col-xs-12 text-center">
+                    <div class="padding">
+                        <div class="bill_paging">
+                            <ul class="pagination">
+                                <li ng-class="{true:'disabled'}[serData.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-click="serData.go(1)">首页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[serData.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-show="serData.hasPrevious()"
+                                       ng-click="serData.previous()">上一页</a>
+                                </li>
+                                <li ng-class="{true:'active'}[serData.page.currentPage==i]"
+                                    ng-repeat="i in serData.pages">
+                                    <a href="javascript:void(0)" ng-click="serData.go(i)">{{i}}</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[serData.page.currentPage==serData.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-show="serData.hasNext()"
+                                       ng-click="serData.next()">下一页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[serData.page.currentPage==serData.page.totalPage]">
+                                    <a href="javascript:void(0)"
+                                       ng-click="serData.go(serData.page.totalPage)">尾页</a>
+                                </li>
+                            </ul>
+                            <span>共{{serData.page.totalResult}}条</span>
+                        </div>
+                    </div>
+                </div>
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+
+    <!--品牌-->
+    <div ng-if="demand" class="container-fluid bgWhite" ng-init="autoHeight(45)">
+        <button class="btn btn-primary" ng-click="demExport()">导出</button>
+        <button class="btn btn-primary" ng-click="report(item)">上报</button>
+        <table class="table text-center">
+            <tr>
+                <th>承运商</th>
+                <th>上报日期</th>
+                <th>一级分类</th>
+                <th>二级分类</th>
+                <th>三级分类</th>
+                <th>其他描述</th>
+                <th>承运商回复</th>
+                <th>平台判定</th>
+            </tr>
+            <tr ng-repeat="item in demData.object.rows">
+                <td>{{item.wlname}}</td>
+                <td>{{item.sbdate}}</td>
+                <td>{{item.type1}}</td>
+                <td>{{item.type2}}</td>
+                <td>{{item.type3}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.appealcontent}}</td>
+                <td>{{item.appeal | statusFormat}}</td>
+            <tr ng-show="demData.page.totalResult==0">
+                <td colspan="9" class="text-center">
+                    暂无数据!
+                </td>
+            </tr>
+            </tr>
+        </table>
+        <div ng-show="demData.page.totalResult!=0" class="col-xs-12 text-center">
+            <div class="padding">
+                <div class="bill_paging">
+                    <ul class="pagination">
+                        <li ng-class="{true:'disabled'}[demData.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="demData.go(1)">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[demDatademData.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-show="demData.hasPrevious()"
+                               ng-click="demData.previous()">上一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[demData.page.currentPage==i]"
+                            ng-repeat="i in demData.pages">
+                            <a href="javascript:void(0)" ng-click="demData.go(i)">{{i}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[demData.page.currentPage==demData.page.totalPage]">
+                            <a href="javascript:void(0)" ng-show="demData.hasNext()"
+                               ng-click="demData.next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[demData.page.currentPage==demData.page.totalPage]">
+                            <a href="javascript:void(0)"
+                               ng-click="mistakes.go(demData.page.totalPage)">尾页</a>
+                        </li>
+                    </ul>
+                    <span>共{{demData.page.totalResult}}条</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--后台-->
+    <div ng-if="backstage" class="container-fluid bgWhite" ng-init="autoHeight(45)">
+        <!--<div class="col-xs-12 mgb15 pr0">-->
+            <!--<div class="col-xs-6">-->
+                <!--<h4>差错明细</h4>-->
+            <!--</div>-->
+        <!--</div>-->
+        <button type="button" class="btn btn-primary" ng-click="serExport()">导出</button>
+        <table class="table text-center">
+            <tr>
+                <th>上报时间</th>
+                <th>上报类型</th>
+                <th>上报企业</th>
+                <th>差错企业</th>
+                <th>差错描述</th>
+                <th>承运商回复</th>
+                <th>平台判定</th>
+                <th>操作</th>
+            </tr>
+            <tr ng-repeat="item in bacData.object.rows">
+                <td>{{item.sbdate}}</td>
+                <td>{{item.type3}}</td>
+                <td>{{item.brandedcompanyid}}</td>
+                <td>{{item.wlcompanyid}}</td>
+                <td>{{item.description}}</td>
+                <td>{{item.appealcontent}}</td>
+                <td>{{item.appeal | statusFormat}}</td>
+                <td><a href="javascript:void(0)" ng-click="decide(item)">判定</a></td>
+            </tr>
+            <tr ng-show="bacData.page.totalResult==0">
+                <td colspan="7">
+                    暂无数据!
+                </td>
+            </tr>
+        </table>
+        <div ng-show="bacData.page.totalResult!=0" class="col-xs-12 text-center">
+            <div class="padding text-center">
+                <div class="bill_paging">
+                    <ul class="pagination">
+                        <li ng-class="{true:'disabled'}[bacData.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="bacData.go(1)">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[bacData.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-show="bacData.hasPrevious()"
+                               ng-click="bacData.previous()">上一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[bacData.page.currentPage==i]"
+                            ng-repeat="i in bacData.pages">
+                            <a href="javascript:void(0)" ng-click="bacData.go(i)">{{i}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[bacData.page.currentPage==bacData.page.totalPage]">
+                            <a href="javascript:void(0)" ng-show="bacData.hasNext()"
+                               ng-click="bacData.next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[bacData.page.currentPage==bacData.page.totalPage]">
+                            <a href="javascript:void(0)"
+                               ng-click="bacData.go(bacData.page.totalPage)">尾页</a>
+                        </li>
+                    </ul>
+                    <span>共{{bacData.page.totalResult}}条</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<!--品牌弹出-->
+<div class="modal fade" id="demandNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">上传差错</h5>
+            </div>
+            <div class="modal-body">
+                <div class="row clearfix">
+                    <div class="col-md-6">
+                        <div class="tab-input">
+                            <select class="form-control" ng-model="mistake.wlcompanyid"
+                                    ng-options="itm.id as itm.name for itm in itms">
+                                <option value="">- 请选择 -</option>
+                            </select>
+                            <span>差错承运商：</span>
+                        </div>
+                        <div class="tab-input">
+                            <select class="form-control" ng-model="mistake.type1"
+                                    ng-options="itm.value as itm.name for itm in items">
+                                <option value="">- 请选择 -</option>
+                            </select>
+                            <span>一级分类：</span>
+                        </div>
+                        <div class="tab-input">
+                            <select class="form-control" ng-model="mistake.type3"
+                                    ng-options="itm.value as itm.name for itm in items">
+                                <option value="">- 请选择 -</option>
+                            </select>
+                            <span>三级分类：</span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="tab-input">
+                            <input class="form-control" ng-model="mistake.money"/>
+                            <span>索赔金额：</span>
+                        </div>
+                        <div class="tab-input">
+                            <select class="form-control" ng-model="mistake.type2"
+                                    ng-options="itm.value as itm.name for itm in items">
+                                <option value="">- 请选择 -</option>
+                            </select>
+                            <span>二级分类：</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="tab-input">
+                            <textarea class="form-control" ng-model="mistake.description"></textarea>
+                            <span>详细描述：</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="close()">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="addMistake()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--物流-->
+<div class="modal fade" id="appeal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">申述</h5>
+            </div>
+            <div class="modal-body">
+                <p style="margin-top: -10px">差错内容</p>
+                <textarea class="form-control" ng-model="errorContent.a" disabled></textarea>
+                <p>我的申诉</p>
+                <textarea class="form-control" placeholder="请输入我的申述" ng-model="errorContent.b"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" ng-click="cancel()" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="addSer()" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--后台-->
+<div class="modal fade" id="determine" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">上传</h5>
+            </div>
+            <div class="modal-body">
+                <div class="checkbox text-center">
+                    <label>
+                        <input type="radio" name="1"> 判定有错
+                    </label>
+                </div>
+                <div class="checkbox text-center">
+                    <label>
+                        <input type="radio" name="1"> 判定无错
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>

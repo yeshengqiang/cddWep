@@ -1,0 +1,165 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：SOP条款
+-->
+<style>
+    th {
+        text-align: center;
+    }
+</style>
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>SOP条款</li>
+    </ol>
+    <form class="clearfix searchContent">
+        <div class="col-xs-11">
+            <div class="col-xs-3 form-group">
+                <label class="control-label">日期</label>
+                <input class="form-control" ng-model="searchData.date" type="text"
+                       date-pick="searchData" placeholder="请选择日期"/>
+            </div>
+            <div class="col-xs-3 form-group">
+                <label for="sopCode" class="control-label">SOP编码</label>
+                <input class="form-control" type="text" placeholder="请输入SOP编码" id="sopCode"
+                       ng-model="searchData.fileno"/>
+            </div>
+            <ng-div ng-if="services||demand" class="col-xs-3 form-group">
+                <label for="theme" class="control-label">主题</label>
+                <input class="form-control" type="text" placeholder="请输入主题" id="theme" ng-model="searchData.theme"/>
+            </ng-div>
+            <ng-div ng-if="houtai" class="col-xs-3 form-group">
+                <label for="theme" class="control-label">SOP名称</label>
+                <input class="form-control" type="text" placeholder="请输入SOP名称" id="sopName" ng-model="searchData.name"/>
+            </ng-div>
+            <div class="col-xs-3 form-group">
+                <label class="control-label">&nbsp;</label>
+                <div>
+                    <button class="btn btn-primary" type="button" ng-click="projectItem._load()">搜索</button>
+                </div>
+            </div>
+        </div>
+
+
+    </form>
+
+
+    <!--物流和品牌列表-->
+    <div ng-if="services||demand" class="container-fluid bgWhite" ng-init="autoHeight(45)">
+        <div class="row">
+            <div class="col-xs-12">
+                <table class="table text-center">
+                    <tr>
+                        <th>SOP编码</th>
+                        <th>主题</th>
+                        <th>发布日期</th>
+                        <!--<th>条款明细</th>    &lt;!&ndash;实体缺少该字段&ndash;&gt;-->
+                        <th>附件</th>
+                    </tr>
+                    <tr ng-repeat="item in projectItem.object.rows">
+                        <td>{{item.fileno}}</td>
+                        <td>{{item.theme}}</td>
+                        <td>{{item.scdate}}</td>
+                        <!--<td>{{item.}}</td>              &lt;!&ndash;实体缺少该字段&ndash;&gt;-->
+                        <td><a href="javascript:void(0)" class="btn btn-sm btn-primary" ng-click="download(item.content)">下载</a></td>
+                    </tr>
+                    <tr ng-show="projectItem.page.totalResult==0">
+                        <td colspan="9" class="text-center">
+                            暂无数据!
+                        </td>
+                    </tr>
+                </table>
+                <div ng-show="projectItem.page.totalResult!=0" class="col-xs-12 text-center">
+                    <div class="padding">
+                        <div class="bill_paging">
+                            <ul class="pagination">
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(1)">首页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-show="projectItem.hasPrevious()"
+                                       ng-click="projectItem.previous()">上一页</a>
+                                </li>
+                                <li ng-class="{true:'active'}[projectItem.page.currentPage==i]"
+                                    ng-repeat="i in projectItem.pages">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(i)">{{i}}</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-show="projectItem.hasNext()"
+                                       ng-click="projectItem.next()">下一页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                                    <a href="javascript:void(0)"
+                                       ng-click="projectItem.go(projectItem.page.totalPage)">尾页</a>
+                                </li>
+                            </ul>
+                            <span>共{{projectItem.page.totalResult}}条</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--物流和品牌列表end-->
+
+    <!--后台列表-->
+    <div ng-if="houtai" class="container-fluid bgWhite" ng-init="autoHeight(45)">
+        <!--新增按钮-->
+        <button ui-sref="main.sopClause.newSopClause" class="btn btn-primary" type="button">新增</button>
+        <table class="table text-center">
+            <tr>
+                <th>SOP编号</th>
+                <th>SOP名称</th>
+                <!--<th>上传人</th>-->
+                <th>上传时间</th>
+                <th>下载次数</th>
+                <th>操作</th>
+            </tr>
+            <tr ng-repeat="item in projectItem.object.rows">
+                <td>{{item.fileno}}</td>
+                <td>{{item.name}}</td>
+                <!--<td>{{item.opertaor}}</td>-->
+                <td>{{item.scdate}}</td>
+                <td>{{item.download}}</td>
+                <td>
+                    <a class="btn btn-sm btn-success" ng-click="edit(item)">修改</a>
+                    <a ng-click="deleteById(item.id)" class="btn btn-sm btn-danger">删除</a>
+                </td>
+            <tr ng-show="projectItem.page.totalResult==0">
+                <td colspan="9" class="text-center">
+                    暂无数据!
+                </td>
+            </tr>
+        </table>
+        <div ng-show="projectItem.page.totalResult!=0" class="col-xs-12 text-center">
+            <div class="padding">
+                <div class="bill_paging">
+                    <ul class="pagination">
+                        <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="projectItem.go(1)">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-show="projectItem.hasPrevious()"
+                               ng-click="projectItem.previous()">上一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[projectItem.page.currentPage==i]"
+                            ng-repeat="i in projectItem.pages">
+                            <a href="javascript:void(0)" ng-click="projectItem.go(i)">{{i}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                            <a href="javascript:void(0)" ng-show="projectItem.hasNext()"
+                               ng-click="projectItem.next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                            <a href="javascript:void(0)"
+                               ng-click="projectItem.go(projectItem.page.totalPage)">尾页</a>
+                        </li>
+                    </ul>
+                    <span>共{{projectItem.page.totalResult}}条</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--后台列表end-->
+
+</div>

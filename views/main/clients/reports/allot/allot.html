@@ -1,0 +1,85 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：仓到店条款
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>运营报表</li>
+        <li>调拨报表</li>
+    </ol>
+    <div class="clearfix searchContent">
+    <div class="col-md-11">
+        <div class="col-md-3 form-group">
+            <label class="control-label">始发仓</label>
+            <input type="text" ng-model="searchData.fromplace" class="form-control" placeholder="请输入始发仓"/>
+            <span></span>
+        </div>
+        <div class="col-xs-3 form-group">
+            <label class="control-label">&nbsp;</label>
+            <div class="">
+                <button class="btn btn-primary" type="button" ng-click="searchPaginator._load()">搜索</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <div class="container-fluid bgWhite">
+        <button type="button" class="btn btn-primary" ng-click="export()">导出</button>
+
+
+        <table class="table text-center">
+            <tr>
+                <th>始发仓</th>
+                <th>调拨单量</th>
+                <th>调拨瓶数</th>
+                <th>在途单量</th>
+                <th>超时单量</th>
+                <th>操作</th>
+            </tr>
+            <tr ng-repeat="item in searchPaginator.object.rows">
+                <td>{{item.fromplace}}</td>
+                <td>{{item.fycount}}</td>
+                <td>{{item.fysum}}</td>
+                <td>{{item.onwaycount}}</td>
+                <td>{{item.latecount}}</td>
+                <td><a href="javascript:void(0)" class="btn btn-sm btn-info" ng-click="loadDetail(item)">查看明细</a></td>
+            </tr>
+            <tr ng-show="searchPaginator.page.totalResult==0">
+                <td colspan="10" style="text-align: center">
+                    暂无数据!
+                </td>
+            </tr>
+        </table>
+        <div class="text-center" ng-show="searchPaginator.page.totalResult!=0">
+            <div class="padding">
+                <div class="bill_paging">
+                    <ul class="pagination">
+                        <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="searchPaginator.go(1)">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-show="searchPaginator.hasPrevious()"
+                               ng-click="searchPaginator.previous()">上一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[searchPaginator.page.currentPage==i]"
+                            ng-repeat="i in searchPaginator.pages">
+                            <a href="javascript:void(0)" ng-click="searchPaginator.go(i)">{{i}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                            <a href="javascript:void(0)" ng-show="searchPaginator.hasNext()"
+                               ng-click="searchPaginator.next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[searchPaginator.page.currentPage==searchPaginator.page.totalPage]">
+                            <a href="javascript:void(0)"
+                               ng-click="searchPaginator.go(searchPaginator.page.totalPage)">尾页</a>
+                        </li>
+                    </ul>
+                    <span>共{{searchPaginator.page.totalResult}}条</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

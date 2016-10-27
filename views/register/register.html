@@ -1,0 +1,149 @@
+<!--
+	作者：yinxia
+ 	时间：2016-08-10
+ 	描述：登录页面
+-->
+<link rel="stylesheet" href="css/login.css">
+<style>
+    .uploadImg{
+        width: 100%;
+        height: 100px;
+        line-height: 100px;
+        text-align: center;
+        background: #eeeeee;
+        border: 1px dashed #999;
+        color: #555;
+        cursor: pointer;
+    }
+</style>
+<div class="container-fluid bgInfo">
+    <div class="normalWidth" lang="register">
+        <div class="reg-block">
+            <div class="header">
+                <img src="imgs/inside.svg">
+            </div>
+            <hr />
+            <div class="form">
+                <div class="checkbox">
+                    <label>
+                        <input type="radio" checked="checked" class="companyType" name="companyType" ng-model="userinfo.type" value="1">&nbsp;品牌厂商
+                    </label>
+                    <label class="pull-right">
+                        <input class="companyType" type="radio" name="companyType" value="2" ng-model="userinfo.type">&nbsp;物流公司
+                    </label>
+                </div>
+                <div class="row" name="myForm">
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">登录名</div>
+                            <input type="text" ng-model="userinfo.loginname" class="form-control" placeholder="请输入账号" />
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">密码</div>
+                            <input type="password" ng-model="userinfo.password" class="form-control" placeholder="请输入密码" />
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">确认密码</div>
+                            <input type="password" ng-model="userinfo.repeatPassword" class="form-control" placeholder="请输入确认密码">
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">省份</div>
+                            <select name="province" class="form-control" ng-model="userinfo.province" ng-change="getCity(searchData.province)"
+                                    ng-options="key.id as key.name for key in provinces">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">邮箱</div>
+                            <input type="text" ng-model="userinfo.email" class="form-control" placeholder="请输入邮箱">
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">公司名称</div>
+                            <input type="text" ng-model="userinfo.name" class="form-control" placeholder="请输入公司名称">
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">公司地址</div>
+                            <input type="text" ng-model="userinfo.address" class="form-control" placeholder="公司地址"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">城市</div>
+                            <select name="city" class="form-control" ng-model="userinfo.city"
+                                    ng-options="key.id as key.name for key in cities" ng-change="getEnterprise(searchData.city)">
+                                <option value="">--请选择--</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            <div class="input-group-addon">公司法人</div>
+                            <input type="text" ng-model="userinfo.corporation" class="form-control" placeholder="公司法人"/>
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-addon">联系方式</div>
+                            <input type="text" ng-model="userinfo.phone" class="form-control" placeholder="联系方式"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group" style="margin-top: 15px;margin-bottom: 0;">
+                    <div class="input-group-addon">公司简介</div>
+                    <textarea type="text" ng-model="userinfo.intro" class="form-control" placeholder="请输入公司简介"></textarea>
+                </div>
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-xs-3">
+                        <div id="img1" ng-click="uploadPhoto('img1')" class="uploadImg">
+                            上传资质文件
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div id="img2" ng-click="uploadPhoto('img2')" class="uploadImg">
+                            上传资质文件
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div id="img3" ng-click="uploadPhoto('img3')" class="uploadImg">
+                            上传资质文件
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div id="img4" ng-click="uploadPhoto('img4')" class="uploadImg">
+                            上传资质文件
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="checkbox clearfix">
+                <label>
+                    <input type="checkbox" ng-model="read" />我已阅读殷切同意
+                </label>
+                <a>《用户协议》</a>
+                <a ui-sref="login" href="" class="right">返回登录</a>
+            </div>
+            <div class="button-center">
+                <button class="btn btn-primary" ng-click="register()">注册</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="example" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">上传资质文件</h5>
+            </div>
+            <div class="modal-body">
+                <div id="upload">
+                    <div id="zyUpload"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
+            </div>
+        </div>
+    </div>
+</div>

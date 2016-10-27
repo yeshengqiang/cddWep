@@ -1,0 +1,77 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：盘点差异报表
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>运营报表</li>
+        <li>盘点差异报表</li>
+    </ol>
+	<form class="clearfix searchContent">
+		<div class="col-xs-11">
+			<div class="col-md-3 form-group">
+				<label class="control-label">商品编码</label>
+				<input type="text" class="form-control" placeholder="请输入商品编码" ng-model="searchData.goodscode">
+			</div>
+			<div class="col-md-3">
+				<label class="control-label">&nbsp;</label>
+				<div class="">
+					<button class="btn btn-primary" type="button" ng-click="inventory._load()">搜索</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="container-fluid bgWhite">
+        <button type="button" class="btn btn-primary" ng-click="downloadFile()">导出</button>
+        <table class="table text-center">
+            <tr>
+                <th>商品编码</th>
+                <th>盘盈总数量</th>
+                <th>盘亏总数量</th>
+                <th>理论总库存</th>
+                <th>盘点差异率</th>
+                <th>操作</th>
+            </tr>
+            <tr ng-repeat="item in inventory.object.rows">
+                <td>{{item.goodscode}}</td>
+                <td>{{item.inventorysum}}</td>
+                <td>{{item.losesum}}</td>
+                <td>{{item.inventorysum}}</td>
+                <td>{{item.differencerate}}</td>
+                <td><a href="javascript:void(0)" class="btn btn-sm btn-info" ng-click="loadDetail(item.goodscode)">查看明细</a></td>
+            </tr>
+            <tr ng-show="inventory.page.totalResult==0">
+                <td colspan="9">暂无数据!</td>
+            </tr>
+        </table>
+        <div class="col-xs-12 text-center" ng-show="inventory.page.totalResult!=0">
+            <div class="padding">
+                <div class="bill_paging">
+                    <ul class="pagination">
+                        <li ng-class="{true:'disabled'}[inventory.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="inventory.go(1)">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[inventory.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-show="inventory.hasPrevious()"
+                               ng-click="inventory.previous()">上一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[inventory.page.currentPage==i]"
+                            ng-repeat="i in inventory.pages">
+                            <a href="javascript:void(0)" ng-click="inventory.go(i)">{{i}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[inventory.page.currentPage==inventory.page.totalPage]">
+                            <a href="javascript:void(0)" ng-show="inventory.hasNext()"
+                               ng-click="inventory.next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[inventory.page.currentPage==inventory.page.totalPage]">
+                            <a href="javascript:void(0)" ng-click="inventory.go(inventory.page.totalPage)">尾页</a>
+                        </li>
+                    </ul>
+                    <span>共{{inventory.page.totalResult}}条</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

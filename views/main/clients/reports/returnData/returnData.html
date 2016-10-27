@@ -1,0 +1,86 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：仓到店条款
+-->
+<div class="pageContent">
+    <ol class="breadcrumb">
+        <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+        <li>运营报表</li>
+        <li>退货数据</li>
+    </ol>
+    <form class="clearfix searchContent">
+        <div class="col-xs-11">
+            <div class="col-md-3 form-group">
+                <label class="control-label">始发仓</label>
+                <input type="text" class="form-control" ng-model="searchData.fromplace" placeholder="请输入始发仓">
+            </div>
+            <div class="col-xs-1 text-right">
+                <label class="control-label">&nbsp;</label>
+                <div class="text-right">
+                    <button class="btn btn-primary" type="button" ng-click="deliveries._load()">搜索</button>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="container-fluid bgWhite">
+        <button type="button" class="btn btn-primary" ng-click="downloadFile()">导出</button>
+        <table class="table text-center">
+            <tr>
+                <th>始发仓</th>
+                <th>退货单量</th>
+                <th>退货瓶数</th>
+                <th>退货重量</th>
+                <th>退货体积</th>
+                <th>超时单量</th>
+                <th>操作</th>
+            </tr>
+            <tr ng-repeat="item in deliveries.object.rows">
+                <td>{{item.fromplace}}</td>
+                <td>{{item.fycount}}</td>
+                <td>{{item.fysum}}</td>
+                <td>{{item.weightsum}}</td>
+                <td>{{item.volumesum}}</td>
+                <td>{{item.latecount}}</td>
+                <!--<td>
+                    <a ng-if="services" href="javascript:void(0)" ng-click="loadDetail(item.wlcompanyid,'1')">查看明细</a>
+                    <a ng-if="demand" href="javascript:void(0)" ng-click="loadDetail(item.brandedcompanyid,'0')">查看明细</a>
+                </td>-->
+                <td>
+                    <a class="btn btn-sm btn-info" href="javascript:void(0)"
+                       ng-click="loadDetail(item.fromplace)">查看明细</a>
+                </td>
+            </tr>
+            <tr ng-show="deliveries.page.totalResult==0">
+                <td colspan="9">暂无数据!</td>
+            </tr>
+        </table>
+        <div class="col-xs-12 text-center" ng-show="deliveries.page.totalResult!=0">
+            <div class="padding">
+                <div class="bill_paging">
+                    <ul class="pagination">
+                        <li ng-class="{true:'disabled'}[deliveries.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-click="deliveries.go(1)">首页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[deliveries.page.currentPage==1]">
+                            <a href="javascript:void(0)" ng-show="deliveries.hasPrevious()"
+                               ng-click="deliveries.previous()">上一页</a>
+                        </li>
+                        <li ng-class="{true:'active'}[deliveries.page.currentPage==i]"
+                            ng-repeat="i in deliveries.pages">
+                            <a href="javascript:void(0)" ng-click="deliveries.go(i)">{{i}}</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[deliveries.page.currentPage==deliveries.page.totalPage]">
+                            <a href="javascript:void(0)" ng-show="deliveries.hasNext()"
+                               ng-click="deliveries.next()">下一页</a>
+                        </li>
+                        <li ng-class="{true:'disabled'}[deliveries.page.currentPage==deliveries.page.totalPage]">
+                            <a href="javascript:void(0)" ng-click="deliveries.go(deliveries.page.totalPage)">尾页</a>
+                        </li>
+                    </ul>
+                    <span>共{{deliveries.page.totalResult}}条</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

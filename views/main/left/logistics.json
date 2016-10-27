@@ -1,0 +1,81 @@
+[
+  {
+    "label": "基本信息","icon":"glyphicon-file","link":"main.baseInfo","bgcolor":"bg-danger",
+    "children": []
+  },
+  {
+    "label": "客户需求","icon":"glyphicon-list-alt","link":"main.customer","bgcolor":"bg-orange",
+    "children": []
+  },
+  {
+    "label": "我的客户","icon":"glyphicon-user","bgcolor":"bg-warning",
+    "children": [
+      {
+        "label": "服务团队","icon":"","link":"main.clients",
+        "children": []
+      },
+      {
+        "label": "合同条款","icon":"","link":"main.clients.clause",
+        "children": []
+      },
+      {
+        "label": "运营报表","icon":"glyphicon-chevron-down",
+        "children": [
+          {"label": "配送报表","link":"main.clients.reports","icon":""},
+          {"label": "调拨报表","link":"main.clients.reports.allot","icon":""},
+          {"label": "退货数据","link":"main.clients.reports.returnData","icon":""},
+          {"label": "时效数据","link":"main.clients.reports.agingData","icon":""},
+          {"label": "出入库报表","link":"main.clients.reports.outPut","icon":""},
+          {"label": "盘点差异表","link":"main.clients.reports.inventory","icon":""}
+        ]
+      },
+      {
+        "label": "公函管理","icon":"","link":"main.clients.officeManagement",
+        "children": []
+      },
+      {
+        "label": "差错管理","icon":"","link":"main.clients.errorManagement",
+        "children": []
+      },
+      {
+        "label": "投诉管理","icon":"","link":"main.clients.complaintRecord",
+        "children": []
+      },
+      {
+        "label": "理赔管理","icon":"","link":"main.clients.claimManagement",
+        "children": []
+      }
+    ]
+  },
+  {
+    "label": "账户中心","icon":"glyphicon-credit-card","link":"main.accountCenter","bgcolor":"bg-success",
+    "children": []
+  },
+  {
+    "label": "仓到店条款","icon":"glyphicon-usd","link":"main.clause","bgcolor":"bg-cyan",
+    "children": []
+  },
+  {
+    "label": "SOP条款","icon":"glyphicon-dashboard","link":"main.sopClause","bgcolor":"bg-info",
+    "children": []
+  },
+  {
+    "label": "通报栏","icon":"glyphicon-bullhorn","link":"main.navBar","bgcolor":"bg-primary1",
+    "children": []
+  },
+  {
+    "label": "星级管理","icon":"glyphicon-star","bgcolor":"bg-violet",
+    "children": [
+      {"label": "星级评定标准","link":"main.starManage","icon":"","children": []},
+      {"label": "我的星级 ","link":"main.starManage.myStar","icon":"","children": []}
+    ]
+  },
+  {
+    "label": "问题反馈","icon":"glyphicon-paste","link":"main.problemAnswer","bgcolor":"bg-violet1",
+    "children": []
+  },
+  {
+    "label": "早安1919","icon":"glyphicon-apple","link":"main.goodMorning","bgcolor":"bg-violet2",
+    "children": []
+  }
+]

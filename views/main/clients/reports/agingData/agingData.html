@@ -1,0 +1,296 @@
+<!--
+	作者：yeshengqiang
+ 	时间：2016-08-08
+ 	描述：时效数据
+-->
+<!--1 品牌   我的服务商   运营报表   时效数据-->
+<div ng-if="demand">
+    <div class="pageContent">
+        <ol class="breadcrumb">
+            <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+            <li>{{fatherTitle}}</li>
+            <li>{{title}}</li>
+        </ol>
+        <form class="clearfix searchContent">
+            <div class="col-xs-11">
+                <div class="col-md-3 form-group">
+                    <label class="control-label">时间</label>
+                    <input class="form-control" ng-model="searchData.date" type="text" date-pick="searchData" placeholder="请选择日期"/>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label class="control-label">运单号</label>
+                    <input type="text" class="form-control" ng-model="searchData.awb" placeholder="请输入运单号">
+                </div>
+                <div class="col-xs-1 text-right">
+                    <label class="control-label">&nbsp;</label>
+                    <div class="text-right">
+                        <button class="btn btn-primary" type="button" ng-click="projectItem._load()">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div class="container-fluid bgWhite" ng-init="autoHeight(45)">
+           <button type="button" class="btn btn-primary" ng-click="downloadFile()">导出</button>
+            <table class="table text-center">
+                <tr>
+                    <th>运单号</th>
+                    <th>三方物流</th>
+                    <th>品牌公司</th>
+                    <th>发车时间</th>
+                    <th>期望到达时间</th>
+                    <th>实际到达时间</th>
+                    <th>延误时长</th>
+                    <th>罚款</th>
+                </tr>
+                <tr ng-repeat="item in projectItem.object.rows">
+                    <td>{{item.awb}}</td>
+                    <td>{{item.wlname}}</td>
+                    <td>{{item.brandedname}}</td>
+                    <td>{{item.fsdate}}</td>
+                    <td>{{item.jhdate}}</td>
+                    <td>{{item.dddate}}</td>
+                    <td>{{item.latetimes}}</td>
+                    <td>{{item.money}}</td>
+                </tr>
+                <tr ng-show="projectItem.page.totalResult==0">
+                    <td colspan="9" style="text-align: center">
+                        暂无数据!
+                    </td>
+                </tr>
+            </table>
+            <div ng-show="projectItem.page.totalResult!=0">
+                <div class="col-xs-12 text-center">
+                    <div class="padding">
+                        <div class="bill_paging">
+                            <ul class="pagination">
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(1)">首页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-show="projectItem.hasPrevious()"
+                                       ng-click="projectItem.previous()">上一页</a>
+                                </li>
+                                <li ng-class="{true:'active'}[projectItem.page.currentPage==i]"
+                                    ng-repeat="i in projectItem.pages">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(i)">{{i}}</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-show="projectItem.hasNext()"
+                                       ng-click="projectItem.next()">下一页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(projectItem.page.totalPage)">尾页</a>
+                                </li>
+                            </ul>
+                            <span>共{{projectItem.page.totalResult}}条</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--2 物流   我的客户  运营报表  时效数据-->
+<div ng-if="services">
+    <div class="pageContent">
+        <ol class="breadcrumb">
+            <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+            <li>{{fatherTitle}}</li>
+            <li>{{title}}</li>
+        </ol>
+
+        <form class="clearfix searchContent">
+            <div class="col-xs-11">
+                <!--<div class="col-xs-2 form-group">
+                    <label class="control-label">开始日期</label>
+                    <input type="date" class="form-control" ng-model="searchData.starttime"/>
+                </div>
+                <div class="col-xs-2 form-group">
+                    <label class="control-label">结束日期</label>
+                    <input type="date" class="form-control" ng-model="searchData.endtime"/>
+                </div>-->
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">运单号</label>
+                    <input name="chargeType" class="form-control" ng-model="searchData.awb"
+                           placeholder="请输入运单号">
+                </div>
+                <!--<div class="col-xs-2 form-group">
+                    <label class="control-label">三方物流</label>
+                    <input name="chargeType" class="form-control" ng-model="searchData.wlname"
+                           placeholder="请输入三方物流">
+                </div>
+                <div class="col-xs-2 form-group">
+                    <label class="control-label">品牌公司</label>
+                    <input name="chargeType" class="form-control"
+                           ng-model="searchData.brandedname" placeholder="请输入品牌公司">
+                </div>-->
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">&nbsp;</label>
+                    <div>
+                        <button class="btn btn-primary" type="button" ng-click="projectItem._load()">搜索</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <div class="container-fluid bgWhite">
+           <button type="button" class="btn btn-primary" ng-click="outMessage()">导出</button>
+            <table class="table text-center">
+                <tr>
+                    <th>运单号</th>
+                    <th>三方物流</th>
+                    <th>品牌公司</th>
+                    <th>发车时间</th>
+                    <th>期望到达时间</th>
+                    <th>实际到达时间</th>
+                    <th>延误时长</th>
+                    <th>罚款</th>
+                </tr>
+                <tr ng-repeat="item in projectItem.object.rows">
+                    <td>{{item.awb}}</td>
+                    <td>{{item.wlname}}</td>
+                    <td>{{item.brandedname}}</td>
+                    <td>{{item.fsdate}}</td>
+                    <td>{{item.jhdate}}</td>
+                    <td>{{item.dddate}}</td>
+                    <td>{{item.latetimes}}</td>
+                    <td>{{item.money}}</td>
+                </tr>
+                <tr ng-show="projectItem.page.totalResult==0">
+                    <td colspan="9" style="text-align: center">
+                        暂无数据！
+                    </td>
+                </tr>
+            </table>
+            <div ng-show="projectItem.page.totalResult!=0">
+                <div class="col-xs-12 text-center">
+                    <div class="padding">
+                        <div class="bill_paging">
+                            <ul class="pagination">
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-click="searchPaginator.go(1)">首页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-show="projectItem.hasPrevious()"
+                                       ng-click="projectItem.previous()">上一页</a>
+                                </li>
+                                <li ng-class="{true:'active'}[projectItem.page.currentPage==i]"
+                                    ng-repeat="i in projectItem.pages">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(i)">{{i}}</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-show="projectItem.hasNext()"
+                                       ng-click="projectItem.next()">下一页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(projectItem.page.totalPage)">尾页</a>
+                                </li>
+                            </ul>
+                            <span>共{{projectItem.page.totalResult}}条</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--3 后台   品质中心  时效管理-->
+<div ng-if="backManage">
+    <div class="pageContent">
+        <ol class="breadcrumb">
+            <li><span class="glyphicon glyphicon-home mr10"></span>{{parentTitle}}</li>
+            <li>{{title}}</li>
+        </ol>
+        <form class="clearfix searchContent">
+            <div class="col-xs-11">
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">日期</label>
+                    <input class="form-control" ng-model="searchData.date" type="text" date-pick="searchData" placeholder="请选择日期"/>
+                </div>
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">运单号</label>
+                    <input name="chargeType" class="form-control" ng-model="searchData.awb"
+                           placeholder="请输入运单号">
+                </div>
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">三方物流</label>
+                    <input name="chargeType" id="chargeType4" class="form-control" ng-model="searchData.wlname"
+                           placeholder="请输入三方物流">
+                </div>
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">品牌公司</label>
+                    <input name="chargeType" id="chargeType5" class="form-control"
+                           ng-model="searchData.brandedname" placeholder="请输入品牌公司">
+                </div>
+            </div>
+            <div class="col-xs-1 form-group">
+                <label class="control-label">&nbsp;</label>
+                <div>
+                    <button class="btn btn-primary" type="button" ng-click="projectItem._load()">搜索</button>
+                </div>
+            </div>
+        </form>
+        <div class="container-fluid bgWhite" ng-init="autoHeight(45)">
+           <button type="button" class="btn btn-primary" ng-click="outMessage()">导出</button>
+            <table class="table text-center">
+                <tr>
+                    <th>序号</th>
+                    <th>运单号</th>
+                    <th>三方物流</th>
+                    <th>品牌公司</th>
+                    <th>发车时间</th>
+                    <th>期望到达时间</th>
+                    <th>实际到达时间</th>
+                    <th>延误时长</th>
+                    <th>罚款</th>
+                </tr>
+                <tr ng-repeat="item in projectItem.object.rows">
+                    <td>{{$index+1}}</td>
+                    <td>{{item.awb}}</td>
+                    <td>{{item.wlname}}</td>
+                    <td>{{item.brandedname}}</td>
+                    <td>{{item.fsdate}}</td>
+                    <td>{{item.jhdate}}</td>
+                    <td>{{item.dddate}}</td>
+                    <td>{{item.latetimes}}</td>
+                    <td>{{item.money}}</td>
+                </tr>
+                <tr ng-show="projectItem.page.totalResult==0">
+                    <td colspan="9" style="text-align: center">
+                        暂无数据！
+                    </td>
+                </tr>
+            </table>
+            <div ng-show="projectItem.page.totalResult!=0">
+                <div class="col-xs-12 text-center">
+                    <div class="padding">
+                        <div class="bill_paging">
+                            <ul class="pagination">
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(1)">首页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==1]">
+                                    <a href="javascript:void(0)" ng-show="projectItem.hasPrevious()"
+                                       ng-click="projectItem.previous()">上一页</a>
+                                </li>
+                                <li ng-class="{true:'active'}[projectItem.page.currentPage==i]"
+                                    ng-repeat="i in projectItem.pages">
+                                    <a href="javascript:void(0)" ng-click="projectItem.go(i)">{{i}}</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                                    <a href="javascript:void(0)" ng-show="projectItem.hasNext()"
+                                       ng-click="projectItem.next()">下一页</a>
+                                </li>
+                                <li ng-class="{true:'disabled'}[projectItem.page.currentPage==projectItem.page.totalPage]">
+                                    <a href="javascript:void(0)"
+                                       ng-click="projectItem.go(projectItem.page.totalPage)">尾页</a>
+                                </li>
+                            </ul>
+                            <span>共{{projectItem.page.totalResult}}条</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

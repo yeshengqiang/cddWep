@@ -1,0 +1,30 @@
+<!--
+	作者：yinxia
+ 	时间：2016-08-10
+ 	描述：忘记密码
+-->
+<div class="container-fluid bgInfo">
+    <div class="normalWidth">
+        <div class="reg-block">
+            <div class="header">
+                <img src="imgs/inside.svg" />
+            </div>
+            <hr />
+            <form>
+                <div class="form">
+                    <div class="input-group">
+                        <div class="input-group-addon">账号</div>
+                        <input ng-model="username" id="username" type="text" class="form-control" placeholder="账号">
+                    </div>
+                    <div class="input-group">
+                        <div class="input-group-addon">邮箱</div>
+                        <input type="text" id="email" ng-model="email" class="form-control" placeholder="邮箱">
+                    </div>
+                </div>
+                <hr />
+                <button type="submit" class="btn btn-primary btn-lg btn-block" ng-click="forget()">确定</button>
+                <a ui-sref="login" class="forget-password">返回登录</a>
+            </form>
+        </div>
+    </div>
+</div>

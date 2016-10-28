@@ -25,7 +25,19 @@ define(function(require){
                     break;
             }
             return info;
-        }
+        };
+    });
+
+    app.filter('selectCom',function(){
+        return function(inp){
+            if(inp=='2'){
+                return '物流公司';
+            }else if(inp=='1'){
+                return '品牌公司';
+            }else{
+                return '后台';
+            }
+        };
     });
 
     app.controller('vipManagementCrl',['$scope','url','$http','$location','$state','$rootScope',function($scope,url,$http,$location,$state,$rootScope){

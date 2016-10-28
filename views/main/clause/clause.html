@@ -34,8 +34,6 @@
                 </div>
             </div>
         </div>
-
-
     </form>
 
     <!--物流和品牌列表-->
@@ -99,7 +97,7 @@
     <!--后台列表-->
     <div ng-if="houtai" class="container-fluid bgWhite">
         <!--新增按钮-->
-        <button ui-sref="main.clause.newClause" class="btn btn-primary" type="button">新增</button>
+        <button ng-click="add()" class="btn btn-primary" type="button">新增</button>
         <!--新增按钮end-->
         <table class="table text-center">
             <tr>

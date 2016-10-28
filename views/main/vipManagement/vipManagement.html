@@ -42,6 +42,7 @@
                 <th>账号</th>
                 <th>企业名称</th>
                 <th>注册时间</th>
+                <th>公司类型</th>
                 <th>企业状态</th>
                 <th>操作</th>
             </tr>
@@ -49,6 +50,7 @@
                 <td>{{item.loginname}}</td>
                 <td>{{item.name}}</td>
                 <td>{{item.createtime | date:'yyyy-MM-dd'}}</td>
+                <td>{{item.type | selectCom}}</td>
                 <td>{{item.state | stateFormat}}</td>
                 <td><a ng-click="audit(item)">审核</a></td>
             </tr>

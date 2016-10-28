@@ -49,7 +49,6 @@ define(function (require) {
             $http.post(url + '/team/showPageList?loginname='+userInfo.data.loginname, $.extend({}, page, $scope.searchData)).success(callback);
         };
         $scope.teams = app.get('Paginator').list(currentCheck, 6);
-
         /**
          * 导入
          */

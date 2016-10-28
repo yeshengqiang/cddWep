@@ -7,6 +7,9 @@ define(function (require) {
     var app = require('../../../app');
 
     app.controller('clausCrl', ['$scope', 'url', '$http', '$location','$rootScope', function ($scope, url, $http, $location,$rootScope) {
+        //搜索    
+        $scope.searchData = {};
+
         //获取用户信息
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         //获取对应角色
@@ -80,8 +83,14 @@ define(function (require) {
                 $rootScope.clause = item;
                 $location.path('/main/clause/newClause');
             };
+            //新建
+            $scope.add = function(){
+                $rootScope.clause = {};
+                $location.path('/main/clause/newClause');
+            };
         }
 
+        
 
         setTimeout(function(){
             yMake.fn.autoHeight('.bgWhite',45);

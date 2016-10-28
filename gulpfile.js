@@ -20,10 +20,7 @@ gulp.task('sync',function(){
 		'./bower_components/**/*.*',
 		'./*.*'
 	];
-	gulp.watch(src).on('change',function(){
-		reload();
-		browserSync.notify("更新成功");
-	});
+	gulp.watch(src).on('change',reload);
 });
 
 gulp.task('default',['sync']);

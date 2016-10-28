@@ -41,6 +41,10 @@ define(function(require){
                 finishDel: false,  				  // 是否在上传文件完成后删除预览
                 /* 外部获得的回调接口 */
                 onSelect: function (selectFiles, allFiles) {    // 选择文件的回调方法  selectFile:当前选中的文件  allFiles:还没上传的全部文件
+                    if(allFiles.length>1){
+                        yMake.layer.msg('只能选择一张图片进行上传!',{icon:0});
+                        return;
+                    }
                 },
                 onDelete: function (file, files) {
                 },
@@ -50,17 +54,17 @@ define(function(require){
                     img.empty().append("<img src="+photoUrl+" width='100%' height='100%'/>");
                     if(urls.length>0&&urls.indexOf(fileName)!=-1){
 
-                    }else if(src!=null){
-                        urls.splice(urls.indexOf(src.substring(src.lastIndexOf('upload'))),1,fileName)
+                    }else if(src != null){
+                        urls.splice(urls.indexOf(src.substring(src.lastIndexOf('upload'))),1,fileName);
                     }else{
-                        urls.push(fileName)
+                        urls.push(fileName);
                     }
                 },
                 onFailure: function (file, response) {          // 文件上传失败的回调方法
                 },
                 onComplete: function (response) {           	  // 上传完成的回调方法
                 }
-            })
+            });
         };
         $scope.register = function(){
             //注册成功之后登陆
@@ -127,7 +131,7 @@ define(function(require){
             }
             $scope.userinfo.certificate = urls.join(',');
             $http.post(url+'/user/add',$scope.userinfo).success(function(data){
-                if(data.code==0){
+                if(data.code==0 ){
                     yMake.layer.msg('注册成功!',{icon:'1',time:2000});
                     $location.path('/login');
                 }else if(data.code!=0){

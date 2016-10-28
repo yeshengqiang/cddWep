@@ -105,7 +105,7 @@
     <!--后台列表-->
     <div ng-if="houtai" class="container-fluid bgWhite" ng-init="autoHeight(45)">
         <!--新增按钮-->
-        <button ui-sref="main.sopClause.newSopClause" class="btn btn-primary" type="button">新增</button>
+        <button ng-click="add()" class="btn btn-primary" type="button">新增</button>
         <table class="table text-center">
             <tr>
                 <th>SOP编号</th>

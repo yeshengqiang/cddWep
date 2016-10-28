@@ -64,6 +64,7 @@ define(function (require) {
                     if(value.search(reg)>-1){
                         var startTime = value.replace(reg,'$1');
                         var endTime = value.replace(reg,'$2');
+
                         if(dateReg.test(startTime)){
                             scope.datePick.starttime = startTime;
                         }else{
@@ -92,7 +93,7 @@ define(function (require) {
                     });
                 });
             }
-        }
+        };
     });
 
     app.config(['$stateProvider', '$urlRouterProvider','$httpProvider', function ($stateProvider, $urlRouterProvider,$httpProvider) {

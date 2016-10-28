@@ -70,6 +70,12 @@ define(function (require) {
                 $state.go('main.sopClause.newSopClause');
             };
 
+            //新增
+            $scope.add = function(){
+                $rootScope.itemInfo = {};
+                $state.go('main/sopClause/newSopClause');
+            };
+
             //删除
             $scope.deleteById = function (id) {
                 $http.get(url + '/sop/delete?id=' + id).success(function () {

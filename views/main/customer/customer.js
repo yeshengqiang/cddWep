@@ -32,7 +32,7 @@ define(function (require) {
             $http.post(url + '/khrequest/showPageList?loginname='+userInfo.data.loginname, $.extend({},page, param)).success(callback);
         };
         $scope.projectItem = app.get('Paginator').list(currentCheck, 6);
-
+        console.log($scope.projectItem);
         yMake.fn.autoHeight('.bgWhite', 45);
     }]);
 });

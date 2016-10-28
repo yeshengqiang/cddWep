@@ -287,7 +287,8 @@ define(function (require) {
         //新增仓储服务
         $scope.storage = {};
         $scope.addStorage = function () {
-            if ($scope.storage == null) {
+
+            if (checkValue.isObjNull($scope.storage)) {
                 yMake.layer.msg('请先填写信息！', {icon: 2});
                 return;
             }

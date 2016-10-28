@@ -292,15 +292,30 @@ define(function (require) {
                 yMake.layer.msg('请先填写信息！', {icon: 2});
                 return;
             }
-            if (!(checkValue.isNUllAndMsg($scope.storage.storagecost, '仓储管理费') &&
-                checkValue.isNUllAndMsg($scope.storage.location, '地址') &&
-                checkValue.isNUllAndMsg($scope.storage.area, '服务面积') &&
-                checkValue.isNUllAndMsg($scope.storage.stevedore, '装卸费') &&
-                checkValue.isNUllAndMsg($scope.storage.operatecost, '操作费') &&
-                checkValue.isNUllAndNotPhone($scope.storage.phone, '联系方式') &&
-                checkValue.isNUllAndMsg($scope.storage.returncost, '退货费') &&
-                checkValue.isNUllAndMsg($scope.storage.storageform, '仓库考察表'))) {
-                return;
+            if(!checkValue.isNull($scope.storage.storagecost)){
+                yMake.layer.msg('请输入仓储管理费',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.storage.location)){
+                yMake.layer.msg('请输入地址',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.storage.area)){
+                yMake.layer.msg('请输入服务面积',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.storage.stevedore)){
+                yMake.layer.msg('请输入装卸费',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.storage.operatecost)){
+                yMake.layer.msg('请输入操作费',{icon:2});
+                return
+            }else if(!checkValue.isTel($scope.storage.phone,true)){
+                yMake.layer.msg('请输入联系方式',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.storage.returncost)){
+                yMake.layer.msg('请输入退货费',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.storage.storageform)){
+                yMake.layer.msg('请输入仓库考察表费',{icon:2});
+                return
             }
             $scope.storage.loginname = userInfo.data.loginname;
             //$scope.storage.storageimg = urls.join(',');
@@ -326,14 +341,27 @@ define(function (require) {
         //新增城配服务
         $scope.cityDelivery = {};
         $scope.addCityDelivery = function () {
-            if (!(checkValue.isNUllAndMsg($scope.cityDelivery.deliveryStart, '日配送量') &&
-                checkValue.isNUllAndMsg($scope.cityDelivery.deliveryEnd, '日配送量') &&
-                checkValue.isNUllAndMsg($scope.cityDelivery.minniment, '起送量') &&
-                checkValue.isNUllAndMsg($scope.cityDelivery.truckno, '自有车辆') &&
-                checkValue.isNUllAndMsg($scope.cityDelivery.price, '单价') &&
-                checkValue.isNUllAndMsg($scope.cityDelivery.extracost, '多点费') &&
-                checkValue.isNUllAndMsg($scope.cityDelivery.trunkimg, '车辆信息图'))) {
-                return;
+            if(!checkValue.isNull($scope.cityDelivery.deliveryStart)){
+                yMake.layer.msg('请输入日配送量',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.cityDelivery.deliveryEnd)){
+                yMake.layer.msg('请输入日配送量',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.cityDelivery.minniment)){
+                yMake.layer.msg('请输入起送量',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.cityDelivery.truckno)){
+                yMake.layer.msg('请输入自有车辆',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.cityDelivery.price)){
+                yMake.layer.msg('请输入单价',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.cityDelivery.extracost)){
+                yMake.layer.msg('请输入多点费',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.cityDelivery.trunkimg)){
+                yMake.layer.msg('请输入车辆信息图',{icon:2});
+                return
             }
             $scope.cityDelivery.type = 1;
             $scope.cityDelivery.delivery = $scope.cityDelivery.deliveryStart + '~' + $scope.cityDelivery.deliveryEnd;
@@ -353,14 +381,27 @@ define(function (require) {
         //新增干线服务
         $scope.trunkLine = {};
         $scope.addTrunkLine = function () {
-            if (!(checkValue.isNUllAndMsg($scope.trunkLine.deliveryStart, '日配送量') &&
-                checkValue.isNUllAndMsg($scope.trunkLine.deliveryEnd, '日配送量') &&
-                checkValue.isNUllAndMsg($scope.trunkLine.minniment, '起送量') &&
-                checkValue.isNUllAndMsg($scope.trunkLine.truckno, '自有车辆') &&
-                checkValue.isNUllAndMsg($scope.trunkLine.price, '单价') &&
-                checkValue.isNUllAndMsg($scope.trunkLine.extracost, '多点费') &&
-                checkValue.isNUllAndMsg($scope.trunkLine.trunkimg, '车辆信息图'))) {
-                return;
+            if(!checkValue.isNull($scope.trunkLine.deliveryStart)){
+                yMake.layer.msg('请输入日配送量',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.trunkLine.deliveryEnd)){
+                yMake.layer.msg('请输入日配送量',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.trunkLine.minniment)){
+                yMake.layer.msg('请输入起送量',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.trunkLine.truckno)){
+                yMake.layer.msg('请输入自有车辆',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.trunkLine.price)){
+                yMake.layer.msg('请输入单价',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.trunkLine.extracost)){
+                yMake.layer.msg('请输入多点费',{icon:2});
+                return
+            }else if(!checkValue.isNull($scope.trunkLine.trunkimg)){
+                yMake.layer.msg('请输入车辆信息图',{icon:2});
+                return
             }
 
             $scope.trunkLine.type = 0;

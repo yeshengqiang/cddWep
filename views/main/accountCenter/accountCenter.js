@@ -60,9 +60,8 @@ define(function (require) {
             $http.post(url + '/bill/showPageList?loginname='+userInfo.data.loginname, $.extend({}, page,param)).success(callback);
         };
         $scope.bill = app.get('Paginator').list(currentCheck, 6);
-        console.log($scope.bill);
-        $scope.searchPaginator =$scope.bill;
-
+        $scope.searchPaginator = $scope.bill;
+        console.log($scope.searchPaginator);
 
         //获取所有的省
         $http.get(url + '/location/loadProvince').success(function (data) {

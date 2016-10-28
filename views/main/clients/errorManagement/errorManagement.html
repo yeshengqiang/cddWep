@@ -43,20 +43,43 @@
                 <button class="btn btn-primary" type="button" ng-click="serData._load()">搜索</button>
             </div>
         </div>
-        <div ng-if="demand">
+        <!-- 品牌 -->
+        <div class="clearfix searchContent" ng-if="demand">
             <div class="col-xs-11">
                 <div class="col-xs-3 form-group">
                     <label class="control-label">日期</label>
                     <input class="form-control" ng-model="searchData.date" type="text" date-pick="searchData" placeholder="请选择日期"/>
                 </div>
+                 <div class="col-xs-3 form-group">
+                    <label class="control-label">一级分类</label>
+                    <select name="" class="form-control" ng-model="searchData.type1"
+                            ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in dropdownItems">
+                        <option value="">所有类型</option>
+                    </select>
+                </div>
                 <div class="col-xs-3 form-group">
-                    <label class="control-label">&nbsp;</label>
-                    <div>
-                        <button class="btn btn-primary" type="button" ng-click="demData._load()">搜索</button>
-                    </div>
+                    <label class="control-label">二级分类</label>
+                    <select name="" class="form-control" ng-model="searchData.type2"
+                            ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in dropdownItems">
+                        <option value="">所有类型</option>
+                    </select>
+                </div>
+                <div class="col-xs-3 form-group">
+                    <label class="control-label">三级分类</label>
+                    <select name="" class="form-control" ng-model="searchData.type3"
+                            ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in dropdownItems">
+                        <option value="">所有类型</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-1 form-group">
+                <label class="control-label">&nbsp;</label>
+                <div>
+                    <button class="btn btn-primary" type="button" ng-click="demData._load()">搜索</button>
                 </div>
             </div>
         </div>
+        <!-- 后台 -->
         <div ng-if="backstage">
             <div class="col-xs-11">
                 <div class="col-xs-3 form-group">
@@ -95,7 +118,7 @@
                         <td>{{item.type3}}</td>
                         <td>{{item.money}}</td>
                         <td>{{item.description}}</td>
-                        <td>{{item.sbdate}}</td>
+                        <td>{{item.sbdate | date:'yyyy-MM-dd'}}</td>
                         <td>{{item.appeal | statusFormat}}</td>
                         <td><a href="javascript:void(0);" ng-click="appeal(item)" data-toggle="modal"
                                data-target="#appeal">申诉</a></td>

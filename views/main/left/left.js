@@ -25,7 +25,7 @@ define(function(require){
                         jsonName = 'backstage';
                     }
                     if(jsonName!=''){
-                        $http.post('views/main/left/'+jsonName+'.json').success(function(data){
+                        $http.get('views/main/left/'+jsonName+'.json').success(function(data){
                             $scope.navs = data;
                         });
                     }

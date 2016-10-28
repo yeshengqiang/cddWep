@@ -21,7 +21,7 @@ define(function (require) {
             return info;
         };
     });
-    app.controller('outPutCrl', ['$scope', 'url', '$http', '$rootScope','$state',function ($scope, url, $http,$rootScope,$state) {
+    app.controller('outPutCrl', ['$scope', 'url', '$http', '$rootScope','$location',function ($scope, url, $http,$rootScope,$location) {
         //条件
         $scope.division = [
             {value: 1, name: '入库'},
@@ -107,11 +107,11 @@ define(function (require) {
         };
         //查看日报表明细
         $scope.dailyCheck = function (shdate) {
-            $state.go('main.clients.reports.outPut.outPutDailyCheck',{'shdate':shdate});
+            $location.path('/main/clients/reports/outPut/outPutDailyCheck/'+shdate);
         };
         //查看月报表明细
         $scope.monthlyCheck = function (m) {
-            $state.go('main.clients.reports.outPut.outPutMonthlyCheck',{'m':m});
+            $location.path('/main/clients/reports/outPut/outPutMonthlyCheck/'+m);
         };
 
 

@@ -33,7 +33,6 @@ define(function (require) {
         };
         $scope.projectItem = app.get('Paginator').list(currentCheck, 6);
 
-
         yMake.fn.autoHeight('.bgWhite', 45);
     }]);
 });

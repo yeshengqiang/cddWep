@@ -116,7 +116,7 @@ define(function(require){
                 yMake.layer.msg('请选择城市',{icon:'0',time:2000});
                 return;
             }else if(!info.intro.state){//公司简介
-                yMake.layer.msg(info.repeatPwd.info+'公司简介',{icon:'0',time:2000});
+                yMake.layer.msg(info.intro.info+'公司简介',{icon:'0',time:2000});
                 return;
             }else if(!urls.length>3){
                 yMake.layer.msg('请上传完整的资质文件',{icon:'0',time:2000});
@@ -131,7 +131,7 @@ define(function(require){
                     yMake.layer.msg('注册成功!',{icon:'1',time:2000});
                     $location.path('/login');
                 }else if(data.code!=0){
-                    yMake.layer.msg(data.messsage,{icon:'2',time:2000});
+                    yMake.layer.msg('注册失败!',{icon:'2',time:2000});
                 }
             }).error(function(){
                 yMake.layer.msg('注册出错，请稍候重试!',{icon:'2',time:2000});

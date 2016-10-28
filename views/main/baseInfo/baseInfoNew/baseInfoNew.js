@@ -124,7 +124,9 @@ define(function (require) {
         var urls = [];//资质文件路径
         $scope.uploadPhoto = function (index) {
             var img = $('#' + index);
+
             $scope.titles = '上传图片';
+
             $('#uploadFile').modal({backdrop: 'static'});
             $('#upload').empty().append('<div id="zyUpload"></div>');
             $("#zyUpload").zyUpload({
@@ -200,7 +202,7 @@ define(function (require) {
                 itemWidth: "140px",                 // 文件项的宽度
                 itemHeight: "115px",                 // 文件项的高度
                 url: url + "/file/upload",  // 上传文件的路径
-                fileType: ["txt", "xls", "doc"],// 上传文件的类型
+                fileType: ["txt", "xls", "doc", "xlsx"],// 上传文件的类型
                 fileSize: 51200000,                // 上传文件的大小
                 multiple: true,                    // 是否可以多个文件上传
                 dragDrop: true,                    // 是否可以拖动上传文件

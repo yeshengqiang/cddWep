@@ -1,0 +1,23 @@
+{
+  "name": "cddwep",
+  "version": "0.0.1",
+  "description": "仓到店",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yeshengqiang/cddWep.git"
+  },
+  "author": "ye",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yeshengqiang/cddWep/issues"
+  },
+  "homepage": "https://github.com/yeshengqiang/cddWep#readme",
+  "devDependencies": {
+    "browser-sync": "^2.17.5",
+    "gulp": "^3.9.1"
+  }
+}

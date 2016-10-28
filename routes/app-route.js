@@ -46,56 +46,50 @@ define(function (require) {
             require:'?ngModel',
             link:function(scope,element,attr,ngModel){
                 if(!ngModel)return
-                $(function(){
-                    require(['daterangepicker'],function(){
-                        $(element).daterangepicker({
-                            singleDatePicker: false,
-                            autoUpdateInput:false,
-                            timePicker12Hour: true, //采用24小时计时制
-                            locale : {
-                                applyLabel: '确定',
-                                cancelLabel: '取消',
-                                format:'YYYY-MM-DD',
-                                separator: '/'
-                            }
-                        });
-                        var reg = new RegExp('^(.*)\\/(.*)$','gi'); //
-                        var dateReg = /([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8])))/;
-                        ngModel.$viewChangeListeners.unshift(function(){
-                            value = ngModel.$viewValue || ngModel.$modelValue;
-                            if(value.search(reg)>-1){
-                                var startTime = value.replace(reg,'$1');
-                                var endTime = value.replace(reg,'$2');
-                                if(dateReg.test(startTime)){
-                                    scope.datePick.starttime = startTime;
-                                }else{
-                                    scope.datePick.starttime = '';
-                                }
-                                if(dateReg.test(endTime)){
-                                    scope.datePick.endtime = endTime;
-                                }else{
-                                    scope.datePick.endtime = '';
-                                }
-                            }else{
-                                if(dateReg.test(value)){
-                                    scope.datePick.starttime = value;
-                                }else{
-                                    scope.datePick.starttime = '';
-                                }
-                                scope.datePick.endtime = '';
-                            }
-                        });
-                        $(element).on('apply.daterangepicker',function(ev, picker) {
-                            scope.$apply(function(){
-                                ngModel.$setViewValue(picker.startDate.format('YYYY-MM-DD') + '/' + picker.endDate.format('YYYY-MM-DD'));
-                                scope.datePick.starttime = picker.startDate.format('YYYY-MM-DD');
-                                scope.datePick.endtime = picker.endDate.format('YYYY-MM-DD');
-                                ngModel.$render();
-                            });
-                        });
+                $(element).daterangepicker({
+                    singleDatePicker: false,
+                    autoUpdateInput:false,
+                    timePicker12Hour: true, //采用24小时计时制
+                    locale : {
+                        applyLabel: '确定',
+                        cancelLabel: '取消',
+                        format:'YYYY-MM-DD',
+                        separator: '/'
+                    }
+                });
+                var reg = new RegExp('^(.*)\\/(.*)$','gi'); //
+                var dateReg = /([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8])))/;
+                ngModel.$viewChangeListeners.unshift(function(){
+                    value = ngModel.$viewValue || ngModel.$modelValue;
+                    if(value.search(reg)>-1){
+                        var startTime = value.replace(reg,'$1');
+                        var endTime = value.replace(reg,'$2');
+                        if(dateReg.test(startTime)){
+                            scope.datePick.starttime = startTime;
+                        }else{
+                            scope.datePick.starttime = '';
+                        }
+                        if(dateReg.test(endTime)){
+                            scope.datePick.endtime = endTime;
+                        }else{
+                            scope.datePick.endtime = '';
+                        }
+                    }else{
+                        if(dateReg.test(value)){
+                            scope.datePick.starttime = value;
+                        }else{
+                            scope.datePick.starttime = '';
+                        }
+                        scope.datePick.endtime = '';
+                    }
+                });
+                $(element).on('apply.daterangepicker',function(ev, picker) {
+                    scope.$apply(function(){
+                        ngModel.$setViewValue(picker.startDate.format('YYYY-MM-DD') + '/' + picker.endDate.format('YYYY-MM-DD'));
+                        scope.datePick.starttime = picker.startDate.format('YYYY-MM-DD');
+                        scope.datePick.endtime = picker.endDate.format('YYYY-MM-DD');
+                        ngModel.$render();
                     });
-
-
                 });
             }
         }

@@ -26,6 +26,7 @@ define(function (require) {
                     setTimeout(function () {
                         $scope.$apply(function () {
                             $scope.storage = serviceProject.item;
+                            console.log($scope.storage);
                             var file1 = serviceProject.item.storageform;
                             var fileType = file1.substring(file1.lastIndexOf('.') + 1);
                             var fileName = file1.substring(file1.lastIndexOf('upload') + 10);
@@ -295,7 +296,7 @@ define(function (require) {
                 checkValue.isNUllAndMsg($scope.storage.area, '服务面积') &&
                 checkValue.isNUllAndMsg($scope.storage.stevedore, '装卸费') &&
                 checkValue.isNUllAndMsg($scope.storage.operatecost, '操作费') &&
-                checkValue.isNUllAndMsg($scope.storage.phone, '联系方式') &&
+                checkValue.isNUllAndNotPhone($scope.storage.phone, '联系方式') &&
                 checkValue.isNUllAndMsg($scope.storage.returncost, '退货费') &&
                 checkValue.isNUllAndMsg($scope.storage.storageform, '仓库考察表'))) {
                 return;

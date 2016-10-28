@@ -54,6 +54,18 @@ define(function(require){
                     return true;
                 }
             };
+            service.isNUllAndNotPhone = function(item,msg){
+
+                if(item==null || item=='' || angular.isUndefined(item)){
+                    yMake.layer.msg(msg,{icon:2});
+                    return false;
+                }else {
+                    var res = this.isTel(item,false);
+                    if(!res.state){
+                        yMake.layer.msg(res.info,{icon:2});
+                    }
+                }
+            };
             //检查对应的类型
             service.isType = function(arg,type){
                 return typeof arg === type?true:false;

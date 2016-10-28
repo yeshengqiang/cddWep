@@ -6,44 +6,6 @@
 define(function (require) {
     var app = require('../../../app');
 
-    /*app.directive('layerShow',function(){
-     return {
-     restrict:'E',
-     template:'<div id="img4" ng-click="uploadPhoto()" class="uploadImg">上传资质文件</div>'+
-     '<div class="zoomIn">'+
-     '<div>'+
-     '<span class="glyphicon glyphicon-edit"></span>'+
-     '<span class="glyphicon glyphicon-zoom-in" ng-click="zoomIn()"></span>'+
-     '</div>'+
-     '</div>',
-     replace:true,
-     compile:function(Ele,iAttr){
-
-     return  {
-     postlink:function(){
-
-     }
-     }
-     }
-
-     }
-     });*/
-    /*app.directive('menuBtn',function(){
-     return {
-     restrict:'E',
-     template:'<div class="col-md-6"><button ng-class={show1:"btn-primary"} class="btn btn-default btn-primary" ng-click="storage($event)">仓储服务</button>' +
-     '<button ng-class={show2:"btn-primary"} class="btn btn-default" ng-click="city($event)">城配服务</button>' +
-     '<button ng-class={show3:"btn-primary"} class="btn btn-default" ng-click="trunk($event)">干线服务</button></div>',
-     replace:true,
-     scope:{
-     show1:'=',
-     show2:'=',
-     show3:'='
-     },
-     compile:function(Ele,iAttr){
-     }
-     }
-     });*/
     app.controller('baseInfoCrl', ['$scope', '$rootScope', 'url', '$http', '$location', function ($scope, $rootScope, url, $http, $location) {
 
         //获取用户信息

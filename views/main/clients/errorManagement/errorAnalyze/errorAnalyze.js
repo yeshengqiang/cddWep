@@ -19,11 +19,15 @@ define(function (require) {
         console.log($scope.mistakeAnalyze);
         //导出
         $scope.downloadFile = function () {
-            var parm = app.get('checkValue').dateRangeFormat($scope.searchData);
+            var param = app.get('checkValue').dateRangeFormat($scope.searchData);
+            param.starttime = param.starttime||'';
+            param.endtime = param.endtime||'';
+            param.loginname = param.loginname||'';
+            param.name = param.name||'';
             //导出接口暂时没有，待修改
-            layer.confirm("是否下载模板？",
+            layer.confirm("是否导出数据？",
                 {btn: ['是', '否']}, function () {
-                    window.location.href = url + '/mistake/export?teamInfo=' + JSON.stringify(parm);
+                    window.location.href = url + '/mistake/backexport2?starttime='+param.starttime+'&endtime='+param.endtime+'&loginname='+userInfo.data.loginname+'&name='+param.name;
                     yMake.layer.msg("文件导出成功 ", {icon: 1, time: 1000});
                     layer.msg("", {time: 1});
                 });

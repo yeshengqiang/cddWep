@@ -81,7 +81,7 @@ define(function (require) {
         ];
 
         //投诉承运商下拉列表
-        $http.post(url+'/location/loadDetail?loginname='+userInfo.data.loginname).success(function(data){
+        $http.post(url+'/location/loadDetailbyPact?loginname='+userInfo.data.loginname).success(function(data){
             console.log(data);
             $scope.wlname=data.data;
         });

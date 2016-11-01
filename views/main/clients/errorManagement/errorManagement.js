@@ -32,9 +32,8 @@ define(function (require) {
         //获取id的全局变量
         var getId;
 
-        //获取用户信息userInfo
+        //获取用户信息
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
-        console.log(userInfo.data.loginname);
         //获取对应角色
         var role = userInfo.data.type;               //(1:品牌，2：物流，3：后台)
         $scope.services = false;                        //服务项目(物流)
@@ -75,13 +74,12 @@ define(function (require) {
             //物流分页+查询
             var fetchFunction = function (page, callback) {
                 var parm = app.get('checkValue').dateRangeFormat($scope.searchData);
-                $http.post(url+'/mistake/showPageList?loginname='+userInfo.data.loginname, $.extend({},page, parm)).success(callback);
+                $http.post(url+'/mistake/showPageList?loginname='+userInfo.data.loginname, $.extend({},page, parm)).success(callback)
             };
             $scope.serData = app.get('Paginator').list(fetchFunction, 6);
             //物流的导出
             $scope.serExport = function(){
 				var param = app.get('checkValue').dateRangeFormat($scope.searchData);
-                console.log(param);
 				param.starttime = param.starttime||'';
 				param.endtime = param.endtime||'';
 				param.type1 = param.type1||'';
@@ -117,14 +115,14 @@ define(function (require) {
         //品牌方法
         function demFun(){
             //承运商id的获取
-            $http.post(url+'/location/loadDetail?loginname='+userInfo.data.loginname).success(function(data){
+            $http.post(url+'/location/loadDetailbyPact?loginname='+userInfo.data.loginname).success(function(data){
                 $scope.itms = data.data;
             });
             //初始化
             $scope.mistake = {};
 
             //模拟数据
-            $scope.dropdownItems = [
+            $scope.items = [
                 {name:'1',value:'1'},
                 {name:'2',value:'2'},
                 {name:'3',value:'3'},
@@ -153,8 +151,8 @@ define(function (require) {
                     $scope.demData._load();
                     $scope.mistake={};
                 }).error(function(){
-                    yMake.layer.msg('上传出错！',{icon:2});
-                });
+                    yMake.layer.msg('上传出错！',{icon:2})
+                })
             };
             //取消
             $scope.close = function(){
@@ -166,12 +164,12 @@ define(function (require) {
 				var param = app.get('checkValue').dateRangeFormat($scope.searchData);
 				param.starttime = param.starttime||'';
 				param.endtime = param.endtime||'';
-                layer.confirm("是否下载模板？",
+                layer.confirm("是否导出数据？",
                     {btn : ['是','否']},function(){
                         window.location.href=url +'/mistake/export?starttime='+param.starttime+'&param.endtime='+param.endtime+'&loginname='+userInfo.data.loginname;
                         yMake.layer.msg("导出总结文件成功 ",{icon:1,time:1000});
                         layer.msg("",{time:1});
-                    });
+                    })
             };
 
         }
@@ -180,7 +178,7 @@ define(function (require) {
             //后台分页
             var fetchFunction = function (page, callback) {
                 var param = app.get('checkValue').dateRangeFormat($scope.searchData);
-                $http.post(url + '/mistake/showPageList?loginname=' + userInfo.data.loginname, $.extend({}, page, param)).success(callback);
+                $http.post(url + '/mistake/showPageList?loginname=' + userInfo.data.loginname, $.extend({}, page, param)).success(callback)
             };
             $scope.bacData = app.get('Paginator').list(fetchFunction, 6);
 
@@ -209,17 +207,15 @@ define(function (require) {
             };
         }
         //后台的导出
-        $scope.serExport = function(){
-
+        $scope.backExport = function(){
 			var param = app.get('checkValue').dateRangeFormat($scope.searchData);
             param.starttime = param.starttime||'';
             param.endtime = param.endtime||'';
-            param.loginname = userInfo.data.loginname||'';
+            param.loginname = param.loginname||'';
 			param.name = param.name||'';
-            
-            layer.confirm("是否下载模板？",
+            layer.confirm("是否导出数据？",
                 {btn : ['是','否']},function(){
-                    window.location.href = url+'/mistake/export?starttime='+param.starttime+'&endtime='+param.endtime+'&loginname='+param.loginname+'&name='+param.name;
+                    window.location.href = url+'/mistake/backexport1?starttime='+param.starttime+'&endtime='+param.endtime+'&loginname='+userInfo.data.loginname+'&name='+param.name;
                     yMake.layer.msg("文件导出成功 ",{icon:1,time:1000});
                     layer.msg("",{time:1});
                 });

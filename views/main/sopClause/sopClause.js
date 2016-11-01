@@ -23,6 +23,7 @@ define(function (require) {
 
         //初始化
         $scope.searchData = {};
+        //$rootScope.itemInfo = {};
         //获取分页数据
         if (role == 1) {
             var currentCheck = function (page, callback) {
@@ -73,7 +74,10 @@ define(function (require) {
             //新增
             $scope.add = function(){
                 $rootScope.itemInfo = {};
-                $state.go('main/sopClause/newSopClause');
+                //$rootScope.itemInfo.title = "新增SOP条款";
+                $state.go('main.sopClause.newSopClause');
+
+
             };
 
             //删除

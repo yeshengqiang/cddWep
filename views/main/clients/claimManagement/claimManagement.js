@@ -173,7 +173,7 @@ define(function(require){
             param.endtime = param.endtime||'';
             param.type = param.type||'';
 
-			layer.confirm("是否下载模板？",
+			layer.confirm("是否导出数据？",
 				{btn : ['是','否']},function(){
 					window.location.href=url +"/claim/export1?loginname="+userInfo.data.loginname+'&starttime='+param.starttime+
                     '&endtime='+param.endtime+

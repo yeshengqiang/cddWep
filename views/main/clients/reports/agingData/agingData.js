@@ -44,7 +44,7 @@ define(function(require){
                         window.location.href=url+'/efficiency/export?loginname='+userInfo.data.loginname+'&starttime='+param.starttime+'&endtime='+param.endtime+'&awb='+param.awb;
                         yMake.layer.msg("导出总结文件成功 ",{icon:1,time:1000});
                         layer.msg("",{time:1});
-                    });
+                    })
 
             };
 
@@ -61,7 +61,6 @@ define(function(require){
             $scope.projectItem = app.get('Paginator').list(currentCheck, 6);
             //导出点击事件
             $scope.outMessage=function(){
-                var param = app.get('checkValue').dateRangeFormat($scope.searchData);
                 layer.confirm("是否下载模板？",
                     {btn : ['是','否']},function(){
                         window.location.href=url+'/efficiency/export?loginname='+userInfo.data.loginname+'&starttime='+param.starttime+'&endtime='+param.endtime+'&awb='+param.awb;
@@ -78,17 +77,24 @@ define(function(require){
             //获取分页数据
             var currentCheck = function (page, callback) {
                 var parm = app.get('checkValue').dateRangeFormat($scope.searchData);
-                $http.post(url + '/efficiency/showPageList', $.extend({}, page, parm)).success(callback);
+                $http.post(url + '/efficiency/showPageList?loginname='+userInfo.data.loginname, $.extend({}, page, parm)).success(callback);
             };
             $scope.projectItem = app.get('Paginator').list(currentCheck, 6);
             //导出点击事件
             $scope.outMessage=function(){
-                layer.confirm("是否下载模板？",
+                var param = app.get('checkValue').dateRangeFormat($scope.searchData);
+                param.starttime = param.starttime||'';
+                param.endtime = param.endtime||'';
+                param.awb = param.awb||'';
+                param.wlname = param.wlname||'';
+                param.brandedname = param.brandedname||'';
+                layer.confirm("是否导出数据？",
                     {btn : ['是','否']},function(){
-                        window.location.href=url+'/efficiency/export';
+                        window.location.href=url+'/efficiency/export?loginname='+userInfo.data.loginname+'&starttime='+param.starttime+
+                        '&endtime='+param.endtime+'&awb='+param.awb+'&wlname='+param.wlname+'&brandedname='+param.brandedname;
                         yMake.layer.msg("导出总结文件成功 ",{icon:1,time:1000});
                         layer.msg("",{time:1});
-                    });
+                    })
 
 
             };
@@ -104,14 +110,14 @@ define(function(require){
             $scope.searchData.city = '';
             $http.get(url+'/location/loadCity?id='+province).success(function(data){
                 $scope.cities = data.data;
-            });
+            })
         };
         //根据城市获取第三方
         $scope.getEnterprise = function(city){
             //$scope.searchData.brandedcompanyid = '';
             $http.get(url+'/location/loadDetail?city='+city+'&loginname='+userInfo.data.loginname).success(function(data){
                 $scope.division = data.data;
-            });
+            })
         };
 
         //导出
@@ -121,7 +127,7 @@ define(function(require){
                     window.location.href=url +"/efficiency/export?loginname="+userInfo.data.loginname;
                     yMake.layer.msg("导出总结文件成功 ",{icon:1,time:1000});
                     layer.msg("",{time:1});
-                });
+                })
         };
 
         //yMake.fn.autoHeight('.bgWhite',45);

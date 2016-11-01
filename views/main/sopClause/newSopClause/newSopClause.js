@@ -6,11 +6,13 @@
 define(function (require) {
     var app = require('../../../../app');
 
-    app.controller('newSopClauseCrl', ['$scope', '$rootScope', 'url', '$http','$location', function ($scope, $rootScope, url, $http,$location) {
+    app.controller('newSopClauseCrl', ['$scope', '$rootScope', 'url', '$http','$location',function ($scope, $rootScope, url, $http,$location) {
         if ($rootScope.itemInfo) {
             $scope.title = "修改SOP条款";
             var param = $rootScope.itemInfo;
             $scope.sopInfo = {};
+            param.name = param.name||'';
+            param.content = param.content||'';
             $scope.sopInfo.name = param.name;
             $scope.sopInfo.theme = param.theme;
             $scope.sopInfo.content = param.content;
@@ -43,6 +45,7 @@ define(function (require) {
                     $rootScope.itemInfo = null;
                     $location.path('/main/sopClause');
                     yMake.layer.msg('修改成功!', {icon: '1', time: 2000});
+                    $rootScope.itemInfo = {};
                 }).error(function () {
                     yMake.layer.msg('修改失败!', {icon: '2', time: 2000});
                 });
@@ -50,7 +53,7 @@ define(function (require) {
         } else {
             $scope.title = "新增SOP条款";
             $scope.sopInfo={};
-            //新增
+            //新
             $scope.save = function () {
                 var name = app.get('checkValue').isNull($scope.sopInfo.name);
                 var theme = app.get('checkValue').isNull($scope.sopInfo.theme);

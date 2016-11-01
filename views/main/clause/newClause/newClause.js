@@ -11,6 +11,8 @@ define(function (require) {
             $scope.title="修改仓到店条款";
             var param=$rootScope.clause;
             $scope.clauseInfo = {};
+            param.name = param.name||'';
+            param.content = param.content||'';
             $scope.clauseInfo.name = param.name;
             $scope.clauseInfo.content = param.content;
             var fileType=param.content.substring(param.content.lastIndexOf('.')+1);

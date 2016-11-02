@@ -36,6 +36,7 @@
             <tr>
                 <th>甲方企业名称</th>
                 <th>乙方企业名称</th>
+                <th>合同名称</th>
                 <th>合同签订时间</th>
                 <th>到期时间</th>
                 <th>合同扫描件下载</th>
@@ -45,6 +46,7 @@
             <tr ng-repeat="item in searchPaginator.object.rows">
                 <td>{{item.brandedname}}</td>
                 <td>{{item.wlname}}</td>
+                <td>{{item.pactname}}</td>
                 <td>{{item.pactoperant}}</td>
                 <td>{{item.deadline}}</td>
                 <td><a ng-click="down(item.pactscan)" class="btn btn-sm btn-primary">下载</a></td>

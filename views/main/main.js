@@ -13,7 +13,5 @@ define(function(require){
             },10)
         });
 
-        console.log($rootScope);
-
 	}]);
 });

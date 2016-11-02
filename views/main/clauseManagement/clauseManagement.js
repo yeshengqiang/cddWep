@@ -9,6 +9,7 @@ define(function (require) {
     app.controller('clauseManagementCrl', ['$scope', '$http', 'url', function ($scope, $http, url) {
         //获取用户信息
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
+        $scope.searchData = {};                        //搜索初始化
         //分页查询
         var fetchFunction = function (page, callback) {
             var parm = app.get('checkValue').dateRangeFormat($scope.searchData);

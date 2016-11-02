@@ -96,6 +96,36 @@ define(function (require) {
         };
     });
 
+    //日期控件
+    app.directive('singleDatePick',function(){
+        return {
+            restrict:'A',
+            require:'?ngModel',
+            link:function(scope,element,attr,ngModel){
+                if(!ngModel)return
+                $(element).daterangepicker({
+                    singleDatePicker: true,
+                    autoUpdateInput:false,
+                    timePicker12Hour: true, //采用24小时计时制
+                    locale : {
+                        applyLabel: '确定',
+                        cancelLabel: '取消',
+                        format:'YYYY-MM-DD',
+                        separator: '/'
+                    }
+                });
+
+                $(element).on('apply.daterangepicker',function(ev, picker) {
+                    scope.$apply(function(){
+                        ngModel.$setViewValue(picker.startDate.format('YYYY-MM-DD'));
+                        ngModel.$render();
+                    });
+                });
+            }
+        };
+    });
+
+
     app.config(['$stateProvider', '$urlRouterProvider','$httpProvider', function ($stateProvider, $urlRouterProvider,$httpProvider) {
         //console.log($httpProvider);
         //更改请求方式

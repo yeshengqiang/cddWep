@@ -42,6 +42,8 @@ define(function(require){
 
     app.controller('vipManagementCrl',['$scope','url','$http','$location','$state','$rootScope',function($scope,url,$http,$location,$state,$rootScope){
 
+        $scope.searchData = {};         //搜索条件
+
         //条件
         $scope.division = [
             {value:0,name:'未认证'},

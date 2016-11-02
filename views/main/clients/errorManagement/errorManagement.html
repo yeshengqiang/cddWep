@@ -172,9 +172,8 @@
                 <th>一级分类</th>
                 <th>二级分类</th>
                 <th>三级分类</th>
-                <th>其他描述</th>
-                <th>承运商回复</th>
                 <th>平台判定</th>
+                <th>操作</th>
             </tr>
             <tr ng-repeat="item in demData.object.rows">
                 <td>{{item.wlname}}</td>
@@ -182,9 +181,10 @@
                 <td>{{item.type1}}</td>
                 <td>{{item.type2}}</td>
                 <td>{{item.type3}}</td>
-                <td>{{item.description}}</td>
-                <td>{{item.appealcontent}}</td>
                 <td>{{item.appeal | statusFormat}}</td>
+                <td>
+                    <a class="btn btn-sm btn-info" ng-click="detailShow(item)">查看详情</a>
+                </td>
             <tr ng-show="demData.page.totalResult==0">
                 <td colspan="9" class="text-center">
                     暂无数据!
@@ -291,6 +291,7 @@
 </div>
 
 <!--品牌弹出-->
+<!-- 新增 -->
 <div class="modal fade" id="demandNew" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -326,8 +327,8 @@
                     </div>
                     <div class="col-md-6">
                         <div class="tab-input">
-                            <input class="form-control" ng-model="mistake.money"/>
-                            <span>索赔金额：</span>
+                            <input class="form-control" placeholder="请输入索赔罚款" ng-model="mistake.money"/>
+                            <span>索赔罚款：</span>
                         </div>
                         <div class="tab-input">
                             <select class="form-control" ng-model="mistake.type2"
@@ -338,16 +339,79 @@
                         </div>
                     </div>
                     <div class="col-md-12">
+                        <div class="tab-input clearfix">
+                            <div class="col-md-4" style="padding-left:0;">
+                                <div id="upimg1" ng-click="uploadPhoto('upimg1')" class="uploadImg">
+                                    上传附件
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="padding-left:0;">
+                                <div id="upimg2" ng-click="uploadPhoto('upimg2')" class="uploadImg">
+                                    上传附件
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="padding-left:0;">
+                                <div id="upimg3" ng-click="uploadPhoto('upimg3')" class="uploadImg">
+                                    上传附件
+                                </div>
+                            </div>
+                            <span>上传图片：</span>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
                         <div class="tab-input">
-                            <textarea class="form-control" ng-model="mistake.description"></textarea>
+                            <textarea class="form-control" placeholder="请输入详细描述" ng-model="mistake.description"></textarea>
                             <span>详细描述：</span>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" ng-click="close()">关闭</button>
+                <button type="button" class="btn btn-default" ng-click="close(1)">关闭</button>
                 <button type="button" class="btn btn-primary" ng-click="addMistake()">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 详情 -->
+<div class="modal fade" id="demandDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">查看详情</h4>
+            </div>
+            <div class="modal-body">
+                <p style="margin-top: -10px">差错描述：</p>
+                <textarea class="form-control" ng-model="detailInfo.description" disabled></textarea>
+                <p>承运商回复：</p>
+                <textarea class="form-control" ng-model="detailInfo.appealcontent" disabled></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="close(2)">关闭</button>
+                <button type="button" class="btn btn-primary" ng-click="close(2)">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 上传附件 -->
+<div class="modal fade" id="errorPhone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h5 class="modal-title">上传图片</h5>
+            </div>
+            <div class="modal-body" style="min-height:347px;">
+                <div id="upload">
+                    <div id="zyUpload"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确认</button>
             </div>
         </div>
     </div>

@@ -13,19 +13,20 @@
             <div class="col-md-3 form-group">
                 <label class="control-label">省份</label>
                 <select name="province" class="form-control" ng-model="province" ng-change="getCity()" ng-options="key.id as key.name for key in provinces">
+                    <option value="">- 请选择 -</option>
                 </select>
             </div>
             <div class="col-md-3 form-group">
                 <label class="control-label">城市</label>
                 <select name="city" class="form-control" ng-model="city" ng-change="getEnterprise()" ng-options="key.id as key.name for key in cities">
-
+                    <option value="">- 请选择 -</option>
                 </select>
 
             </div>
             <div class="col-md-3 form-group">
                 <label class="control-label">第三方名称</label>
                 <select class="form-control" ng-model="enterprise" ng-options="key.id as key.name for key in enterprises">
-
+                <option value="">- 请选择 -</option>
                 </select>
                 <span></span>
             </div>

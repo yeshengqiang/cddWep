@@ -115,6 +115,7 @@ define(function (require) {
         //品牌方法
         function demFun(){
             //承运商id的获取
+            var urls = [];//资质文件路径
             $http.post(url+'/location/loadDetailbyPact?loginname='+userInfo.data.loginname).success(function(data){
                 $scope.itms = data.data;
             });
@@ -142,23 +143,83 @@ define(function (require) {
                 $scope.mistake={};
             };
 
+            //上传附件
+             $scope.uploadPhoto = function(index){
+                var img = $('#'+index);
+                $('#errorPhone').modal({backdrop:'static'});
+                $('#upload').empty().append('<div id="zyUpload"></div>');
+                $('#zyUpload').zyUpload({
+                    width:"100%",                 // 宽度
+                    height:"100%",                 // 宽度
+                    itemWidth: "140px",                 // 文件项的宽度
+                    itemHeight: "115px",                 // 文件项的高度
+                    url: url+"/file/upload?types=1",  // 上传文件的路径
+                    fileType: ["jpg", "png", "jpeg", "gif"],// 上传文件的类型
+                    fileSize: 51200000,                // 上传文件的大小
+                    multiple: true,                    // 是否可以多个文件上传
+                    dragDrop: true,                    // 是否可以拖动上传文件
+                    tailor: true,                    // 是否可以裁剪图片
+                    del: true,                    // 是否可以删除文件
+                    finishDel: false,                 // 是否在上传文件完成后删除预览
+                    /* 外部获得的回调接口 */
+                    onSelect: function (selectFiles, allFiles) {    // 选择文件的回调方法  selectFile:当前选中的文件  allFiles:还没上传的全部文件
+                        if(allFiles.length>1){
+                            yMake.layer.msg('只能选择一张图片进行上传!',{icon:0});
+                            return;
+                        }
+                    },
+                    onDelete: function (file, files) {
+                    },
+                    onSuccess: function (file, response) {
+                        // 文件上传成功的回调方法
+                        var fileName = JSON.parse(response).data, photoUrl=url+'/'+fileName,src = img.children().attr('src');
+                        img.empty().append("<img src="+photoUrl+" width='100%' height='100%'/>");
+                        if(urls.length>0&&urls.indexOf(fileName)!=-1){
+
+                        }else if(src != null){
+                            urls.splice(urls.indexOf(src.substring(src.lastIndexOf('upload'))),1,fileName);
+                        }else{
+                            urls.push(fileName);
+                        }
+                    },
+                    onFailure: function (file, response) {          // 文件上传失败的回调方法
+                    },
+                    onComplete: function (response) {                 // 上传完成的回调方法
+                    }
+                });
+            };
+
             //新增差错
             $scope.addMistake = function(){
+                $scope.mistake.mistakeImg = '';
                 $scope.mistake.loginname = userInfo.data.loginname;
-                $('#demandNew').modal('hide');
+                console.log($scope.mistake);
+                for(var i=0,ii=urls.length;i<ii;i++){
+                    $scope.mistake.mistakeImg += urls[i]+',';
+                }
+                $scope.mistake.mistakeImg = $scope.mistake.mistakeImg.replace(/\,$/,'');
+                
                 $http.post(url+'/mistake/add',$scope.mistake).success(function(data){
                     yMake.layer.msg('上传成功！',{icon:1});
                     $scope.demData._load();
+                    $('#demandNew').modal('hide');
                     $scope.mistake={};
                 }).error(function(){
                     yMake.layer.msg('上传出错！',{icon:2})
                 })
             };
             //取消
-            $scope.close = function(){
+            $scope.close = function(item){
                 //清空数据
-                $scope.mistake={};
-                $('#demandNew').modal('hide');
+                
+                if(item==1){
+                    $scope.mistake={};
+                    $('#demandNew').modal('hide');
+                }else{
+                    $('#demandDetail').modal('hide');
+                }
+                
+                
             };
             $scope.demExport=function(){
 				var param = app.get('checkValue').dateRangeFormat($scope.searchData);
@@ -170,6 +231,14 @@ define(function (require) {
                         yMake.layer.msg("导出总结文件成功 ",{icon:1,time:1000});
                         layer.msg("",{time:1});
                     })
+            };
+
+            //查看详情
+            $scope.detailShow = function(item){
+                $scope.detailInfo = {};
+                $('#demandDetail').modal('show');
+                console.log(item);
+                $scope.detailInfo = item;
             };
 
         }

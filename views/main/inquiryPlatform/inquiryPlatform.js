@@ -44,7 +44,8 @@ define(function (require) {
             //$scope.modalTitle = '仓库图片';
             $http.post(url + '/storage/lookImg?id=' + item.id).success(function (data) {
                 $scope.img = data.data.split(",");
-                yMake.an.mark($scope.img);
+
+                yMake.an.mark($scope.img,url+'/');
 
                 yMake.layer.msg('查看成功!', {icon: '1', time: 2000});
             }).error(function () {
@@ -58,7 +59,7 @@ define(function (require) {
 
             $http.post(url + '/user/certificate?id=' + item.wlcompanyid).success(function (data) {
                 $scope.img = data.data.split(",");
-                yMake.an.mark($scope.img);
+                yMake.an.mark($scope.img,url+'/');
                 yMake.layer.msg('查看成功!', {icon: '1', time: 2000});
             }).error(function () {
                 yMake.layer.msg('查看失败!', {icon: '2', time: 2000});

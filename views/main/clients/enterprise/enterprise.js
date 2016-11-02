@@ -65,9 +65,11 @@ define(function(require) {
         function loadEnterprise(num){
             $http.get(url+'/location/loadDetail?city='+$scope.city+'&loginname='+userInfo.data.loginname).success(function(data){
                 $scope.enterprises = data.data;
-                $scope.enterprise=$scope.enterprises[0].id;
-                if(num)return;
-                loadImage();
+                if($scope.enterprises.length>0){
+                    $scope.enterprise=$scope.enterprises[0].id;
+                    if(num)return;
+                    loadImage();
+                }
             });
         }
 

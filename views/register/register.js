@@ -82,6 +82,7 @@ define(function(require){
             info.corporation = app.get('checkValue').isNull($scope.userinfo.corporation);
             info.phone = app.get('checkValue').isNull($scope.userinfo.phone);
             info.phone1 = app.get('checkValue').isTel($scope.userinfo.phone);
+            info.capital = app.get('checkValue').isInt($scope.userinfo.capital,true);
             info.intro = app.get('checkValue').isNull($scope.userinfo.intro);//公司简介
             if(!info.type.state){
                 yMake.layer.msg(info.type.info+'企业类型',{icon:'0',time:2000});
@@ -109,6 +110,9 @@ define(function(require){
                 return;
             }else if(!info.phone1.state){
                 yMake.layer.msg(info.phone1.info,{icon:'0',time:2000});
+                return;
+            }else if(!info.capital.state){
+                yMake.layer.msg(info.capital.info+'注册资金',{icon:'0',time:2000});
                 return;
             }else if(!info.repeatPwd.state){//重复密码
                 yMake.layer.msg(info.repeatPwd.info+'重复密码',{icon:'0',time:2000});

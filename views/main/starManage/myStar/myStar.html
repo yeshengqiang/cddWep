@@ -21,6 +21,7 @@
             <div class="col-xs-12">
                 <table class="table text-center">
                     <tr>
+                        
                         <th>差错率</th>
                         <th>投诉率</th>
                         <th>盘点差异率</th>
@@ -77,7 +78,8 @@
             <div class="row">
                 <div class="col-xs-12">
                     <table class="table text-center">
-                        <tr>
+                        <tr>    
+                            <th>企业名称</th>
                             <th>注册账号</th>
                             <th>投诉率</th>
                             <th>注册时间</th>
@@ -87,6 +89,7 @@
                             <th>排名</th>
                         </tr>
                         <tr ng-repeat="item in searchPaginator.object.rows">
+                            <td>{{item.wlname}}</td>
                             <td>{{item.loginname}}</td>
                             <td>{{item.complaintrate}}</td>
                             <td>{{item.createtime | date:'yyyy-MM-dd'}}</td>

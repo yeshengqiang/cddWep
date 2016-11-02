@@ -10,9 +10,6 @@ define(function(require){
 	app.filter('statusFormat',function(){
 		return function(inp){
 			var info = '';
-			/*if(attr.toLowerCase()=='status'){
-
-			}*/
 			switch (inp){
 				case '1':
 					info = '未支付';
@@ -40,6 +37,8 @@ define(function(require){
 			$scope.khrequest.h=item.value;
 		};
 
+		var check = app.get('checkValue');
+
 		//初始化
 		$scope.searchData = {};
         //获取用户信息
@@ -64,16 +63,20 @@ define(function(require){
 			$scope.projectItem = app.get('Paginator').list(currentCheck, 6);
 			console.log('图片');
 			console.log($scope.projectItem);
+
+			//文件名
+			var fileName;
+			//文件路径
+			var fileUrl;
+
+			var addItem = {};
 			//上传
 			$scope.uploadFiles = function (item,index) {
 				console.log(1321321);
-				console.log(item)
-				//文件名
-				var fileName;
-				//文件路径
-				var fileUrl;
-
+				addItem = item;
+				
 				var img = $('#' + index);
+
 				$('#uploadPhoto').modal({backdrop: 'static'});
 				$('#upload').empty().append('<div id="zyUpload"></div>');
 				$("#zyUpload").zyUpload({
@@ -108,15 +111,35 @@ define(function(require){
 					},
 					onComplete: function (response) {           	  // 上传完成的回调方法
 						console.info("文件上传完成");
-						$scope.savePage=function(){
-							$http.post(url+'/claim/upload',{certificate:fileUrl,id:item.id}).success(function(data){
-								yMake.layer.msg("文件上传成功 ", {icon: 1, time: 1000});
-								layer.msg("", {time: 1});
-							})
-						}
+					
 					}
 				});
 			};
+
+			//确定
+			$scope.savePage=function(){
+
+				$scope.upInfo = {};
+				$scope.upInfo.certificate = fileUrl;
+				$scope.upInfo.id = addItem.id || '';
+				$scope.upInfo.value = $scope.menoyValue;
+				console.log($scope.upInfo);
+				if(!check.isNull($scope.upInfo.value).state){
+					yMake.layer.msg("请输入货物价值 ", {icon: 2, time: 1000});
+					return;
+				}else if(!check.isNull($scope.upInfo.certificate).state){
+					yMake.layer.msg("请上传理赔文件 ", {icon: 2, time: 1000});
+					return;
+				}
+				$http.post(url+'/claim/upload',$scope.upInfo).success(function(data){
+					yMake.layer.msg("文件上传成功 ", {icon: 1, time: 1000});
+					$scope.upInfo = {};
+					$('#uploadPhoto').modal('hide');
+					layer.closeAll();
+				})
+			}
+
+
 			//下载
 			$scope.download = function (fileName) {
 				layer.confirm("是否下载文件？",
@@ -165,6 +188,31 @@ define(function(require){
 
 
 		}
+
+		//修改状态
+		$scope.changeState = function(item){
+			var claim = {};
+			claim.id = item.id ||'';
+			var info = '';
+			if(item.status == 1){
+				info = '已支付';
+				claim.status = 2;
+			}else{
+				info = '未支付';
+				claim.status = 1;
+			}
+			layer.confirm("是否修改索赔状态为"+info+"？",
+					{btn: ['确定', '取消']}, function () {
+						//1 未支付 2.已支付
+						layer.closeAll();
+						$http.post(url+'/claim/changeState',claim).success(function(){
+							yMake.layer.msg("修改成功! ",{icon:1,time:1000});
+							$scope.projectItem._load();
+						}).error(function(){
+							yMake.layer.msg("修改失败! ",{icon:2,time:1000});
+						});
+					});
+		};
 
 		//导出点击事件
 		$scope.outMessage=function(){

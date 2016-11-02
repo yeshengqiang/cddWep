@@ -574,7 +574,7 @@ var yMake = (function($$){
 		//var temp = attr && attr instanceof Array && attr.length && ;
 		var temp = [
 			{src:'imgs/1.jpg',title:''}
-		],url=arguments[1]||'http://121.43.101.74:8080/warehouse/';
+		],url=arguments[1]||'http://112.124.101.153:8089/warehouse/';
 		if(typeof attr[0]==='string'){
 			for(var i = 0;i<attr.length;i++){
 				temp[i] = {src:attr[i],title:''}

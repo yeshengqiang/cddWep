@@ -18,7 +18,7 @@
             <div ng-if="services" class="col-xs-3 form-group">
                 <label class="control-label">一级分类</label>
                 <select name="" class="form-control" ng-model="searchData.type1"
-                        ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in dropdownItems">
+                        ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in firstdropdownItems">
                     <option value="">所有类型</option>
                 </select>
             </div>
@@ -53,21 +53,21 @@
                  <div class="col-xs-3 form-group">
                     <label class="control-label">一级分类</label>
                     <select name="" class="form-control" ng-model="searchData.type1"
-                            ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in dropdownItems">
+                            ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in firstdropdownItems">
                         <option value="">所有类型</option>
                     </select>
                 </div>
                 <div class="col-xs-3 form-group">
                     <label class="control-label">二级分类</label>
-                    <select name="" class="form-control" ng-model="searchData.type2"
-                            ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in dropdownItems">
+                    <select ng-change="shooseSecond(ids)" class="form-control" ng-model="ids"
+                            ng-options="dropdownStyle.id as dropdownStyle.name for dropdownStyle in seconddropdownItems">
                         <option value="">所有类型</option>
                     </select>
                 </div>
                 <div class="col-xs-3 form-group">
                     <label class="control-label">三级分类</label>
                     <select name="" class="form-control" ng-model="searchData.type3"
-                            ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in dropdownItems">
+                            ng-options="dropdownStyle.value as dropdownStyle.name for dropdownStyle in threedropdownItems">
                         <option value="">所有类型</option>
                     </select>
                 </div>
@@ -178,9 +178,9 @@
             <tr ng-repeat="item in demData.object.rows">
                 <td>{{item.wlname}}</td>
                 <td>{{item.sbdate}}</td>
-                <td>{{item.type1}}</td>
-                <td>{{item.type2}}</td>
-                <td>{{item.type3}}</td>
+                <td>{{item.type1 | typeFormat:1}}</td>
+                <td>{{item.type2 | typeFormat:2}}</td>
+                <td>{{item.type3 | typeFormat:3}}</td>
                 <td>{{item.appeal | statusFormat}}</td>
                 <td>
                     <a class="btn btn-sm btn-info" ng-click="detailShow(item)">查看详情</a>
@@ -312,14 +312,14 @@
                         </div>
                         <div class="tab-input">
                             <select class="form-control" ng-model="mistake.type1"
-                                    ng-options="itm.value as itm.name for itm in items">
+                                    ng-options="itm.value as itm.name for itm in firstdropdownItems">
                                 <option value="">- 请选择 -</option>
                             </select>
                             <span>一级分类：</span>
                         </div>
                         <div class="tab-input">
                             <select class="form-control" ng-model="mistake.type3"
-                                    ng-options="itm.value as itm.name for itm in items">
+                                    ng-options="itm.value as itm.name for itm in threedropdownItems">
                                 <option value="">- 请选择 -</option>
                             </select>
                             <span>三级分类：</span>
@@ -331,8 +331,8 @@
                             <span>索赔罚款：</span>
                         </div>
                         <div class="tab-input">
-                            <select class="form-control" ng-model="mistake.type2"
-                                    ng-options="itm.value as itm.name for itm in items">
+                            <select ng-change="shooseSecond(ids)" class="form-control" ng-model="ids"
+                                    ng-options="itm.id as itm.name for itm in seconddropdownItems">
                                 <option value="">- 请选择 -</option>
                             </select>
                             <span>二级分类：</span>

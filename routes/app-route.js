@@ -1,23 +1,20 @@
-define(function (require) {
+define(function(require) {
     var app = require('../app');
-
-
-    app.run(['$rootScope','$location','$timeout','$stateParams',function($rootScope,$location,$timeout,$stateParams){
+    var decData = require('routes/data');
+    app.run(['$rootScope', '$location', '$timeout', '$stateParams', function($rootScope, $location, $timeout, $stateParams) {
         $rootScope.params = $stateParams;
-
         //背景色自适应高度
-        $rootScope.autoHeight = function(modifyHeight){
-            yMake.fn.autoHeight('.bgWhite',modifyHeight);
+        $rootScope.autoHeight = function(modifyHeight) {
+            yMake.fn.autoHeight('.bgWhite', modifyHeight);
         }
-
-        $rootScope.$on('$stateChangeStart',function(event,toState){
-            var state = ['login','register','forget'];
+        $rootScope.$on('$stateChangeStart', function(event, toState) {
+            var state = ['login', 'register', 'forget'];
             //查找对应的路由
-            if(state.indexOf(toState.name)>-1){
+            if (state.indexOf(toState.name) > -1) {
                 return;
             }
-            if(!sessionStorage.getItem('userInfo')){
-               event.preventDefault();
+            if (!sessionStorage.getItem('userInfo')) {
+                event.preventDefault();
                 /*layer.msg('暂无登陆信息,请重新登陆!',{icon:0,time:2000});
                 $timeout(function(){
                     $location.path('/login');
@@ -25,67 +22,97 @@ define(function (require) {
             }
         });
     }]);
-
     //后退
-    app.directive('goBack',['$window',function($window){
+    app.directive('goBack', ['$window', function($window) {
         console.log($window.history);
-        return function(scope,element,attr){
-            element.on('click',function(){
+        return function(scope, element, attr) {
+            element.on('click', function() {
                 $window.history.go(-1);
             });
         }
     }]);
-
+    //非字典
+    app.factory('searchIndex', function() {
+        var search = {};
+        search.index = function(val, inp) {
+            var info = '';
+            var data;
+            switch (inp) {
+                case '1':
+                    data = decData.firstData;
+                    break;
+                case '2':
+                    data = decData.secoundData;
+                    break;
+                default:
+                    data = decData.threeData;
+                    break;
+            };
+            angular.forEach(data, function(item) {
+                if (item.value == val) {
+                    info = item.name;
+                }
+            });
+            return info;
+        };
+        return search;
+    });
+    //非字典
+    app.filter('typeFormat', ['searchIndex', function(searchIndex) {
+        return function(inp, index) {
+            index = index + '';
+            return searchIndex.index(inp, index);
+        };
+    }]);
     //日期控件
-    app.directive('datePick',function(){
+    app.directive('datePick', function() {
         return {
-            restrict:'A',
-            scope:{
-                datePick:'='
+            restrict: 'A',
+            scope: {
+                datePick: '='
             },
-            require:'?ngModel',
-            link:function(scope,element,attr,ngModel){
-                if(!ngModel)return
+            require: '?ngModel',
+            link: function(scope, element, attr, ngModel) {
+                if (!ngModel) return
                 $(element).daterangepicker({
                     singleDatePicker: false,
-                    autoUpdateInput:false,
+                    autoUpdateInput: false,
                     timePicker12Hour: true, //采用24小时计时制
-                    locale : {
+                    locale: {
                         applyLabel: '确定',
                         cancelLabel: '取消',
-                        format:'YYYY-MM-DD',
+                        format: 'YYYY-MM-DD',
                         separator: '/'
                     }
                 });
-                var reg = new RegExp('^(.*)\\/(.*)$','gi'); //
+                var reg = new RegExp('^(.*)\\/(.*)$', 'gi'); //
                 var dateReg = /([0-9]{3}[1-9]|[0-9]{2}[1-9][0-9]{1}|[0-9]{1}[1-9][0-9]{2}|[1-9][0-9]{3})-(((0[13578]|1[02])-(0[1-9]|[12][0-9]|3[01]))|((0[469]|11)-(0[1-9]|[12][0-9]|30))|(02-(0[1-9]|[1][0-9]|2[0-8])))/;
-                ngModel.$viewChangeListeners.unshift(function(){
+                ngModel.$viewChangeListeners.unshift(function() {
                     value = ngModel.$viewValue || ngModel.$modelValue;
-                    if(value.search(reg)>-1){
-                        var startTime = value.replace(reg,'$1');
-                        var endTime = value.replace(reg,'$2');
-
-                        if(dateReg.test(startTime)){
+                    if (value.search(reg) > -1) {
+                        var startTime = value.replace(reg, '$1');
+                        var endTime = value.replace(reg, '$2');
+                        if (dateReg.test(startTime)) {
                             scope.datePick.starttime = startTime;
-                        }else{
+                        } else {
                             scope.datePick.starttime = '';
                         }
-                        if(dateReg.test(endTime)){
+                        if (dateReg.test(endTime)) {
                             scope.datePick.endtime = endTime;
-                        }else{
+                        } else {
                             scope.datePick.endtime = '';
                         }
-                    }else{
-                        if(dateReg.test(value)){
+                    } else {
+                        if (dateReg.test(value)) {
                             scope.datePick.starttime = value;
-                        }else{
+                        } else {
                             scope.datePick.starttime = '';
                         }
                         scope.datePick.endtime = '';
                     }
                 });
-                $(element).on('apply.daterangepicker',function(ev, picker) {
-                    scope.$apply(function(){
+                $(element).on('apply.daterangepicker', function(ev, picker) {
+                    scope.$apply(function() {
                         ngModel.$setViewValue(picker.startDate.format('YYYY-MM-DD') + '/' + picker.endDate.format('YYYY-MM-DD'));
                         scope.datePick.starttime = picker.startDate.format('YYYY-MM-DD');
                         scope.datePick.endtime = picker.endDate.format('YYYY-MM-DD');
@@ -95,28 +122,26 @@ define(function (require) {
             }
         };
     });
-
     //日期控件
-    app.directive('singleDatePick',function(){
+    app.directive('singleDatePick', function() {
         return {
-            restrict:'A',
-            require:'?ngModel',
-            link:function(scope,element,attr,ngModel){
-                if(!ngModel)return
+            restrict: 'A',
+            require: '?ngModel',
+            link: function(scope, element, attr, ngModel) {
+                if (!ngModel) return
                 $(element).daterangepicker({
                     singleDatePicker: true,
-                    autoUpdateInput:false,
+                    autoUpdateInput: false,
                     timePicker12Hour: true, //采用24小时计时制
-                    locale : {
+                    locale: {
                         applyLabel: '确定',
                         cancelLabel: '取消',
-                        format:'YYYY-MM-DD',
+                        format: 'YYYY-MM-DD',
                         separator: '/'
                     }
                 });
-
-                $(element).on('apply.daterangepicker',function(ev, picker) {
-                    scope.$apply(function(){
+                $(element).on('apply.daterangepicker', function(ev, picker) {
+                    scope.$apply(function() {
                         ngModel.$setViewValue(picker.startDate.format('YYYY-MM-DD'));
                         ngModel.$render();
                     });
@@ -124,22 +149,17 @@ define(function (require) {
             }
         };
     });
-
-
-    app.config(['$stateProvider', '$urlRouterProvider','$httpProvider', function ($stateProvider, $urlRouterProvider,$httpProvider) {
+    app.config(['$stateProvider', '$urlRouterProvider', '$httpProvider', function($stateProvider, $urlRouterProvider, $httpProvider) {
         //console.log($httpProvider);
         //更改请求方式
         $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded';
         $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-
         $httpProvider.defaults.transformRequest = [function(data) {
             var param = function(obj) {
                 var query = '';
                 var name, value, fullSubName, subName, subValue, innerObj, i;
-
                 for (name in obj) {
                     value = obj[name];
-
                     if (value instanceof Array) {
                         for (i = 0; i < value.length; ++i) {
                             subValue = value[i];
@@ -157,22 +177,17 @@ define(function (require) {
                             query += param(innerObj) + '&';
                         }
                     } else if (value !== undefined && value !== null) {
-                        query += encodeURIComponent(name) + '='
-                        + encodeURIComponent(value) + '&';
+                        query += encodeURIComponent(name) + '=' + encodeURIComponent(value) + '&';
                     }
                 }
-
                 return query.length ? query.substr(0, query.length - 1) : query;
             };
-
-            return angular.isObject(data) && String(data) !== '[object File]'
-                ? param(data)
-                : data;
+            return angular.isObject(data) && String(data) !== '[object File]' ? param(data) : data;
         }];
         //路由
         $urlRouterProvider.otherwise('/login');
         $stateProvider
-            //登录
+        //登录
             .state('login', {
                 url: '/login',
                 views: {
@@ -239,7 +254,7 @@ define(function (require) {
                         templateUrl: 'views/main/baseInfo/baseInfo.html',
                         controllerUrl: 'views/main/baseInfo/baseInfo',
                         controller: 'baseInfoCrl',
-                        dependencies: ['services/checkValue','services/PageServices']
+                        dependencies: ['services/checkValue', 'services/PageServices']
                     }
                 }
             })
@@ -264,17 +279,17 @@ define(function (require) {
                         controllerUrl: 'views/main/customer/customer',
                         controller: 'customerCrl',
                         dependencies: ['services/PageServices']
-		  			}
-		  		}
-		  	})
-		  	//我的客户--服务团队
-            .state('main.clients',{
-                url:'/clients',
-                views:{
-                    'main@main':{
-                        templateUrl:'views/main/clients/clients.html',
-                        controllerUrl:'views/main/clients/clients',
-                        controller:'clientsCrl',
+                    }
+                }
+            })
+            //我的客户--服务团队
+            .state('main.clients', {
+                url: '/clients',
+                views: {
+                    'main@main': {
+                        templateUrl: 'views/main/clients/clients.html',
+                        controllerUrl: 'views/main/clients/clients',
+                        controller: 'clientsCrl',
                         dependencies: ['services/PageServices']
                     }
                 }
@@ -371,7 +386,7 @@ define(function (require) {
                         templateUrl: 'views/main/clients/reports/agingData/agingData.html',
                         controllerUrl: 'views/main/clients/reports/agingData/agingData',
                         controller: 'agingDataCrl',
-                        dependencies: ['services/PageServices','services/checkValue']
+                        dependencies: ['services/PageServices', 'services/checkValue']
                     }
                 }
             })
@@ -435,7 +450,6 @@ define(function (require) {
                     }
                 }
             })
-
             //公函管理
             .state('main.clients.officeManagement', {
                 url: '/officeManagement',
@@ -444,7 +458,7 @@ define(function (require) {
                         templateUrl: 'views/main/clients/officeManagement/officeManagement.html',
                         controllerUrl: 'views/main/clients/officeManagement/officeManagement',
                         controller: 'officeManagementCrl',
-                        dependencies: ['services/PageServices','services/checkValue']
+                        dependencies: ['services/PageServices', 'services/checkValue']
                     }
                 }
             })
@@ -467,11 +481,10 @@ define(function (require) {
                         templateUrl: 'views/main/clients/errorManagement/errorManagement.html',
                         controllerUrl: 'views/main/clients/errorManagement/errorManagement',
                         controller: 'errorManagementCrl',
-                        dependencies: ['services/PageServices','services/checkValue']
+                        dependencies: ['services/PageServices', 'services/checkValue']
                     }
                 }
             })
-
             //投诉管理
             .state('main.clients.complaintRecord', {
                 url: '/complaintRecord',
@@ -480,11 +493,10 @@ define(function (require) {
                         templateUrl: 'views/main/clients/complaintRecord/complaintRecord.html',
                         controllerUrl: 'views/main/clients/complaintRecord/complaintRecord',
                         controller: 'complaintRecordCrl',
-                        dependencies: ['services/PageServices','services/checkValue']
+                        dependencies: ['services/PageServices', 'services/checkValue']
                     }
                 }
             })
-
             //理赔管理
             .state('main.clients.claimManagement', {
                 url: '/claimManagement',
@@ -493,11 +505,10 @@ define(function (require) {
                         templateUrl: 'views/main/clients/claimManagement/claimManagement.html',
                         controllerUrl: 'views/main/clients/claimManagement/claimManagement',
                         controller: 'claimManagementCrl',
-                        dependencies: ['services/PageServices','services/checkValue']
+                        dependencies: ['services/PageServices', 'services/checkValue']
                     }
                 }
             })
-
             //账户中心
             .state('main.accountCenter', {
                 url: '/accountCenter',
@@ -510,7 +521,6 @@ define(function (require) {
                     }
                 }
             })
-
             //账户中心明细
             .state('main.accountCenter.accountCenterCheck', {
                 url: '/accountCenterCheck/:types',
@@ -523,7 +533,6 @@ define(function (require) {
                     }
                 }
             })
-
             //仓到店条款
             .state('main.clause', {
                 url: '/clause',
@@ -532,11 +541,10 @@ define(function (require) {
                         templateUrl: 'views/main/clause/clause.html',
                         controllerUrl: 'views/main/clause/clause',
                         controller: 'clausCrl',
-                        dependencies: ['services/PageServices','services/checkValue']
+                        dependencies: ['services/PageServices', 'services/checkValue']
                     }
                 }
             })
-
             //SOP条款
             .state('main.sopClause', {
                 url: '/sopClause',
@@ -545,11 +553,10 @@ define(function (require) {
                         templateUrl: 'views/main/sopClause/sopClause.html',
                         controllerUrl: 'views/main/sopClause/sopClause',
                         controller: 'sopClauseCrl',
-                        dependencies: ['services/PageServices','services/checkValue']
+                        dependencies: ['services/PageServices', 'services/checkValue']
                     }
                 }
             })
-
             //通报栏
             .state('main.navBar', {
                 url: '/navBar',
@@ -562,7 +569,6 @@ define(function (require) {
                     }
                 }
             })
-
             //星级管理--星级评定标准
             .state('main.starManage', {
                 url: '/starManage',
@@ -575,7 +581,6 @@ define(function (require) {
                     }
                 }
             })
-
             //我的星级
             .state('main.starManage.myStar', {
                 url: '/myStar',
@@ -588,7 +593,6 @@ define(function (require) {
                     }
                 }
             })
-
             //问题反馈
             .state('main.problemAnswer', {
                 url: '/problemAnswer',
@@ -597,11 +601,10 @@ define(function (require) {
                         templateUrl: 'views/main/problemAnswer/problemAnswer.html',
                         controllerUrl: 'views/main/problemAnswer/problemAnswer',
                         controller: 'problemAnswerCrl',
-                        dependencies: ['services/PageServices','services/checkValue']
+                        dependencies: ['services/PageServices', 'services/checkValue']
                     }
                 }
             })
-
             //问题反馈--问题填写
             .state('main.problemAnswer.problemWrite', {
                 url: '/problemWrite',
@@ -614,7 +617,6 @@ define(function (require) {
                     }
                 }
             })
-
             //早安1919(物流)
             .state('main.goodMorning', {
                 url: '/goodMorning',
@@ -627,7 +629,7 @@ define(function (require) {
                     }
                 }
             })
-/******************************以上是物流管理*****************************/
+            /******************************以上是物流管理*****************************/
             //基础信息--仓配需求
             .state('main.baseInfo.demand', {
                 url: '/demand',
@@ -672,11 +674,11 @@ define(function (require) {
                         templateUrl: 'views/main/clients/errorManagement/reportErrors/reportErrors.html',
                         controllerUrl: 'views/main/clients/errorManagement/reportErrors/reportErrors',
                         controller: 'reportErrorsCrl',
-                        dependencies: ['services/PageServices','services/checkValue']
+                        dependencies: ['services/PageServices', 'services/checkValue']
                     }
                 }
             })
-/******************************以上是品牌管理*****************************/
+            /******************************以上是品牌管理*****************************/
             //会员管理
             .state('main.vipManagement', {
                 url: '/vipManagement',
@@ -685,11 +687,10 @@ define(function (require) {
                         templateUrl: 'views/main/vipManagement/vipManagement.html',
                         controllerUrl: 'views/main/vipManagement/vipManagement',
                         controller: 'vipManagementCrl',
-                        dependencies: ['services/PageServices','services/checkValue']
+                        dependencies: ['services/PageServices', 'services/checkValue']
                     }
                 }
             })
-
             //会员管理 -- 认证审核
             .state('main.vipManagement.audit', {
                 url: '/audit',
@@ -866,7 +867,7 @@ define(function (require) {
                         templateUrl: 'views/main/viewAnswer/viewAnswer.html',
                         controllerUrl: 'views/main/viewAnswer/viewAnswer',
                         controller: 'viewAnswerCrl',
-                        dependencies: ['services/PageServices','services/checkValue']
+                        dependencies: ['services/PageServices', 'services/checkValue']
                     }
                 }
             })
@@ -882,9 +883,6 @@ define(function (require) {
                     }
                 }
             });
-/******************************以上是后台管理*****************************/
-
-
-
+        /******************************以上是后台管理*****************************/
     }]);
 });

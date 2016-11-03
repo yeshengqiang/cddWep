@@ -89,7 +89,7 @@ define(function(require){
                 }
             });
             $http.post(url+'/score/update?scoreInfo='+JSON.stringify($scope.temp)).success(function(data){
-                yMake.layer.msg('提交成功',{icon:1});
+                yMake.layer.msg(data.message,{icon:1});
             }).error(function(){
                 yMake.layer.msg('提交失败',{icon:1});
             });

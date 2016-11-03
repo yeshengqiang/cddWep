@@ -53,7 +53,7 @@
                     <tr ng-repeat="item in projectItem.object.rows">
                         <td>{{$index+1}}</td>
                         <td>{{item.sbdate}}</td>
-                        <td>{{item.type}}</td>
+                        <td>{{item.type | typesFormat}}</td>
                         <td>{{item.claimno}}</td>
                         <td>{{item.bill}}</td>
                         <td>{{item.value}}</td>
@@ -148,7 +148,7 @@
                 <tr ng-repeat="item in projectItem.object.rows">
                     <td>{{$index+1}}</td>
                     <td>{{item.sbdate}}</td>
-                    <td>{{item.type}}</td>
+                    <td>{{item.type | typesFormat}}</td>
                     <td>{{item.claimno}}</td>
                     <td>{{item.bill}}</td>
                     <td>{{item.value}}</td>

@@ -520,7 +520,7 @@ var yMake = (function($$) {
                 src: 'imgs/1.jpg',
                 title: ''
             }],
-            url = arguments[1] || 'http://112.124.101.153:8089/warehouse/';
+            url = arguments[1] || 'http://localhost:80/warehouse/';
         if (typeof attr[0] === 'string') {
             for (var i = 0; i < attr.length; i++) {
                 temp[i] = {

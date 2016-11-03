@@ -139,7 +139,7 @@ define(function(require){
                     yMake.layer.msg('注册成功!',{icon:'1',time:2000});
                     $location.path('/login');
                 }else if(data.code!=0){
-                    yMake.layer.msg('注册失败!',{icon:'2',time:2000});
+                    yMake.layer.msg(data.message,{icon:'2',time:2000});
                 }
             }).error(function(){
                 yMake.layer.msg('注册出错，请稍候重试!',{icon:'2',time:2000});

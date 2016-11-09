@@ -11,15 +11,6 @@ gulp.task('sync',function(){
 		port:9000,
 		browser:'chrome'
 	});
-	var src = [
-		'./views/**/*.*',
-		'./routes/**/*.*',
-		'./services/**/*.*',
-		'./css/**/*.*',
-		'./imgs/**/*.*',
-		'./bower_components/**/*.*',
-		'./*.*'
-	];
 	gulp.watch('**').on('change',reload);
 });
 

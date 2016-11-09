@@ -52,7 +52,7 @@
             <tr ng-repeat="item in complaintDetail.object.rows">
                 <td>{{item.brandedname}}</td>
                 <td>{{item.wlname}}</td>
-                <td>{{item.type}}</td>
+                <td>{{item.type | typeFormat}}</td>
                 <td>{{item.sbdate}}</td>
                 <td>{{item.time1}}</td>
                 <td>{{item.time2}}</td>

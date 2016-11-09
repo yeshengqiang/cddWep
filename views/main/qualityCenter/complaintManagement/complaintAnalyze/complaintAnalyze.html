@@ -63,8 +63,8 @@
                 <td>{{item.firstReplyPre}}</td>
                 <td>{{item.againReplyPre}}</td>
                 <td>{{item.pleasedPre}}</td>
-                <td>{{item.type1Count}}</td>
-                <td>{{item.type2Count}}</td>
+                <td>{{item.type1Count | typeFormat}}</td>
+                <td>{{item.type2Count | typeFormat}}</td>
             </tr>
             <tr ng-show="complaintAnalyze.page.totalResult==0">
                 <td colspan="9" class="text-center">

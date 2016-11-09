@@ -23,6 +23,15 @@ define(function(require) {
             return info;
         }
     });
+    //图片展示
+    app.filter('imgFormat', ['url', function(url) {
+        return function(inp, index) {
+            if (!inp) return '';
+            var temp = [],
+                temp = inp.split(',');
+            return url + '/' + temp[index];
+        }
+    }]);
     app.controller('errorManagementCrl', ['$scope', '$http', 'url', function($scope, $http, url) {
         //获取id的全局变量
         var getId;
@@ -80,6 +89,9 @@ define(function(require) {
         function serFun() {
             //物流的申述点击事件
             $scope.appeal = function(item) {
+                $('#appeal').modal('show');
+                $scope.appealInfo = item;
+                $scope.errorContent = {};
                 getId = item.id;
                 $scope.errorContent.a = item.description;
             };
@@ -268,43 +280,27 @@ define(function(require) {
                 $http.post(url + '/mistake/showPageList?loginname=' + userInfo.data.loginname, $.extend({}, page, param)).success(callback)
             };
             $scope.bacData = app.get('Paginator').list(fetchFunction, 6);
-            //判定
+            //查看详情
             $scope.decide = function(item) {
-                layer.confirm('判定', {
-                    btn: ['有错', '无错'] //按钮
-                }, function() {
-                    layer.closeAll('dialog');
-                    item.appeal = '1';
-                    $http.post(url + '/mistake/updateAppeal', {
-                        id: item.id,
-                        appeal: item.appeal
-                    }).success(function(data) {
-                        yMake.layer.msg('判定成功', {
-                            icon: 1
-                        });
-                        $scope.bacData._load();
-                    }).error(function() {
-                        yMake.layer.msg('判定失败', {
-                            icon: 2
-                        });
+                $scope.deterInfo = item;
+                $('#determine').modal('show');
+            };
+            $scope.sure = function(item) {
+                $http.post(url + '/mistake/updateAppeal', {
+                    id: item.id,
+                    appeal: item.appeal
+                }).success(function(data) {
+                    yMake.layer.msg('判定成功', {
+                        icon: 1
                     });
-                }, function() {
-                    item.appeal = '2';
-                    $http.post(url + '/mistake/updateAppeal', {
-                        id: item.id,
-                        appeal: item.appeal
-                    }).success(function(data) {
-                        yMake.layer.msg('判定成功', {
-                            icon: 1
-                        });
-                    }).error(function() {
-                        yMake.layer.msg('判定失败', {
-                            icon: 2
-                        });
+                    $scope.bacData._load();
+                }).error(function() {
+                    yMake.layer.msg('判定失败', {
+                        icon: 2
                     });
                 });
             };
-        }
+        };
         //后台的导出
         $scope.backExport = function() {
             var param = app.get('checkValue').dateRangeFormat($scope.searchData);

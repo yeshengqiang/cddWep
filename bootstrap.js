@@ -1,7 +1,7 @@
 /**
  *  作者：yeshengqiang
- *	时间：2016-08-08
- *	描述：配置文件
+ *  时间：2016-08-08
+ *  描述：配置文件
  */
 require.config({
     //urlArgs: "bust=" +  (new Date()).getTime(),
@@ -9,6 +9,7 @@ require.config({
         'angular': 'bower_components/angular/angular.min',
         'angular-ui-router': 'bower_components/angular/angular-ui-router',
         'angular-async-loader': 'bower_components/angular/angular-async-loader.min',
+        'angular-bootstrap': 'bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
         'angular-animate': 'bower_components/angular/angular-animate.min',
         'jquery': 'bower_components/jquery/jquery-1.11.2.min',
         'bootstrap': 'bower_components/bootstrap/js/bootstrap.min',
@@ -28,6 +29,9 @@ require.config({
         },
         'angular-animate': {
             deps: ['angular']
+        },
+        'angular-bootstrap': {
+            deps: ['angular', 'angular-animate']
         },
         'bootstrap': {
             deps: ['jquery']

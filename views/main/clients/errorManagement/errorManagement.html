@@ -101,23 +101,21 @@
         <button type="button" class="btn btn-primary" ng-click="serExport()">导出</button>
                 <table class="table text-center">
                     <tr>
-                        <th>上报人</th>
+                        <th>上报企业</th>
                         <th>一级分类</th>
                         <th>二级分类</th>
                         <th>三级分类</th>
-                        <th>赔偿金额（元）</th>
-                        <th>差错描述</th>
+                        <th>差错罚款(元)</th>
                         <th>上报时间</th>
                         <th>平台判定</th>
                         <th>操作</th>
                     </tr>
                     <tr ng-repeat="item in serData.object.rows">
                         <td>{{item.brandedname}}</td>
-                        <td>{{item.type1}}</td>
-                        <td>{{item.type2}}</td>
-                        <td>{{item.type3}}</td>
+                        <td>{{item.type1 | typeFormat:1}}</td>
+                        <td>{{item.type2 | typeFormat:2}}</td>
+                        <td>{{item.type3 | typeFormat:3}}</td>
                         <td>{{item.money}}</td>
-                        <td>{{item.description}}</td>
                         <td>{{item.sbdate | date:'yyyy-MM-dd'}}</td>
                         <td>{{item.appeal | statusFormat}}</td>
                         <td><a href="javascript:void(0);" ng-click="appeal(item)" data-toggle="modal"
@@ -171,7 +169,7 @@
                 <th>一级分类</th>
                 <th>二级分类</th>
                 <th>三级分类</th>
-                <th>差错罚款</th>
+                <th>差错罚款(元)</th>
                 <th>上报日期</th>
                 <th>平台判定</th>
                 <th>操作</th>
@@ -234,22 +232,24 @@
         <button type="button" class="btn btn-primary" ng-click="backExport()">导出</button>
         <table class="table text-center">
             <tr>
-                <th>上报时间</th>
-                <th>上报类型</th>
                 <th>上报企业</th>
                 <th>差错企业</th>
-                <th>差错描述</th>
-                <th>承运商回复</th>
+                <th>一级分类</th>
+                <th>二级分类</th>
+                <th>三级分类</th>
+                <th>差错罚款(元)</th>
+                <th>上报时间</th>
                 <th>平台判定</th>
                 <th>操作</th>
             </tr>
             <tr ng-repeat="item in bacData.object.rows">
+                <td>{{item.brandedname}}</td>
+                <td>{{item.wlname}}</td>
+                <td>{{item.type1 | typeFormat:1}}</td>
+                <td>{{item.type2 | typeFormat:2}}</td>
+                <td>{{item.type3 | typeFormat:3}}</td>
+                <td>{{item.money}}</td>
                 <td>{{item.sbdate}}</td>
-                <td>{{item.type3}}</td>
-                <td>{{item.brandedcompanyid}}</td>
-                <td>{{item.wlcompanyid}}</td>
-                <td>{{item.description}}</td>
-                <td>{{item.appealcontent}}</td>
                 <td>{{item.appeal | statusFormat}}</td>
                 <td><a href="javascript:void(0)" ng-click="decide(item)">判定</a></td>
             </tr>
@@ -328,9 +328,10 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <div class="tab-input">
+                        <div class="tab-input input-group">
                             <input class="form-control" placeholder="请输入差错罚款" ng-model="mistake.money"/>
                             <span>差错罚款：</span>
+                            <div class="input-group-addon">元</div>
                         </div>
                         <div class="tab-input">
                             <select ng-change="shooseSecond(ids)" class="form-control" ng-model="ids"

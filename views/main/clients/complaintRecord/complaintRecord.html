@@ -55,7 +55,7 @@
         </tr>
         <tr ng-repeat="item in searchPaginator.object.rows">
             <td>{{item.brandedname}}</td>
-            <td>{{item.type|typeFormat}}</td>
+            <td>{{item.type|typesFormat}}</td>
             <td>{{item.sbdate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
             <td>{{item.time1 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
             <td>{{item.time2 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
@@ -125,7 +125,7 @@
                 <tr ng-repeat="item in searchPaginator.object.rows">
                     <td>{{$index+1}}</td>
                     <td>{{item.wlname}}</td>
-                    <td>{{item.type|typeFormat}}</td>
+                    <td>{{item.type|typesFormat}}</td>
                     <td>{{item.sbdate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                     <td>{{item.time1 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                     <td>{{item.time2 | date:'yyyy-MM-dd HH:mm:ss'}}</td>

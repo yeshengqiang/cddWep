@@ -6,7 +6,7 @@
 define(function(require) {
     var app = require('../../../../app');
     //过滤器
-    app.filter('typeFormat', function() {
+    app.filter('typesFormat', function() {
         return function(inp) {
             var info = "";
             switch (inp) {

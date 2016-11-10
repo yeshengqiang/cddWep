@@ -5,7 +5,7 @@
  */
 define(function(require) {
     var app = require('../../../../../app');
-    app.filter('typeFormat', function() {
+    app.filter('tFormat', function() {
         return function(inp) {
             var info = "";
             switch (inp) {

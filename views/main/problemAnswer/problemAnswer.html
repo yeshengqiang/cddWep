@@ -46,7 +46,7 @@
             </tr>
             <tr ng-repeat="item in searchPaginator.object.rows">
                 <td>{{$index+1}}</td>
-                <td>{{item.type | typeFormat}}</td>
+                <td>{{item.type | anFormat}}</td>
                 <td>{{item.detail}}</td>
                 <td>{{item.fkdate | date:'yyyy-MM-dd'}}</td>
                 <td>{{item.wlname}}</td>   <!--实体缺字段-->

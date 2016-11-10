@@ -27,6 +27,7 @@ define(function(require) {
     });
     app.controller('complaintDetailCrl', ['$scope', '$http', 'url', function($scope, $http, url) {
         //$scope.title='投诉明细';
+        $scope.searchData = {};
         //获取用户信息
         var userInfo = JSON.parse(sessionStorage.getItem('userInfo'));
         //获取分页数据
@@ -54,6 +55,11 @@ define(function(require) {
                     time: 1
                 });
             });
+        };
+        //查看详情
+        $scope.lookSome = function(item) {
+            $('#complaintDetail').modal('show');
+            $scope.detailInfo = item;
         };
         yMake.fn.autoHeight('.bgWhite', 45);
     }]);

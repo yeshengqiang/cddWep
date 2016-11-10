@@ -1,6 +1,23 @@
 define(function(require) {
     var app = require('../app');
     var decData = require('routes/data');
+    app.filter('anFormat', function() {
+        return function(inp) {
+            var info = "";
+            switch (inp) {
+                case '1':
+                    info = '系统问题';
+                    break;
+                case '2':
+                    info = '系统优化';
+                    break;
+                case '3':
+                    info = '操作流程';
+                    break;
+            }
+            return info;
+        };
+    });
     app.run(['$rootScope', '$location', '$timeout', '$stateParams', function($rootScope, $location, $timeout, $stateParams) {
         $rootScope.params = $stateParams;
         //背景色自适应高度

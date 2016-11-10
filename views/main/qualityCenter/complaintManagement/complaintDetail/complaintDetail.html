@@ -48,15 +48,17 @@
                 <th>首次回复时间</th>
                 <th>二次回复时间</th>
                 <th>投诉评价</th>
+                <th>操作</th>
             </tr>
             <tr ng-repeat="item in complaintDetail.object.rows">
                 <td>{{item.brandedname}}</td>
                 <td>{{item.wlname}}</td>
                 <td>{{item.type | typeFormat}}</td>
-                <td>{{item.sbdate}}</td>
-                <td>{{item.time1}}</td>
-                <td>{{item.time2}}</td>
+                <td>{{item.sbdate | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.time1 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+                <td>{{item.time2 | date:'yyyy-MM-dd HH:mm:ss'}}</td>
                 <td>{{item.score}}</td>
+                <td><a href="" data-toggle="modal" class="btn btn-sm btn-info"data-target="#reply2" ng-click="lookSome(item)">查看明细</a></td>
             </tr>
             <tr ng-show="complaintDetail.page.totalResult==0">
                 <td colspan="7" class="text-center">
@@ -90,6 +92,32 @@
                     </ul>
                     <span>共{{complaintDetail.page.totalResult}}条</span>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 详情 -->
+<div class="modal fade" id="complaintDetail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">查看详情</h4>
+            </div>
+            <div class="modal-body">
+                <p style="margin-top: -10px">投诉内容：</p>
+                <textarea class="form-control" ng-model="detailInfo.description" disabled></textarea>
+                <p>首次回复：</p>
+                <textarea class="form-control" ng-model="detailInfo.reply" disabled></textarea>
+                <p>二次回复：</p>
+                <textarea class="form-control" ng-model="detailInfo.replyagain" disabled></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
             </div>
         </div>
     </div>

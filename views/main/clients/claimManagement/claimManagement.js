@@ -1,7 +1,7 @@
 /**
  *  作者：yeshengqiang
- *	时间：2016-08-23
- *	描述：理赔管理
+ *  时间：2016-08-23
+ *  描述：理赔管理
  */
 define(function(require) {
     var app = require('../../../../app');

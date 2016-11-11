@@ -161,7 +161,7 @@
     <!--品牌-->
     <div ng-if="demand" class="container-fluid bgWhite" ng-init="autoHeight(45)">
         <button class="btn btn-primary" ng-click="demExport()">导出</button>
-        <button class="btn btn-primary" ng-click="report(item)">上报</button>
+        <button class="btn btn-primary" ng-click="report()">上报</button>
         <table class="table text-center">
             <tr>
                 <th>差错企业</th>
@@ -318,7 +318,7 @@
                         </div>
                         <div class="tab-input">
                             <select class="form-control" ng-model="mistake.type3"
-                                    ng-options="itm.value as itm.name for itm in threedropdownItems">
+                                    ng-options="itm.value as itm.name for itm in thdropdownItems">
                                 <option value="">- 请选择 -</option>
                             </select>
                             <span>三级分类：</span>
@@ -331,7 +331,7 @@
                             <div class="input-group-addon">元</div>
                         </div>
                         <div class="tab-input">
-                            <select ng-change="shooseSecond(ids)" class="form-control" ng-model="ids"
+                            <select ng-change="salertSecond(getids)" class="form-control" ng-model="getids"
                                     ng-options="itm.id as itm.name for itm in seconddropdownItems">
                                 <option value="">- 请选择 -</option>
                             </select>

@@ -83,9 +83,24 @@ define(function(require) {
                     $scope.threedropdownItems.push(item);
                 }
             });
-        }
-        console.log($scope.seconddropdownItems);
-        //物流方法
+        };
+        $scope.salertSecond = function(id) {
+                $scope.thdropdownItems = [];
+                $scope.mistake.type3 = '';
+                console.log(id);
+                angular.forEach($scope.seconddropdownItems, function(item) {
+                    if (item.id == id) {
+                        console.log(item.value);
+                        $scope.mistake.type2 = item.value;
+                    }
+                });
+                angular.forEach(threeData, function(item) {
+                    if (item.pId == id) {
+                        $scope.thdropdownItems.push(item);
+                    }
+                });
+            }
+            //物流方法
         function serFun() {
             //物流的申述点击事件
             $scope.appeal = function(item) {
@@ -162,9 +177,12 @@ define(function(require) {
             };
             $scope.demData = app.get('Paginator').list(fetchFunction, 6);
             //品牌的上报--打开模态框
-            $scope.report = function(item) {
-                $('#demandNew').modal('show');
+            $scope.report = function() {
                 $scope.mistake = {};
+                $scope.getids = '';
+                $('.uploadImg').html('上传附件');
+                urls = [];
+                $('#demandNew').modal('show');
             };
             //上传附件
             $scope.uploadPhoto = function(index) {
